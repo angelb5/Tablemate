@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottomNavMenuClienteHome"
+        android:icon="@drawable/menuicon_home"
+        android:title="Inicio"/>
+    <item
+        android:id="@+id/bottomNavMenuClienteReservas"
+        android:icon="@drawable/menuicon_reservas"
+        android:title="Mis Reservas"/>
+    <item
+        android:id="@+id/bottomNavMenuClienteProfile"
+        android:icon="@drawable/menuicon_profile"
+        android:title="Perfil"/>
+</menu>

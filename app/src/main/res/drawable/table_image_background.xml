@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/table_food" />
+    </item>
+    <item>
+        <shape>
+            <gradient android:endColor="#80DF5031"
+                android:startColor="#33FFFFFF"
+                 android:angle="225"
+                android:type="linear">
+
+            </gradient>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="#99000000"/>
+        </shape>
+    </item>
+</layer-list>

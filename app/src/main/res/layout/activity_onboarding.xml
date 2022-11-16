@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Anonymus.OnboardingActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:layout_alignLeft="@+id/clOnboarding"
+        android:layout_alignRight="@+id/clOnboarding"
+        android:layout_alignTop="@+id/clOnboarding"
+        android:layout_alignBottom="@+id/clOnboarding"
+        android:src="@drawable/table_image_background"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clOnboarding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Anonymus.OnboardingActivity">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            style="@style/WhiteBoldTitle32"
+            android:textAlignment="center"
+            android:text="Habla directamente con los restaurantes"            app:layout_constraintBottom_toTopOf="@+id/tvOnboardingDesc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/tvOnboardingDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="48dp"
+            style="@style/WhiteMedium16"
+            android:textAlignment="center"
+            android:text="Con tablemate puedes tener todo listo para esa ocasión especial"
+            app:layout_constraintBottom_toTopOf="@+id/btnOnboardingGoToRegister"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/btnOnboardingGoToRegister"
+            style="@style/BtnPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:onClick="goToRegisterActivity"
+            android:text="Unirme"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnOnboardingGoToLogin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnOnboardingGoToLogin"
+            style="@style/BtnSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
+            android:text="Iniciar Sesión"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="goToLoginActivity"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

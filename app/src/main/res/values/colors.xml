@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="font_dark">#040C22</color>
+    <color name="font_light">#363D4E</color>
+    <color name="font_hint">#555555</color>
+    <color name="blue_dark">#030A18</color>
+    <color name="grey_light">#F3F3F3</color>
+    <color name="grey">#5C616F</color>
+    <color name="orange_main">#F26333</color>
+    <color name="orange_dark">#912400</color>
+    <!--  Podría cambiarse el unfocused -->
+    <color name="unfocused">#D2D4DA</color>
+    <color name="grey_25">#40494949</color>
+    <color name="grey3_25">#40333333</color>
+
+    <color name="grey_slide_unselected">#B3D9D9D9</color>
+    <color name="grey_image_unselected">#4D4D4D</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

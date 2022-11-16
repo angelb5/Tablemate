@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottomNavMenuRestaurantReservas"
+        android:icon="@drawable/menuicon_home"
+        android:title="Reservas"/>
+
+    <item
+        android:id="@+id/bottomNavMenuRestaurantReviews"
+        android:icon="@drawable/menuicon_reviews"
+        android:title="Reseñas"/>
+    <item
+        android:id="@+id/bottomNavMenuRestaurantProfile"
+        android:icon="@drawable/menuicon_edit"
+        android:title="Editar"/>
+</menu>

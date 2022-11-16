@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "765309348166",
+    "project_id": "tablemate-cf5ab",
+    "storage_bucket": "tablemate-cf5ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765309348166:android:7989f30171d2c4553f9d47",
+        "android_client_info": {
+          "package_name": "pe.edu.pucp.tablemate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "765309348166-ev8e2ubvk3cu6qcb612q6pid4pfadak2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSDteSRng0nE7ZzSifW2eUFOJbiCa8yqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765309348166-ev8e2ubvk3cu6qcb612q6pid4pfadak2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

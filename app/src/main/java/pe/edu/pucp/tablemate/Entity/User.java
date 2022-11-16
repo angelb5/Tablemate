@@ -2,6 +2,7 @@ package pe.edu.pucp.tablemate.Entity;
 
 public class User {
     private String nombre;
+    private String apellidos;
     private String correo;
     private String dni;
     private String permisos;
@@ -10,8 +11,9 @@ public class User {
     public User() {
     }
 
-    public User(String nombre, String correo, String dni, String avatarUrl, String permisos) {
+    public User(String nombre, String apellidos, String correo, String dni, String permisos, String avatarUrl) {
         this.nombre = nombre;
+        this.apellidos = apellidos;
         this.correo = correo;
         this.dni = dni;
         this.permisos = permisos;
@@ -56,5 +58,13 @@ public class User {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 }

@@ -13,52 +13,65 @@
         android:theme="@style/Theme.Tablemate"
         tools:targetApi="31">
 
-        <activity android:name=".Admin.AdminHomeActivity"
+        <activity
+            android:name=".Admin.AdminHomeActivity"
             android:exported="false"
             android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".Cliente.ClienteHomeActivity"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/Theme.Tablemate.Grey" />
+        <activity
+            android:name=".Cliente.ClienteProfileActivity"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/Theme.Tablemate.Grey" />
+        <activity
+            android:name=".Cliente.ClienteReservasActivity"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/Theme.Tablemate.Grey" />
+        <activity
+            android:name=".Restaurant.RestaurantReservasActivity"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/Theme.Tablemate.Grey" />
+        <activity
+            android:name=".Restaurant.RestaurantReviewsActivity"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/Theme.Tablemate.Grey" />
+        <activity
+            android:name=".Restaurant.RestaurantProfileActivity"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/Theme.Tablemate.Grey" />
 
-        <activity android:name=".Cliente.ClienteHomeActivity"
+        <activity
+            android:name=".Anonymus.ForgotPasswordActivity"
             android:exported="false"
-            android:screenOrientation="userPortrait"
-            android:theme="@style/Theme.Tablemate.Grey"/>
-        <activity android:name=".Cliente.ClienteProfileActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".Anonymus.OnboardingActivity"
             android:exported="false"
-            android:screenOrientation="userPortrait"
-            android:theme="@style/Theme.Tablemate.Grey"/>
-        <activity android:name=".Cliente.ClienteReservasActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".Anonymus.RegisterActivity"
             android:exported="false"
-            android:screenOrientation="userPortrait"
-            android:theme="@style/Theme.Tablemate.Grey"/>
-
-        <activity android:name=".Restaurant.RestaurantReservasActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".Anonymus.LoginActivity"
             android:exported="false"
-            android:screenOrientation="userPortrait"
-            android:theme="@style/Theme.Tablemate.Grey"/>
-        <activity android:name=".Restaurant.RestaurantReviewsActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".Anonymus.NonVerifiedActivity"
             android:exported="false"
-            android:screenOrientation="userPortrait"
-            android:theme="@style/Theme.Tablemate.Grey"/>
-        <activity android:name=".Restaurant.RestaurantProfileActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".ScreenMessageActivity"
             android:exported="false"
-            android:screenOrientation="userPortrait"
-            android:theme="@style/Theme.Tablemate.Grey"/>
-
-        <activity android:name=".Anonymus.OnboardingActivity"
-            android:exported="false"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".Anonymus.RegisterActivity"
-            android:exported="false"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".Anonymus.LoginActivity"
-            android:exported="false"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".Anonymus.NonVerifiedActivity"
-            android:exported="false"
-            android:screenOrientation="userPortrait"/>
-
-        <activity android:name=".ScreenMessageActivity"
-            android:exported="false"/>
-
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

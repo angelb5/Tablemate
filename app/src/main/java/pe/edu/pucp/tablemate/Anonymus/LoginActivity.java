@@ -123,8 +123,8 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intentPermisos);
                         finish();
                         break;
-                    case "TI":
-                        Toast.makeText(LoginActivity.this, "Hola TI", Toast.LENGTH_SHORT).show();
+                    case "Restaurant":
+                        Toast.makeText(LoginActivity.this, "Hola Restaurante", Toast.LENGTH_SHORT).show();
                         intentPermisos  = new Intent(LoginActivity.this, RestaurantReservasActivity.class);
                         startActivity(intentPermisos);
                         finish();
@@ -145,6 +145,12 @@ public class LoginActivity extends AppCompatActivity {
         Intent registerIntent = new Intent(LoginActivity.this,RegisterActivity.class);
         startActivity(registerIntent);
         finish();
+    }
+
+    public void goToForgotPasswordActivity(View view){
+        Intent fpintent = new Intent(LoginActivity.this,ForgotPasswordActivity.class);
+        startActivity(fpintent);
+        overridePendingTransition(0,0);
     }
 
     public void showHidePass(View view){

@@ -3,24 +3,30 @@ package pe.edu.pucp.tablemate.Cliente;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import pe.edu.pucp.tablemate.Helpers.BottomNavigationViewHelper;
 import pe.edu.pucp.tablemate.R;
 
 public class ClienteHomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
+    TextView tvHola;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cliente_home);
 
         setBottomNavigationView();
+        tvHola = findViewById(R.id.tvClienteHomeHola);
+
+        tvHola.setText("Hola "+FirebaseAuth.getInstance().getCurrentUser().getDisplayName()+"!");
     }
 
     public void setBottomNavigationView(){

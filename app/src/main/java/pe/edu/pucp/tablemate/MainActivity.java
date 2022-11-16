@@ -55,7 +55,12 @@ public class MainActivity extends AppCompatActivity {
         usersRef.document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (!documentSnapshot.exists()) return;
+                if (!documentSnapshot.exists()){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intentAnonymus = new Intent(MainActivity.this, OnboardingActivity.class);
+                    startActivity(intentAnonymus);
+                    finish();
+                }
                 Intent intentPermisos;
                 switch (Objects.requireNonNull(documentSnapshot.getString("permisos"))){
                     case "Cliente":
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         break;
                     case "Restaurant":
-                        Toast.makeText(MainActivity.this, "Hola TI", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Hola Restaurante", Toast.LENGTH_SHORT).show();
                         intentPermisos  = new Intent(MainActivity.this, RestaurantReservasActivity.class);
                         startActivity(intentPermisos);
                         finish();

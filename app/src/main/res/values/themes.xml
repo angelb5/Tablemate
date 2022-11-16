@@ -167,7 +167,6 @@
         <item name="enforceTextAppearance">false</item>
         <item name="backgroundTint">@color/orange_main</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:paddingHorizontal">48dp</item>
         <item name="android:paddingVertical">14dp</item>
         <item name="android:elevation">2dp</item>
@@ -175,12 +174,10 @@
     </style>
 
     <style name="BtnSecondary" parent="Widget.Material3.Button.ElevatedButton">
-        <item name="enforceMaterialTheme">false</item>
         <item name="fontFamily">@font/aeonik_bold</item>
         <item name="android:textSize">16sp</item>
         <item name="enforceTextAppearance">false</item>
         <item name="android:textColor">@color/orange_main</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:paddingHorizontal">48dp</item>
         <item name="android:paddingVertical">14dp</item>
         <item name="android:elevation">2dp</item>
@@ -213,7 +210,7 @@
     </style>
 
     <!-- BottomNav -->
-    <style name="Golend.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+    <style name="Tablemate.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">#00FFFFFF</item>
     </style>
     <style name="BottomNav" >
@@ -223,9 +220,10 @@
         <item name="itemIconSize">22dp</item>
         <item name="itemIconTint">@color/nav_icon_color</item>
         <item name="labelVisibilityMode">labeled</item>
+        <item name="itemTextColor">@color/nav_icon_color</item>
         <item name="itemTextAppearanceInactive">@style/UncheckedRegular12</item>
         <item name="itemTextAppearanceActive">@style/OrangeMedium12</item>
-        <item name="itemActiveIndicatorStyle">@style/Golend.Custom.Indicator</item>
+        <item name="itemActiveIndicatorStyle">@style/Tablemate.Custom.Indicator</item>
     </style>
 
     <!-- FAB -->

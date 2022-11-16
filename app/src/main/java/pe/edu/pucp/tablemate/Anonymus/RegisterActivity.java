@@ -35,11 +35,11 @@ import pe.edu.pucp.tablemate.ScreenMessageActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    final String AVATAR_URL = "";
-    RecyclerView roleSelector;
+    final String AVATAR_URL = "https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_01.png?alt=media&token=33f838bc-d0b8-4509-ba16-5df32a6bdd07";
     FirebaseAuth firebaseAuth;
     CollectionReference usersRef;
     EditText etNombre;
+    EditText etApellidos;
     EditText etCorreo;
     EditText etDni;
     EditText etContrasena;
@@ -53,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         //Setea los EditText, ProgressBar y Button
         etNombre = findViewById(R.id.etRegisterNombre);
+        etApellidos = findViewById(R.id.etRegisterApellidos);
         etCorreo = findViewById(R.id.etRegisterCorreo);
         etDni = findViewById(R.id.etRegisterDNI);
         etContrasena = findViewById(R.id.etRegisterContrasena);
@@ -82,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void registrarUsuario(View view){
         boolean isInvalid = false;
         String nombre = etNombre.getText().toString().trim();
+        String apellidos = etApellidos.getText().toString().trim();
         String correo = etCorreo.getText().toString().trim();
         String dni = etDni.getText().toString().trim();
         String contrasena = etContrasena.getText().toString().trim();
@@ -90,6 +92,12 @@ public class RegisterActivity extends AppCompatActivity {
         if(nombre.isEmpty()){
             etNombre.setError("No puede estar vacío");
             etNombre.requestFocus();
+            isInvalid = true;
+        }
+
+        if(apellidos.isEmpty()){
+            etApellidos.setError("No puede estar vacío");
+            etApellidos.requestFocus();
             isInvalid = true;
         }
 
@@ -128,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
                     etCorreo.requestFocus();
                     return;
                 };
-                User user = new User(nombre,correo,dni,avatarUrl,"Cliente");
+                User user = new User(nombre,apellidos,correo,dni,"Cliente",avatarUrl);
                 crearUsuario(user, contrasena);
             });
         }).addOnFailureListener(e -> ocultarCargando());
@@ -195,14 +203,12 @@ public class RegisterActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         btnLogin.setClickable(false);
         btnRegistrar.setClickable(false);
-        roleSelector.setClickable(false);
     }
 
     public void ocultarCargando(){
         progressBar.setVisibility(View.GONE);
         btnLogin.setClickable(true);
         btnRegistrar.setClickable(true);
-        roleSelector.setClickable(true);
     }
 
     public void goToLoginActivity(View view){

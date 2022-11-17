@@ -25,6 +25,7 @@ public class ClienteProfileActivity extends AppCompatActivity {
 
     public void setBottomNavigationView(){
         bottomNavigationView = findViewById(R.id.bottomNavMenuClienteProfileAct);
+        bottomNavigationView.clearAnimation();
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottomNavMenuClienteProfile);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

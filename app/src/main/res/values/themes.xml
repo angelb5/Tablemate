@@ -240,7 +240,7 @@
         <item name="itemIconTint">@color/nav_icon_color</item>
         <item name="labelVisibilityMode">labeled</item>
         <item name="itemTextColor">@color/nav_icon_color</item>
-        <item name="itemTextAppearanceInactive">@style/UncheckedRegular12</item>
+        <item name="itemTextAppearanceInactive">@style/OrangeMedium12</item>
         <item name="itemTextAppearanceActive">@style/OrangeMedium12</item>
         <item name="itemActiveIndicatorStyle">@style/Tablemate.Custom.Indicator</item>
     </style>

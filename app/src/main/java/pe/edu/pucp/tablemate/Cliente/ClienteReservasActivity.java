@@ -25,6 +25,7 @@ public class ClienteReservasActivity extends AppCompatActivity {
 
     public void setBottomNavigationView(){
         bottomNavigationView = findViewById(R.id.bottomNavMenuClienteReservasAct);
+        bottomNavigationView.clearAnimation();
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottomNavMenuClienteReservas);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

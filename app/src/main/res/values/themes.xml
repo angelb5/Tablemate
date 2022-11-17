@@ -95,6 +95,11 @@
         <item name="android:textColor">@color/font_light</item>
         <item name="android:textSize">18sp</item>
     </style>
+    <style name="OrangeBold18">
+        <item name="android:fontFamily">@font/aeonik_bold</item>
+        <item name="android:textColor">@color/orange_main</item>
+        <item name="android:textSize">18sp</item>
+    </style>
     <!-- Tamaño 16 -->
     <style name="WhiteBold16">
         <item name="android:fontFamily">@font/aeonik_bold</item>
@@ -109,6 +114,11 @@
     <style name="WhiteMedium16">
         <item name="android:fontFamily">@font/aeonik_medium</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="DarkMedium16">
+        <item name="android:fontFamily">@font/aeonik_medium</item>
+        <item name="android:textColor">@color/font_dark</item>
         <item name="android:textSize">16sp</item>
     </style>
     <style name="LightMedium16">
@@ -131,12 +141,13 @@
         <item name="android:textColor">@color/unfocused</item>
         <item name="android:textSize">16sp</item>
     </style>
-    <!-- Tamaño 12-->
-    <style name="WhiteMedium12">
+    <!-- Tamaño 14 -->
+    <style name="LightMedium14">
         <item name="android:fontFamily">@font/aeonik_medium</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/font_light</item>
+        <item name="android:textSize">14sp</item>
     </style>
+    <!-- Tamaño 12 -->
     <style name="GreySemibold12">
         <item name="android:fontFamily">@font/aeonik_bold</item>
         <item name="android:textColor">@color/unfocused</item>
@@ -208,7 +219,15 @@
         <item name="android:paddingHorizontal">16dp</item>
         <item name="android:textColor">@color/font_light</item>
     </style>
-
+    
+    <!-- Card -->
+    <style name="WhiteCard">
+        <item name="android:clickable">true</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">3dp</item>
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+    
     <!-- BottomNav -->
     <style name="Tablemate.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">#00FFFFFF</item>

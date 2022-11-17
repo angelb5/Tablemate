@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Tablemate</string>
+    <string name="category_peruana">Peruana</string>
+    <string name="category_polleria">Pollería</string>
+    <string name="category_chifa">Chifa</string>
+    <string name="category_sushi">Sushi</string>
+    <string name="category_hamburguesas">Hamburguesas</string>
+    <string name="category_italiana">Italiana</string>
 </resources>

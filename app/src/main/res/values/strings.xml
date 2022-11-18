@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">Tablemate</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiYW5nZWxiNSIsImEiOiJjbDlyZXdjMmUwaHZkM25xbWRyMXkxYXNoIn0.XFRW7QdnkPbGTSZ0nOBtSw</string>
     <string name="category_peruana">Peruana</string>
     <string name="category_polleria">Pollería</string>
     <string name="category_chifa">Chifa</string>
     <string name="category_sushi">Sushi</string>
     <string name="category_hamburguesas">Hamburguesas</string>
     <string name="category_italiana">Italiana</string>
+    <string name="category_cafe">Café y desayunos</string>
+    <string name="category_mexicana">Mexicana</string>
+    <string name="category_pescados">Pescados y mariscos</string>
+    <string name="category_veg">Vegetariana</string>
+    <string name="category_bar">Bar</string>
+    <string name="category_carnes">Carnes y parrillas</string>
 </resources>

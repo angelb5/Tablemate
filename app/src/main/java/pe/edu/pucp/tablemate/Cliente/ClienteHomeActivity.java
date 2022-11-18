@@ -26,8 +26,8 @@ import pe.edu.pucp.tablemate.R;
 
 public class ClienteHomeActivity extends AppCompatActivity {
 
-    final List<Integer> CATEGORY_IMAGES =  Arrays.asList(R.drawable.category_peruana, R.drawable.category_polleria, R.drawable.category_chifa, R.drawable.category_sushi, R.drawable.category_hamburguesas, R.drawable.category_italiana);
-    final List<Integer> CATEGORY_TEXTS = Arrays.asList(R.string.category_peruana, R.string.category_polleria, R.string.category_chifa, R.string.category_sushi, R.string.category_hamburguesas, R.string.category_italiana);
+    final List<Integer> CATEGORY_IMAGES = Arrays.asList(R.drawable.category_peruana, R.drawable.category_polleria, R.drawable.category_chifa, R.drawable.category_sushi, R.drawable.category_hamburguesas, R.drawable.category_italiana, R.drawable.category_cafe, R.drawable.category_mexicana, R.drawable.category_pescados, R.drawable.category_veg, R.drawable.category_bar, R.drawable.category_carnes);
+    final List<Integer> CATEGORY_TEXTS = Arrays.asList(R.string.category_peruana, R.string.category_polleria, R.string.category_chifa, R.string.category_sushi, R.string.category_hamburguesas, R.string.category_italiana, R.string.category_cafe, R.string.category_mexicana, R.string.category_pescados, R.string.category_veg, R.string.category_bar, R.string.category_carnes);
     final int CATEGORY_SELECTOR_COLUMNS = CATEGORY_IMAGES.size();
     final int CATEGORY_SELECTOR_MARGIN = 16;
     final int CATEGORY_SELECTOR_MARGIN_HORIZONTAL = 40;

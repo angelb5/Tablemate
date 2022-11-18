@@ -89,6 +89,12 @@
         <item name="android:textColor">@color/orange_main</item>
         <item name="android:textSize">20sp</item>
     </style>
+    <!-- Tamaño 20 -->
+    <style name="DarkBold20">
+        <item name="android:fontFamily">@font/aeonik_bold</item>
+        <item name="android:textColor">@color/font_dark</item>
+        <item name="android:textSize">20sp</item>
+    </style>
     <!-- Tamaño 18 -->
     <style name="LightMedium18">
         <item name="android:fontFamily">@font/aeonik_medium</item>
@@ -219,7 +225,7 @@
         <item name="android:paddingHorizontal">16dp</item>
         <item name="android:textColor">@color/font_light</item>
     </style>
-    
+
     <!-- Card -->
     <style name="WhiteCard">
         <item name="android:clickable">true</item>
@@ -227,7 +233,7 @@
         <item name="cardElevation">3dp</item>
         <item name="cardBackgroundColor">@color/white</item>
     </style>
-    
+
     <!-- BottomNav -->
     <style name="Tablemate.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">#00FFFFFF</item>
@@ -243,6 +249,13 @@
         <item name="itemTextAppearanceInactive">@style/OrangeMedium12</item>
         <item name="itemTextAppearanceActive">@style/OrangeMedium12</item>
         <item name="itemActiveIndicatorStyle">@style/Tablemate.Custom.Indicator</item>
+    </style>
+
+    <!-- LL -->
+    <style name="LinearLayoutTitle">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/white</item>
     </style>
 
     <!-- FAB -->

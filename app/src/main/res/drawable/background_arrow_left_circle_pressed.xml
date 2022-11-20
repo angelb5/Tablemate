@@ -1,22 +1,22 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="32dp"
-    android:height="32dp"
+    android:width="36dp"
+    android:height="36dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
   <item
-      android:width="32dp"
-      android:height="32dp">
+      android:width="36dp"
+      android:height="36dp">
     <shape android:shape="oval">
       <solid android:color="@color/font_light"/>
     </shape>
   </item>
   <item
-      android:width="32dp"
-      android:height="32dp">
+      android:width="36dp"
+      android:height="36dp">
     <vector
-        android:width="32dp"
-        android:height="32dp"
+        android:width="36dp"
+        android:height="36dp"
         android:viewportWidth="24"
         android:viewportHeight="24">
       <path

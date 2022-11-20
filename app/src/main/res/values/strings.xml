@@ -13,4 +13,19 @@
     <string name="category_veg">Vegetariana</string>
     <string name="category_bar">Bar</string>
     <string name="category_carnes">Carnes y parrillas</string>
+    <string-array name="categories">
+        <item>Selecciona una categoría</item>
+        <item>Peruana</item>
+        <item>Pollería</item>
+        <item>Chifa</item>
+        <item>Sushi</item>
+        <item>Hamburguesas</item>
+        <item>Italiana</item>
+        <item>Café y desayunos</item>
+        <item>Mexicana</item>
+        <item>Pescados y mariscos</item>
+        <item>Vegetariana</item>
+        <item>Bar</item>
+        <item>Carnes y parrillas</item>
+    </string-array>
 </resources>

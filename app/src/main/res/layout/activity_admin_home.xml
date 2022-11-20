@@ -175,6 +175,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
+        android:foreground="?android:attr/selectableItemBackground"
         style="@style/Widget.Material3.Button.TextButton"
         android:textColor="@color/orange_main"
         android:fontFamily="@font/aeonik_medium"

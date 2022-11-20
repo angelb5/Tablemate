@@ -49,6 +49,8 @@ dependencies {
     //Firestore UI
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.2'
     implementation 'androidx.paging:paging-runtime:3.1.1'
+    //Storage
+    implementation 'com.google.firebase:firebase-storage'
     //Mapbox
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1'
     implementation "com.mapbox.search:mapbox-search-android:1.0.0-beta.40"

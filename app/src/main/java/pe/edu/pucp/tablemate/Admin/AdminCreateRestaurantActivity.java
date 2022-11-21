@@ -4,6 +4,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,8 +51,11 @@ import com.mapbox.search.SearchSelectionCallback;
 import com.mapbox.search.result.SearchResult;
 import com.mapbox.search.result.SearchSuggestion;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import pe.edu.pucp.tablemate.Adapters.ImageUploadAdapter;
 import pe.edu.pucp.tablemate.R;
 
 public class AdminCreateRestaurantActivity extends AppCompatActivity {
@@ -65,11 +71,16 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
 
     private EditText etDireccion;
     private EditText etNombre;
+    private RecyclerView rvFotos;
+    private GridLayout glFotos;
+
+    private ImageUploadAdapter fotosAdapter;
     private Spinner spCategorias;
     private ProgressBar pbPDF;
 
     private double latDireccion;
     private double lngDireccion;
+    private List<String> listFotos = new ArrayList<>();
 
     SearchEngine searchEngine;
     //Text Typing
@@ -124,6 +135,18 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
             }
     );
 
+    ActivityResultLauncher<Intent> launcherPhoto = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Uri uri = result.getData().getData();
+                    subirArchivoConProgreso(uri);
+                } else {
+                    Toast.makeText(AdminCreateRestaurantActivity.this, "Debe seleccionar un archivo", Toast.LENGTH_SHORT).show();
+                }
+            }
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,25 +155,37 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_create_restaurant);
         searchEngine = SearchEngine.createSearchEngine(new SearchEngineSettings(getString(R.string.mapbox_access_token)));
 
+        List<String> testList = Arrays.asList("https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/74DE16E75861EFD79EC06613E9F2CFCC2D4301EBCF9F331C89C8ED55BCEA4371/scale?width=2880&aspectRatio=1.78&format=jpeg",
+                "https://www.freshoffthegrid.com/wp-content/uploads/Skillet-ratatouille-16.jpg",
+                "https://i.blogs.es/9c3012/ratatouille/450_1000.jpg");
+        listFotos.addAll(testList);
+        //Setea adapters
         ArrayAdapter categoriasAdapter = ArrayAdapter.createFromResource(this, R.array.categories, R.layout.item_spinner);
         categoriasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        fotosAdapter = new ImageUploadAdapter(this, listFotos);
+        //Setea elementos
         mapView = findViewById(R.id.mvAdminCreateRestaurant);
         etDireccion = findViewById(R.id.etAdminCreateRestaurantDireccion);
         etNombre = findViewById(R.id.etAdminCreateRestaurantNombre);
         spCategorias = findViewById(R.id.spAdminCreateRestauntCategorias);
         pbPDF = findViewById(R.id.pbAdminCreateRestaurant);
-
+        rvFotos = findViewById(R.id.rvAdminCreateRestaurant);
+        glFotos = findViewById(R.id.glAdminCreateRestaurant);
+        //Implementa adapters
+        rvFotos.setAdapter(fotosAdapter);
+        rvFotos.setLayoutManager(gridLayoutManager);
+        spCategorias.setAdapter(categoriasAdapter);
+        spCategorias.setSelection(0, true);
+        ((TextView) spCategorias.getSelectedView()).setTextColor(getColor(R.color.font_hint));
+        evaluarEmpty();
+        //Sobrescribe metodos
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(mapboxMap -> mapboxMap.setStyle(Style.OUTDOORS, style -> {
             style.addImage(ICON_ID, BitmapFactory.decodeResource(this.getResources(),R.drawable.marker_restaurant));
             this.mapboxMap = mapboxMap;
             symbolManager = new SymbolManager(mapView, mapboxMap, style, null);
         }));
-
-        spCategorias.setAdapter(categoriasAdapter);
-        spCategorias.setSelection(0, true);
-        ((TextView) spCategorias.getSelectedView()).setTextColor(getColor(R.color.font_hint));
 
         etDireccion.addTextChangedListener(new TextWatcher() {
             @Override
@@ -188,6 +223,7 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
     }
 
     public void uploadCarta(View view) {
@@ -291,5 +327,21 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
+    }
+
+    public void removerFoto(int position){
+        listFotos.remove(position);
+        fotosAdapter.notifyDataSetChanged();
+        evaluarEmpty();
+    }
+
+    public void evaluarEmpty(){
+        if (listFotos.size()>0){
+            rvFotos.setVisibility(View.VISIBLE);
+            glFotos.setVisibility(View.GONE);
+        }else{
+            rvFotos.setVisibility(View.GONE);
+            glFotos.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -95,8 +95,20 @@ public class RegisterActivity extends AppCompatActivity {
             isInvalid = true;
         }
 
+        if(nombre.length()>20){
+            etNombre.setError("No puede tener más de 20 caracteres");
+            etNombre.requestFocus();
+            isInvalid = true;
+        }
+
         if(apellidos.isEmpty()){
             etApellidos.setError("No puede estar vacío");
+            etApellidos.requestFocus();
+            isInvalid = true;
+        }
+
+        if(apellidos.length()>40){
+            etApellidos.setError("No puede tener más de 40 caracteres");
             etApellidos.requestFocus();
             isInvalid = true;
         }

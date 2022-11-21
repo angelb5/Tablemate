@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -53,6 +55,7 @@ import com.mapbox.search.SearchSelectionCallback;
 import com.mapbox.search.result.SearchResult;
 import com.mapbox.search.result.SearchSuggestion;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -135,14 +138,14 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
                         if (cursor != null && cursor.moveToFirst()) {
                             int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
                             if (index>0){
-                                subirArchivoConProgreso(uri);
+                                subirPDFConProgresoAFirebase(uri);
                                 tvCarta.setText(cursor.getString(index));
                             }else{
                                 tvCarta.setText("carta.pdf");
                             }
                         }
                     }
-                    subirArchivoConProgreso(uri);
+                    subirPDFConProgresoAFirebase(uri);
                 } else {
                     Toast.makeText(AdminCreateRestaurantActivity.this, "Debe seleccionar un archivo", Toast.LENGTH_SHORT).show();
                 }
@@ -154,7 +157,15 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == RESULT_OK) {
                     Uri uri = result.getData().getData();
-                    subirArchivoConProgreso(uri);
+                    try{
+                        Bitmap originalImage = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        originalImage.compress(Bitmap.CompressFormat.JPEG,50,stream);
+                        subirImagenAFirebase(stream.toByteArray());
+                    }catch (Exception e){
+                        Log.d("msg","eror",e);
+                    }
+                    subirPDFConProgresoAFirebase(uri);
                 } else {
                     Toast.makeText(AdminCreateRestaurantActivity.this, "Debe seleccionar un archivo", Toast.LENGTH_SHORT).show();
                 }
@@ -247,6 +258,12 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
         launcherPDFFile.launch(intent);
     }
 
+    public void uploadPhotoFromDocument(View view) {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("image/*");
+        launcherPhoto.launch(intent);
+    }
+
     public void updateMarker(){
         if(latDireccion != 0 && lngDireccion !=0){
             SymbolOptions symbolOptions = new SymbolOptions()
@@ -260,7 +277,7 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
         }
     }
 
-    public void subirArchivoConProgreso(Uri uri) {
+    public void subirPDFConProgresoAFirebase(Uri uri) {
         Log.d("msg-test", String.valueOf(uri));
         StorageReference cartaChild = FirebaseStorage.getInstance().getReference().child("cartas/" + "carta_" + Timestamp.now().getSeconds() + ".pdf");
         pbPDF.setVisibility(View.VISIBLE);
@@ -292,6 +309,23 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
                         pbPDF.setProgress(round.intValue());
                     }
                 });
+    }
+
+    public void subirImagenAFirebase(byte[] imageBytes) {
+        StorageReference photoChild = FirebaseStorage.getInstance().getReference().child("restaurant_photos/" + "photo_" + Timestamp.now().getSeconds() + ".jpg");
+
+        photoChild.putBytes(imageBytes).addOnSuccessListener(taskSnapshot -> {
+            photoChild.getDownloadUrl().addOnSuccessListener(uri -> {
+                listFotos.add(uri.toString());
+                fotosAdapter.notifyDataSetChanged();
+            }).addOnFailureListener(e ->{
+                Log.d("msg-test", "error",e);
+                Toast.makeText(AdminCreateRestaurantActivity.this, "Hubo un error al subir la imagen", Toast.LENGTH_SHORT).show();
+            });
+        }).addOnFailureListener(e -> {
+            Log.d("msg-test", "error",e);
+            Toast.makeText(AdminCreateRestaurantActivity.this, "Hubo un error al subir la imagen", Toast.LENGTH_SHORT).show();
+        });
     }
 
     public void goBackToPreviousActivity(View view){

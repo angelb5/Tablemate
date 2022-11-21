@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -71,6 +73,7 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
 
     private EditText etDireccion;
     private EditText etNombre;
+    private TextView tvCarta;
     private RecyclerView rvFotos;
     private GridLayout glFotos;
 
@@ -128,6 +131,17 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == RESULT_OK) {
                     Uri uri = result.getData().getData();
+                    try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                        if (cursor != null && cursor.moveToFirst()) {
+                            int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                            if (index>0){
+                                subirArchivoConProgreso(uri);
+                                tvCarta.setText(cursor.getString(index));
+                            }else{
+                                tvCarta.setText("carta.pdf");
+                            }
+                        }
+                    }
                     subirArchivoConProgreso(uri);
                 } else {
                     Toast.makeText(AdminCreateRestaurantActivity.this, "Debe seleccionar un archivo", Toast.LENGTH_SHORT).show();
@@ -168,6 +182,7 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
         mapView = findViewById(R.id.mvAdminCreateRestaurant);
         etDireccion = findViewById(R.id.etAdminCreateRestaurantDireccion);
         etNombre = findViewById(R.id.etAdminCreateRestaurantNombre);
+        tvCarta = findViewById(R.id.tvAdminCreateRestaurantCarta);
         spCategorias = findViewById(R.id.spAdminCreateRestauntCategorias);
         pbPDF = findViewById(R.id.pbAdminCreateRestaurant);
         rvFotos = findViewById(R.id.rvAdminCreateRestaurant);
@@ -247,11 +262,7 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
 
     public void subirArchivoConProgreso(Uri uri) {
         Log.d("msg-test", String.valueOf(uri));
-        String restaurantName = "";
-        if(!etNombre.getText().toString().isEmpty()){
-            restaurantName = etNombre.toString().replace(" ","_")+"_";
-        }
-        StorageReference cartaChild = FirebaseStorage.getInstance().getReference().child("cartas/" + "carta_"+restaurantName + Timestamp.now().getSeconds() + ".pdf");
+        StorageReference cartaChild = FirebaseStorage.getInstance().getReference().child("cartas/" + "carta_" + Timestamp.now().getSeconds() + ".pdf");
         pbPDF.setVisibility(View.VISIBLE);
         cartaChild.putFile(uri).addOnSuccessListener(taskSnapshot -> Log.d("msg-test", "Subido correctamente"))
                 .addOnFailureListener(e -> {

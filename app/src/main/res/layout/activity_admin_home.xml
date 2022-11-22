@@ -130,7 +130,6 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
-        android:foreground="?android:attr/selectableItemBackground"
         style="@style/WhiteCard"
         android:clickable="true"
         android:id="@+id/cvAdminHomeAniadir"

@@ -1,6 +1,10 @@
 package pe.edu.pucp.tablemate.Entity;
 
+import com.google.firebase.firestore.Exclude;
+
 public class User {
+    @Exclude
+    private String uid;
     private String nombre;
     private String apellidos;
     private String correo;
@@ -66,5 +70,13 @@ public class User {
 
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

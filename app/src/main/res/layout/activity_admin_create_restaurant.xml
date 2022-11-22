@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <ImageButton
+            android:id="@+id/ibAdminCreateRestaurantBack"
             android:background="?actionBarItemBackground"
             android:paddingStart="16dp"
             android:paddingEnd="12dp"
@@ -56,6 +57,7 @@
                 android:text="Correo"/>
 
             <EditText
+                android:id="@+id/etAdminCreateRestaurantCorreo"
                 style="@style/InputGrey"
                 android:hint="Correo de administración del restaurante"
                 android:inputType="textEmailAddress"
@@ -85,7 +87,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Categorías"/>
-
             <Spinner
                 android:entries="@array/categories"
                 tools:listitem="@layout/item_spinner"
@@ -100,56 +101,9 @@
                 android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Carta"/>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/tvAdminCreateRestaurantCarta"
-                    style="@style/LightMedium14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="Sube un archivo"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_file_pdf"/>
-            </LinearLayout>
-            <ProgressBar
-                android:id="@+id/pbAdminCreateRestaurant"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:max="100"
-                android:progress="0"
-                android:visibility="gone"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:gravity="end">
-
-                <ImageButton
-                    android:background="?actionBarItemBackground"
-                    android:onClick="uploadCarta"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/button_attachment" />
-            </LinearLayout>
-
-            <TextView
-                style="@style/DarkBold20"
-                android:layout_marginBottom="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Resumen"/>
-
+                android:text="Descripción"/>
             <EditText
+                android:id="@+id/etAdminCreateRestaurantDescripcion"
                 style="@style/InputGrey"
                 android:hint="Escribe una descripción del restaurante"
                 android:inputType="textMultiLine"
@@ -162,25 +116,53 @@
                 android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fotos"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvAdminCreateRestaurant"
+                android:text="Dirección"/>
+            <EditText
+                android:id="@+id/etAdminCreateRestaurantDireccion"
+                style="@style/InputGrey"
+                android:hint="Dirección del establecimiento"
                 android:layout_width="match_parent"
-                tools:itemCount="1"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:layout_marginBottom="8dp"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                app:cardCornerRadius="16dp"
+                android:layout_marginBottom="16dp">
+                <com.mapbox.mapboxsdk.maps.MapView
+                    android:id="@+id/mvAdminCreateRestaurant"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    mapbox:mapbox_cameraTargetLat="-12.04318"
+                    mapbox:mapbox_cameraTargetLng="-77.02824"
+                    mapbox:mapbox_cameraZoom="11"/>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                style="@style/DarkBold20"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fotos"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:focusable="true"
+                android:id="@+id/rvAdminCreateRestaurantFotos"
+                android:layout_width="match_parent"
+                tools:itemCount="0"
+                android:layout_weight="0.9"
                 tools:listitem="@layout/item_image_upload"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="8dp"/>
             <GridLayout
                 android:id="@+id/glAdminCreateRestaurant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal"
                 android:columnCount="2"
                 android:useDefaultMargins="true">
                 <androidx.cardview.widget.CardView
-                    android:backgroundTint="@color/blue_dark"
                     app:cardCornerRadius="16dp"
                     android:layout_columnWeight="1"
                     android:layout_height="120dp"
@@ -189,18 +171,18 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:backgroundTint="@color/grey_light">
 
                     <ImageView
                         android:src="@drawable/ic_image_placeholder_48"
                         android:layout_width="match_parent"
                         android:scaleType="center"
-                        android:layout_height="match_parent"
-                        android:background="@color/grey_light" />
+                        android:layout_height="match_parent" />
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:visibility="invisible"
-                    android:backgroundTint="@color/blue_dark"
+                    android:backgroundTint="@color/grey_light"
                     app:cardCornerRadius="16dp"
                     android:layout_columnWeight="1"
                     android:layout_height="120dp"
@@ -219,18 +201,35 @@
                         android:background="@color/grey_light" />
                 </androidx.cardview.widget.CardView>
             </GridLayout>
-
+            <ProgressBar
+                android:id="@+id/pbAdminCreateRestaurantPhoto"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:max="100"
+                android:progress="0"
+                android:visibility="gone"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="32dp"
                 android:gravity="end">
                 <ImageButton
-                    android:background="?actionBarItemBackground"
+                    android:id="@+id/ibAdminCreateRestaurantPhotoAttach"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:onClick="uploadPhotoFromDocument"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/button_attachment" />
+                <ImageButton
+                    android:id="@+id/ibAdminCreateRestaurantPhotoCam"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:onClick="uploadPhotoFromCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/button_camera" />
             </LinearLayout>
 
             <TextView
@@ -238,32 +237,67 @@
                 android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ubicación"/>
-
-            <EditText
-                android:id="@+id/etAdminCreateRestaurantDireccion"
-                style="@style/InputGrey"
-                android:hint="Dirección del establecimiento"
+                android:text="Carta - Opcional"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvAdminCreateRestaurantCarta"
+                    style="@style/LightMedium14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:text="Sube un archivo" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_file_pdf"/>
+            </LinearLayout>
+            <ProgressBar
+                android:id="@+id/pbAdminCreateRestaurantPDF"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPostalAddress"
-                android:layout_marginBottom="8dp"/>
-            <androidx.cardview.widget.CardView
+                android:layout_marginBottom="8dp"
+                android:max="100"
+                android:progress="0"
+                android:visibility="gone"/>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:cardCornerRadius="16dp"
-                android:layout_marginBottom="16dp">
-                <com.mapbox.mapboxsdk.maps.MapView
-                    android:id="@+id/mvAdminCreateRestaurant"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    mapbox:mapbox_cameraTargetLat="-12.04318"
-                    mapbox:mapbox_cameraTargetLng="-77.02824"
-                    mapbox:mapbox_cameraZoom="11"/>
-            </androidx.cardview.widget.CardView>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="end">
+                <ImageButton
+                    android:id="@+id/ibAdminCreateRestaurantPDFAttach"
+                    android:background="?actionBarItemBackground"
+                    android:onClick="uploadCarta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/button_attachment" />
+            </LinearLayout>
 
-
+            <Button
+                android:onClick="anadirRestaurante"
+                android:id="@+id/btnAdminCreateRestaurantAnadir"
+                style="@style/BtnPrimary"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:text="Añadir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/pbAdminCreateRestaurantLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvItemImageUpload"
+        android:backgroundTint="@color/grey_light"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginHorizontal="8dp"

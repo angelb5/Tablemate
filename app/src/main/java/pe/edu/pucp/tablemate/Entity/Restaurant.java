@@ -8,6 +8,8 @@ import java.util.List;
 public class Restaurant {
     @Exclude
     private String key;
+    @Exclude
+    private double distance;
     private String nombre;
     private String categoria;
     private String descripcion;
@@ -35,6 +37,7 @@ public class Restaurant {
         numReviews = 0;
     }
 
+    @Exclude
     public String getKey() {
         return key;
     }
@@ -121,5 +124,14 @@ public class Restaurant {
 
     public void setNumReviews(int numReviews) {
         this.numReviews = numReviews;
+    }
+
+    @Exclude
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }

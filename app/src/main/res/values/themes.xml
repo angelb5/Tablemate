@@ -97,6 +97,11 @@
         <item name="android:textSize">20sp</item>
     </style>
     <!-- Tamaño 18 -->
+    <style name="DarkMedium18">
+        <item name="android:fontFamily">@font/aeonik_medium</item>
+        <item name="android:textColor">@color/font_dark</item>
+        <item name="android:textSize">18sp</item>
+    </style>
     <style name="LightMedium18">
         <item name="android:fontFamily">@font/aeonik_medium</item>
         <item name="android:textColor">@color/font_light</item>
@@ -151,6 +156,11 @@
     <!-- Tamaño 14 -->
     <style name="LightMedium14">
         <item name="android:fontFamily">@font/aeonik_medium</item>
+        <item name="android:textColor">@color/font_light</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="LightRegular14">
+        <item name="android:fontFamily">@font/aeonik_regular</item>
         <item name="android:textColor">@color/font_light</item>
         <item name="android:textSize">14sp</item>
     </style>

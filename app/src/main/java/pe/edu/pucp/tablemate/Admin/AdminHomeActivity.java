@@ -23,4 +23,8 @@ public class AdminHomeActivity extends AppCompatActivity {
     public void goToCreateRestaurantActivity(View view){
         startActivity(new Intent(AdminHomeActivity.this, AdminCreateRestaurantActivity.class));
     }
+
+    public void goToListRestaurantActivity(View view){
+        startActivity(new Intent(AdminHomeActivity.this, AdminListRestaurantActivity.class));
+    }
 }

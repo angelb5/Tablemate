@@ -8,6 +8,7 @@
     <color name="grey">#5C616F</color>
     <color name="orange_main">#F26333</color>
     <color name="orange_dark">#912400</color>
+    <color name="yellow">#EA9927</color>
     <!--  Podría cambiarse el unfocused -->
     <color name="unfocused">#D2D4DA</color>
     <color name="grey_25">#40494949</color>

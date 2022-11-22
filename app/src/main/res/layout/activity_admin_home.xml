@@ -89,6 +89,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
+        android:onClick="goToListRestaurantActivity"
         style="@style/WhiteCard"
         android:id="@+id/cvAdminHomeLista"
         android:layout_width="match_parent"

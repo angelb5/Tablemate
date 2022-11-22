@@ -16,6 +16,8 @@ public class Restaurant {
     private String direccion;
     private List<String> fotosUrl;
     private List<String> searchKeywords;
+    private double rating;
+    private int numReviews;
 
     public Restaurant() {
     }
@@ -29,6 +31,8 @@ public class Restaurant {
         this.direccion = direccion;
         this.fotosUrl = fotosUrl;
         this.searchKeywords = searchKeywords;
+        rating = 0;
+        numReviews = 0;
     }
 
     public String getKey() {
@@ -101,5 +105,21 @@ public class Restaurant {
 
     public void setSearchKeywords(List<String> searchKeywords) {
         this.searchKeywords = searchKeywords;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public int getNumReviews() {
+        return numReviews;
+    }
+
+    public void setNumReviews(int numReviews) {
+        this.numReviews = numReviews;
     }
 }

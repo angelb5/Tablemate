@@ -1,6 +1,5 @@
 package pe.edu.pucp.tablemate.Adapters;
 
-import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.google.type.LatLng;
 
 import java.util.Locale;
 
@@ -40,7 +38,7 @@ public class RestaurantCardAdapter extends FirestorePagingAdapter<Restaurant, Re
     @NonNull
     @Override
     public RestaurantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_restaurant_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_restaurant, parent, false);
         return new RestaurantViewHolder(view);
     }
 

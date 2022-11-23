@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    style="@style/Widget.Material3.BottomSheet"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/white"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <!-- Bottom sheet contents. -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+        <TextView
+            style="@style/ValueSerifTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:textAlignment="center"
+            android:text="Filtros"/>
+        <ImageButton
+            android:id="@+id/ibModalBottomSheetClose"
+            android:background="?actionBarItemBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_24"
+            android:layout_alignParentEnd="true"
+            android:clickable="true"/>
+    </RelativeLayout>
+
+    <TextView
+        style="@style/DarkBoldTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Categorías"
+        android:layout_marginBottom="8dp"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cgModalBottomSheet"
+        app:chipSpacingVertical="2dp"
+        app:chipSpacingHorizontal="8dp"
+        android:layout_marginBottom="16dp"
+        app:singleSelection="true"
+        app:selectionRequired="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            android:checked="true"
+            style="@style/chipSelected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Todas las categorías"/>
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_peruana"
+            app:chipIcon="@drawable/category_peruana"/>
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_polleria"
+            app:chipIcon="@drawable/category_polleria"/>
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_chifa"
+            app:chipIcon="@drawable/category_chifa"/>
+
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_hamburguesas"
+            app:chipIcon="@drawable/category_hamburguesas"/>
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_mexicana"
+            app:chipIcon="@drawable/category_mexicana"/>
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_italiana"
+            app:chipIcon="@drawable/category_italiana"/>
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_cafe"
+            app:chipIcon="@drawable/category_cafe"/>
+
+
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_pescados"
+            app:chipIcon="@drawable/category_pescados"/>
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_bar"
+            app:chipIcon="@drawable/category_bar"/>
+
+
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_sushi"
+            app:chipIcon="@drawable/category_sushi"/>
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_carnes"
+            app:chipIcon="@drawable/category_carnes"/>
+        <com.google.android.material.chip.Chip
+            android:checkable="true"
+            style="@style/chipUnselected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_veg"
+            app:chipIcon="@drawable/category_veg"/>
+    </com.google.android.material.chip.ChipGroup>
+
+    <Button
+        style="@style/BtnPrimary"
+        android:id="@+id/btnModalBottomSheetApply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Aplicar filtros"/>
+
+</LinearLayout>

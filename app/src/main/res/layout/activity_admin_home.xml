@@ -7,7 +7,7 @@
     tools:context=".Admin.AdminHomeActivity">
     <TextView
         android:id="@+id/tvAdminHomeHola"
-        style="@style/ValueSerifTitle"
+        style="@style/ValueSerifTitle34"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"

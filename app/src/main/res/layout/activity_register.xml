@@ -11,7 +11,7 @@
         tools:context=".Anonymus.RegisterActivity">
         <TextView
             android:id="@+id/tvRegisterTitle"
-            style="@style/ValueSerifTitle"
+            style="@style/ValueSerifTitle34"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

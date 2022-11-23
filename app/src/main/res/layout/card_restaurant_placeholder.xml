@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <!-- Media -->
         <RelativeLayout
@@ -27,7 +27,8 @@
                 android:layout_marginEnd="0dp"
                 android:layout_marginBottom="0dp"
                 android:scaleType="center"
-                android:src="@drawable/nonverified_draw" />
+                android:background="@color/grey_light"
+                android:src="@drawable/ic_image_placeholder_48" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvRestaurantCardDistance"
@@ -41,6 +42,7 @@
                 app:cardCornerRadius="8dp">
 
                 <TextView
+                    android:visibility="invisible"
                     android:id="@+id/tvRestaurantCardDistance"
                     style="@style/LightMedium14"
                     android:layout_width="wrap_content"
@@ -77,7 +79,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_star_14"/>
+                        android:src="@drawable/ic_star_14_grey"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
@@ -89,22 +91,15 @@
             android:padding="16dp"
             android:paddingHorizontal="20dp">
             <!-- Title, secondary and supporting text -->
-            <TextView
-                android:id="@+id/tvRestaurantCardNombre"
-                style="@style/DarkMedium18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nombre"
-                android:textAppearance="?attr/textAppearanceTitleMedium" />
-            <TextView
-                android:id="@+id/tvRestaurantCardCategoria"
-                style="@style/LightRegular14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp"
-                android:text="Categoría"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?android:attr/textColorSecondary" />
+            <View
+                android:layout_width="160dp"
+                android:background="@color/grey"
+                android:layout_height="18dp"/>
+            <View
+                android:background="@color/grey_light"
+                android:layout_width="100dp"
+                android:layout_height="14dp"
+                android:layout_marginVertical="2dp" />
         </LinearLayout>
 
     </LinearLayout>

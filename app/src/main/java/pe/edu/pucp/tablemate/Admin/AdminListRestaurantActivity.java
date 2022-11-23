@@ -2,6 +2,8 @@ package pe.edu.pucp.tablemate.Admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.paging.CombinedLoadStates;
+import androidx.paging.LoadState;
 import androidx.paging.PagingConfig;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -29,8 +32,11 @@ import com.mapbox.android.core.permissions.PermissionsManager;
 
 import java.util.List;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import pe.edu.pucp.tablemate.Adapters.RestaurantCardAdapter;
 import pe.edu.pucp.tablemate.Entity.Restaurant;
+import pe.edu.pucp.tablemate.Modals.ModalBottomSheetFilter;
 import pe.edu.pucp.tablemate.R;
 
 public class AdminListRestaurantActivity extends AppCompatActivity implements PermissionsListener {
@@ -43,7 +49,11 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
 
     RecyclerView recyclerView;
     ShimmerFrameLayout shimmerFrameLayout;
+    LinearLayout emptyView;
     private LatLng userLatLng = null;
+    private String categoryFilter = "";
+
+    private ModalBottomSheetFilter modalBottomSheet = new ModalBottomSheetFilter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +61,8 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
         setContentView(R.layout.activity_admin_list_restaurant);
 
         recyclerView = findViewById(R.id.rvAdminListRestaurant);
+        shimmerFrameLayout = findViewById(R.id.shimmerAdminListRestaurant);
+        emptyView = findViewById(R.id.llAdminListRestaurantEmptyView);
 
         enableLocationDistances();
     }
@@ -81,7 +93,30 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(restaurantCardAdapter);
         restaurantCardAdapter.startListening();
-        //falta shimmer
+
+        restaurantCardAdapter.addLoadStateListener(new Function1<CombinedLoadStates, Unit>() {
+            @Override
+            public Unit invoke(CombinedLoadStates combinedLoadStates) {
+                LoadState refresh = combinedLoadStates.getRefresh();
+                if (refresh instanceof LoadState.Loading) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.GONE);
+                    shimmerFrameLayout.setVisibility(View.VISIBLE);
+                    shimmerFrameLayout.startShimmerAnimation();
+                }else if(refresh instanceof LoadState.NotLoading){
+                    shimmerFrameLayout.stopShimmerAnimation();
+                    shimmerFrameLayout.setVisibility(View.GONE);
+                    if (restaurantCardAdapter.getItemCount()>0){
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                    }else{
+                        recyclerView.setVisibility(View.GONE);
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
+                }
+                return null;
+            }
+        });
     }
 
     @Override
@@ -154,6 +189,41 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
         onBackPressed();
     }
 
+    public void showFilters(View view){
+        modalBottomSheet.show(getSupportFragmentManager(), modalBottomSheet.getTag());
+    }
+
+    public void setCategoryFilter(String categoryFilter) {
+        if(!this.categoryFilter.equals(categoryFilter)){
+            this.categoryFilter = categoryFilter;
+            if(!categoryFilter.isEmpty()){
+                restaurantQuery = FirebaseFirestore.getInstance().collection("restaurants").whereEqualTo("categoria",categoryFilter);
+                options = new FirestorePagingOptions.Builder<Restaurant>()
+                        .setLifecycleOwner(this)
+                        .setQuery(restaurantQuery, config, new SnapshotParser<Restaurant>() {
+                            @NonNull
+                            @Override
+                            public Restaurant parseSnapshot(@NonNull DocumentSnapshot snapshot) {
+                                Restaurant restaurant = snapshot.toObject(Restaurant.class);
+                                if (restaurant !=null){
+                                    restaurant.setKey(snapshot.getId());
+                                    if (userLatLng!=null){
+                                        restaurant.setDistance(calculateDistance(userLatLng.getLatitude(),restaurant.getGeoPoint().getLatitude(),
+                                                userLatLng.getLongitude(), restaurant.getGeoPoint().getLongitude()));
+                                    }
+                                    return restaurant;
+                                }
+                                return new Restaurant();
+                            }
+                        })
+                        .build();
+                restaurantCardAdapter.updateOptions(options);
+            }else{
+                restaurantQuery = FirebaseFirestore.getInstance().collection("restaurants");
+            }
+        }
+    }
+
     public double calculateDistance(double lat1, double lat2, double lon1, double lon2){
         double latDistance = Math.toRadians(lat2 - lat1);
         double lonDistance = Math.toRadians(lon2 - lon1);
@@ -165,4 +235,5 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
         distance = Math.pow(distance, 2);
         return Math.sqrt(distance);
     }
+
 }

@@ -421,11 +421,6 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
     }
 
     public void anadirRestaurante(View view){
-        CircularProgressIndicatorSpec spec = new CircularProgressIndicatorSpec(this,null,0, com.google.android.material.R.style.Widget_Material3_CircularProgressIndicator_ExtraSmall);
-        Drawable progressIndicatorDrawable = IndeterminateDrawable.createCircularDrawable(this, spec);
-
-        ((Button) view).setCompoundDrawables(progressIndicatorDrawable,null,null,null);
-
         if(pbPDF.getVisibility()==View.VISIBLE){
             Toast.makeText(AdminCreateRestaurantActivity.this, "Espera a que se termine de subir la carta", Toast.LENGTH_SHORT).show();
             return;

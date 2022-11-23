@@ -25,12 +25,14 @@
             android:src="@drawable/button_back"
             android:clickable="true"/>
         <EditText
+            android:id="@+id/etAdminListRestaurantSearch"
             style="@style/InputGrey"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:hint="Buscar por nombre"
-            android:layout_marginVertical="12dp"/>
+            android:layout_marginVertical="12dp"
+            android:drawableEnd="@drawable/inputicon_search"/>
         <ImageButton
             android:id="@+id/ibAdminListRestaurantFilter"
             android:background="?actionBarItemBackground"

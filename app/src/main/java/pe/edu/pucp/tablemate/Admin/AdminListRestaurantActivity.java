@@ -63,7 +63,7 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
 
     private LatLng userLatLng = null;
     private String categoryFilter = "";
-    private String searchText;
+    private String searchText = "";
 
     private ModalBottomSheetFilter modalBottomSheet = new ModalBottomSheetFilter();
     //Text Typing

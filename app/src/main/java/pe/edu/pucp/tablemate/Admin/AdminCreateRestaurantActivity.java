@@ -582,7 +582,6 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
         List<String> keywords = new ArrayList<>();
 
         List<String> words = Arrays.asList(inputString.split(" "));
-        inputString = inputString.replace(" ","");
         for (String word : words){
             String appendString = "";
 
@@ -591,7 +590,7 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
                 keywords.add(appendString);
             }
 
-            inputString = inputString.replace(word,"");
+            inputString = inputString.replace(word+" ","");
         }
 
         return keywords;

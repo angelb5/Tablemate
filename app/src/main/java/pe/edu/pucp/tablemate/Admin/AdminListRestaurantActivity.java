@@ -116,7 +116,7 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
                 .setLifecycleOwner(this)
                 .setQuery(restaurantQuery, config, restaurantSnapshotParser)
                 .build();
-        restaurantCardAdapter = new RestaurantCardAdapter(options, AdminRestaurantDetallesActivity.class);
+        restaurantCardAdapter = new RestaurantCardAdapter(options, AdminDetailsRestaurantActivity.class);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -187,13 +187,6 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
             permissionsManager = new PermissionsManager(this);
             permissionsManager.requestLocationPermissions(this);
         }
-    }
-
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        if(restaurantCardAdapter!=null) restaurantCardAdapter.refresh();
     }
 
     @Override

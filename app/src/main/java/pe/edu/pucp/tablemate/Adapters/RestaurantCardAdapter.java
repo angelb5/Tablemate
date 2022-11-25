@@ -1,5 +1,6 @@
 package pe.edu.pucp.tablemate.Adapters;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,11 @@ public class RestaurantCardAdapter extends FirestorePagingAdapter<Restaurant, Re
             tvDistance = itemView.findViewById(R.id.tvRestaurantCardDistance);
             tvRating = itemView.findViewById(R.id.tvRestaurantCardRating);
             itemView.setOnClickListener(view -> {
-                Log.d("msg", "hola desde el usuario "+restaurant.getNombre());
+                Intent restaurantIntent = new Intent(itemView.getContext(), nextActivity);
+                restaurantIntent.putExtra("restaurant", restaurant);
+                restaurantIntent.putExtra("lat", restaurant.getGeoPoint().getLatitude());
+                restaurantIntent.putExtra("lng", restaurant.getGeoPoint().getLongitude());
+                itemView.getContext().startActivity(restaurantIntent);
             });
         }
     }

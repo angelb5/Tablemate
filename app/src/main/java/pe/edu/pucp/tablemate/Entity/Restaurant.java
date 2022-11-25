@@ -3,9 +3,10 @@ package pe.edu.pucp.tablemate.Entity;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.GeoPoint;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Restaurant {
+public class Restaurant implements Serializable{
     @Exclude
     private String key;
     @Exclude
@@ -14,7 +15,7 @@ public class Restaurant {
     private String categoria;
     private String descripcion;
     private String cartaUrl;
-    private GeoPoint geoPoint;
+    private transient GeoPoint geoPoint;
     private String direccion;
     private List<String> fotosUrl;
     private List<String> searchKeywords;
@@ -42,6 +43,7 @@ public class Restaurant {
         return key;
     }
 
+    @Exclude
     public void setKey(String key) {
         this.key = key;
     }
@@ -131,6 +133,7 @@ public class Restaurant {
         return distance;
     }
 
+    @Exclude
     public void setDistance(double distance) {
         this.distance = distance;
     }

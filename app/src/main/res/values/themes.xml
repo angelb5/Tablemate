@@ -161,6 +161,21 @@
         <item name="android:textSize">16sp</item>
     </style>
     <!-- Tamaño 14 -->
+    <style name="DarkBold14">
+        <item name="android:fontFamily">@font/aeonik_bold</item>
+        <item name="android:textColor">@color/font_dark</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="DarkMedium14">
+        <item name="android:fontFamily">@font/aeonik_medium</item>
+        <item name="android:textColor">@color/font_dark</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="DarkRegular14">
+        <item name="android:fontFamily">@font/aeonik_regular</item>
+        <item name="android:textColor">@color/font_dark</item>
+        <item name="android:textSize">14sp</item>
+    </style>
     <style name="LightMedium14">
         <item name="android:fontFamily">@font/aeonik_medium</item>
         <item name="android:textColor">@color/font_light</item>
@@ -209,10 +224,10 @@
     </style>
 
     <style name="BtnSecondary" parent="Widget.Material3.Button.ElevatedButton">
-        <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="fontFamily">@font/aeonik_bold</item>
         <item name="android:textSize">16sp</item>
         <item name="enforceTextAppearance">false</item>
+        <item name="backgroundTint">@color/white</item>
         <item name="android:textColor">@color/orange_main</item>
         <item name="android:paddingHorizontal">48dp</item>
         <item name="android:paddingVertical">14dp</item>
@@ -357,5 +372,64 @@
         <item name="cornerSizeTopLeft">32dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+    <!-- Tabs -->
+    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontFamily">@font/aeonik_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/aeonik_medium</item>
+    </style>
+    <style name="Widget.App.TabLayout" parent="Widget.Material3.TabLayout">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TabLayout</item>
+        <item name="tabTextAppearance">@style/TextAppearance.App.LabelLarge</item>
+    </style>
+
+    <style name="ThemeOverlay.App.TabLayout" parent="">
+        <item name="colorPrimary">@color/orange_main</item>
+        <item name="colorSurface">@color/grey_light</item>
+        <item name="colorOnSurface">@color/orange_main</item>
+    </style>
+
+    <!--Estilos de AlertDialog-->
+    <style name="AlertDialogTheme.Center" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
+        <item name="colorSurface">@color/grey_light</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.App.Title.Body</item>
+        <item name="buttonBarStyle">@style/ButtonBarStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.App.Button</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.Material3">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App.Title.Text" parent="MaterialAlertDialog.Material3.Title.Text.CenterStacked">
+        <item name="android:textColor">@color/font_dark</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/aeonik_bold</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App.Title.Body" parent="MaterialAlertDialog.Material3.Body.Text.CenterStacked">
+        <item name="android:textColor">@color/font_light</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/aeonik_regular</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerSize">28dp</item>
+    </style>
+
+    <style name="Widget.App.Button" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:fontFamily">@font/aeonik_bold</item>
+        <item name="android:textColor">@color/orange_main</item>
+    </style>
+
+    <style name="ButtonBarStyle">
+        <item name="android:background">@color/grey_light</item>
     </style>
 </resources>

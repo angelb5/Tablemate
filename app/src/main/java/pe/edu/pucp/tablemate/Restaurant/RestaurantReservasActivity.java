@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-import pe.edu.pucp.tablemate.Helpers.BottomNavigationViewHelper;
 import pe.edu.pucp.tablemate.R;
 
 public class RestaurantReservasActivity extends AppCompatActivity {
@@ -25,7 +24,6 @@ public class RestaurantReservasActivity extends AppCompatActivity {
 
     public void setBottomNavigationView(){
         bottomNavigationView = findViewById(R.id.bottomNavMenuTiHomeAct);
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottomNavMenuRestaurantReservas);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

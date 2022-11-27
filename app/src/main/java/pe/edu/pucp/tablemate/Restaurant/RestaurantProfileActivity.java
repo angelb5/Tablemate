@@ -14,7 +14,6 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import pe.edu.pucp.tablemate.Anonymus.LoginActivity;
-import pe.edu.pucp.tablemate.Helpers.BottomNavigationViewHelper;
 import pe.edu.pucp.tablemate.R;
 
 public class RestaurantProfileActivity extends AppCompatActivity {
@@ -37,7 +36,6 @@ public class RestaurantProfileActivity extends AppCompatActivity {
 
     public void setBottomNavigationView(){
         bottomNavigationView = findViewById(R.id.bottomNavMenuTiProfileAct);
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottomNavMenuRestaurantProfile);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

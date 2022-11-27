@@ -66,6 +66,7 @@ implements View.OnClickListener {
 
         ImageView ivImage;
         TextView tvDesc;
+        String categoryFilter;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

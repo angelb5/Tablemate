@@ -15,6 +15,7 @@ import com.google.android.material.chip.ChipGroup;
 import java.util.List;
 
 import pe.edu.pucp.tablemate.Admin.AdminListRestaurantActivity;
+import pe.edu.pucp.tablemate.Cliente.ClienteListRestaurantActivity;
 import pe.edu.pucp.tablemate.R;
 
 public class ModalBottomSheetFilter extends BottomSheetDialogFragment {
@@ -47,15 +48,29 @@ public class ModalBottomSheetFilter extends BottomSheetDialogFragment {
                 }
             }
         });
+
+        if(!categoryFilter.isEmpty()){
+            for (int i = 0; i<chipGroup.getChildCount(); i++){
+                Chip c = (Chip) chipGroup.getChildAt(i);
+                c.setChecked(c.getText().equals(categoryFilter));
+            }
+        }
+
         view.findViewById(R.id.ibModalBottomSheetClose).setOnClickListener(view1 -> {
             dismiss();
         });
         view.findViewById(R.id.btnModalBottomSheetApply).setOnClickListener(view1 -> {
             if (getActivity() instanceof AdminListRestaurantActivity){
                 ((AdminListRestaurantActivity) getActivity()).setCategoryFilter(categoryFilter);
+            }else if(getActivity() instanceof ClienteListRestaurantActivity){
+                ((ClienteListRestaurantActivity) getActivity()).setCategoryFilter(categoryFilter);
             }
             dismiss();
         });
         return view;
+    }
+
+    public void setCategoryFilter(String categoryFilter) {
+        this.categoryFilter = categoryFilter;
     }
 }

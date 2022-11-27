@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-import pe.edu.pucp.tablemate.Helpers.BottomNavigationViewHelper;
 import pe.edu.pucp.tablemate.R;
 
 public class ClienteProfileActivity extends AppCompatActivity {
@@ -26,7 +25,6 @@ public class ClienteProfileActivity extends AppCompatActivity {
     public void setBottomNavigationView(){
         bottomNavigationView = findViewById(R.id.bottomNavMenuClienteProfileAct);
         bottomNavigationView.clearAnimation();
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottomNavMenuClienteProfile);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

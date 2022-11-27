@@ -2,9 +2,13 @@ package pe.edu.pucp.tablemate.Cliente;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +25,6 @@ import java.util.List;
 
 import pe.edu.pucp.tablemate.Adapters.CategorySelectorAdapter;
 import pe.edu.pucp.tablemate.Decorations.CategorySelectorMargin;
-import pe.edu.pucp.tablemate.Helpers.BottomNavigationViewHelper;
 import pe.edu.pucp.tablemate.R;
 
 public class ClienteHomeActivity extends AppCompatActivity {
@@ -34,6 +37,23 @@ public class ClienteHomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     TextView tvHola;
     RecyclerView categorySelector;
+    EditText etSearch;
+
+    //Text Typing
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private final long DELAY = 900;
+
+    private Runnable searchRestaurants = new Runnable() {
+        @Override
+        public void run() {
+            String searchTextFromEt = etSearch.getText().toString().trim();
+            if(!searchTextFromEt.isEmpty()){
+                Intent searchIntent = new Intent(ClienteHomeActivity.this, ClienteListRestaurantActivity.class);
+                searchIntent.putExtra("searchText", searchTextFromEt);
+                startActivity(searchIntent);
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +62,26 @@ public class ClienteHomeActivity extends AppCompatActivity {
         setBottomNavigationView();
         categorySelector = findViewById(R.id.rvClienteHomeCategories);
         tvHola = findViewById(R.id.tvClienteHomeHola);
+        etSearch = findViewById(R.id.etClienteHomeSearch);
 
         tvHola.setText("Hola "+FirebaseAuth.getInstance().getCurrentUser().getDisplayName()+"!");
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                handler.removeCallbacks(searchRestaurants);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(searchRestaurants, DELAY);
+            }
+        });
         //Selector de categorias
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         CategorySelectorAdapter selectorAdapter = new CategorySelectorAdapter(this, CATEGORY_IMAGES, CATEGORY_TEXTS);
@@ -52,7 +90,9 @@ public class ClienteHomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int position = categorySelector.getChildAdapterPosition(view);
                 if (position>=0 && position<CATEGORY_IMAGES.size()){
-                    Log.d("msg", getResources().getString(CATEGORY_TEXTS.get(position)));
+                    Intent categoryIntent = new Intent(ClienteHomeActivity.this, ClienteListRestaurantActivity.class);
+                    categoryIntent.putExtra("categoryFilter", getString(CATEGORY_TEXTS.get(position)));
+                    startActivity(categoryIntent);
                 }
             }
         });
@@ -66,7 +106,6 @@ public class ClienteHomeActivity extends AppCompatActivity {
     public void setBottomNavigationView(){
         bottomNavigationView = findViewById(R.id.bottomNavMenuClienteHomeAct);
         bottomNavigationView.clearAnimation();
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottomNavMenuClienteHome);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

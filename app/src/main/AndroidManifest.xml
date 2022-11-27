@@ -37,10 +37,22 @@
             android:exported="false"
             android:screenOrientation="userPortrait"
             android:theme="@style/Theme.Tablemate.Grey" />
+
+
+        <activity
+            android:name=".Cliente.ClienteDetailsRestaurantActivity"
+            android:exported="false"
+            android:screenOrientation="userPortrait"/>
+        <activity
+            android:name=".Cliente.ClienteListRestaurantActivity"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/Theme.Tablemate.Grey" />
         <activity
             android:name=".Cliente.ClienteHomeActivity"
             android:exported="false"
             android:screenOrientation="userPortrait"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.Tablemate.Grey" />
         <activity
             android:name=".Cliente.ClienteProfileActivity"

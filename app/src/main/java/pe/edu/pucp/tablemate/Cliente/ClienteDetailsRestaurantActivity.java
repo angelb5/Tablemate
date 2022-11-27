@@ -1,7 +1,4 @@
-package pe.edu.pucp.tablemate.Admin;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+package pe.edu.pucp.tablemate.Cliente;
 
 import android.app.DownloadManager;
 import android.content.Context;
@@ -11,13 +8,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
@@ -31,11 +29,8 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
-import com.mapbox.search.SearchEngine;
-import com.mapbox.search.SearchEngineSettings;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -43,7 +38,7 @@ import java.util.Locale;
 import pe.edu.pucp.tablemate.Entity.Restaurant;
 import pe.edu.pucp.tablemate.R;
 
-public class AdminDetailsRestaurantActivity extends AppCompatActivity {
+public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
     //Mapa
     private static final String ICON_ID = "restaurantMarker";
     private MapView mapView;
@@ -72,7 +67,7 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //Setea Mapbox
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
-        setContentView(R.layout.activity_admin_details_restaurant);
+        setContentView(R.layout.activity_cliente_details_restaurant);
 
 
         Intent intent = getIntent();
@@ -85,22 +80,22 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
         double lng = intent.getDoubleExtra("lng", -77.02824);
         restaurant.setGeoPoint(new GeoPoint(lat,lng));
 
-        mapView = findViewById(R.id.mvAdminDetailsRestaurant);
-        tabLayout = findViewById(R.id.tlAdminDetailsRestaurant);
-        tvNombre = findViewById(R.id.tvAdminDetailsRestaurantNombre);
-        tvCategoria = findViewById(R.id.tvAdminDetailsRestaurantCategoria);
-        tvDescripcion = findViewById(R.id.tvAdminDetailsRestaurantDescripcion);
-        tvDireccion = findViewById(R.id.tvAdminDetailsRestaurantDireccion);
-        tvRating = findViewById(R.id.tvAdminDetailsRestaurantRating);
-        tvNumReviews = findViewById(R.id.tvAdminDetailsRestaurantNumReviews);
-        cvDistance = findViewById(R.id.cvAdminDetailsRestaurantDistancia);
-        tvDistance = findViewById(R.id.tvAdminDetailsRestaurantDistancia);
-        imgSlider = findViewById(R.id.isAdminDetailsRestaurant);
-        btnDescargarCarta = findViewById(R.id.btnAdminDetailsRestaurantCarta);
-        sv = findViewById(R.id.svAdminDetailsRestaurant);
+        mapView = findViewById(R.id.mvClienteDetailsRestaurant);
+        tabLayout = findViewById(R.id.tlClienteDetailsRestaurant);
+        tvNombre = findViewById(R.id.tvClienteDetailsRestaurantNombre);
+        tvCategoria = findViewById(R.id.tvClienteDetailsRestaurantCategoria);
+        tvDescripcion = findViewById(R.id.tvClienteDetailsRestaurantDescripcion);
+        tvDireccion = findViewById(R.id.tvClienteDetailsRestaurantDireccion);
+        tvRating = findViewById(R.id.tvClienteDetailsRestaurantRating);
+        tvNumReviews = findViewById(R.id.tvClienteDetailsRestaurantNumReviews);
+        cvDistance = findViewById(R.id.cvClienteDetailsRestaurantDistancia);
+        tvDistance = findViewById(R.id.tvClienteDetailsRestaurantDistancia);
+        imgSlider = findViewById(R.id.isClienteDetailsRestaurant);
+        btnDescargarCarta = findViewById(R.id.btnClienteDetailsRestaurantCarta);
+        sv = findViewById(R.id.svClienteDetailsRestaurant);
 
-        llInfo = findViewById(R.id.llAdminDetailsRestaurantInfo);
-        llReviews = findViewById(R.id.llAdminDetailsRestaurantReviews);
+        llInfo = findViewById(R.id.llClienteDetailsRestaurantInfo);
+        llReviews = findViewById(R.id.llClienteDetailsRestaurantReviews);
 
         tvNombre.setText(restaurant.getNombre());
         tvCategoria.setText(restaurant.getCategoria());
@@ -167,7 +162,7 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
     }
     public void descargarCarta(View view){
         if (cartaUrl.isEmpty()) return;
-        DownloadManager downloadManager = (DownloadManager) AdminDetailsRestaurantActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager downloadManager = (DownloadManager) ClienteDetailsRestaurantActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(cartaUrl));
         request.setTitle("Descarga iniciada"); //cambiar esto

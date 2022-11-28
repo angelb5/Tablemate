@@ -104,6 +104,11 @@
         <item name="android:textSize">20sp</item>
     </style>
     <!-- Tamaño 18 -->
+    <style name="DarkBold18">
+        <item name="android:fontFamily">@font/aeonik_bold</item>
+        <item name="android:textColor">@color/font_dark</item>
+        <item name="android:textSize">18sp</item>
+    </style>
     <style name="DarkMedium18">
         <item name="android:fontFamily">@font/aeonik_medium</item>
         <item name="android:textColor">@color/font_dark</item>
@@ -233,6 +238,14 @@
         <item name="android:paddingVertical">14dp</item>
         <item name="android:elevation">2dp</item>
         <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="BtnText" parent="Widget.Material3.Button.TextButton">
+        <item name="android:paddingVertical">14dp</item>
+        <item name="android:textColor">@color/orange_main</item>
+        <item name="android:fontFamily">@font/aeonik_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="enforceTextAppearance">false</item>
     </style>
 
     <!-- Inputs!! -->
@@ -431,5 +444,10 @@
 
     <style name="ButtonBarStyle">
         <item name="android:background">@color/grey_light</item>
+    </style>
+
+    <style name="roundedCornersImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 </resources>

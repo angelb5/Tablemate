@@ -106,7 +106,7 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
         tvCategoria.setText(restaurant.getCategoria());
         tvDescripcion.setText(restaurant.getDescripcion());
         tvDireccion.setText(restaurant.getDireccion());
-        tvNumReviews.setText(String.valueOf(restaurant.getNumReviews()));
+        tvNumReviews.setText("("+restaurant.getNumReviews()+" Reseñas)");
         if (restaurant.getNumReviews()>0){
             tvRating.setText(String.format(Locale.getDefault(),"%.1f" ,restaurant.getRating()));
         }else{

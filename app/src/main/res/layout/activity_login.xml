@@ -92,9 +92,7 @@
         <Button
             android:onClick="goToForgotPasswordActivity"
             android:id="@+id/btnLoginForgotPassword"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:textColor="@color/orange_main"
-            android:fontFamily="@font/aeonik_medium"
+            style="@style/BtnText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"

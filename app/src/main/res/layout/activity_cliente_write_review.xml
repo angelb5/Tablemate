@@ -152,6 +152,7 @@
                 android:text="Reseña"/>
             <EditText
                 style="@style/InputGrey"
+                android:minLines="2"
                 android:id="@+id/etClienteWriteReviewContent"
                 android:hint="Tu reseña puede ayudar a otros usuarios a encontrar el restaurante ideal"
                 android:inputType="textMultiLine"
@@ -161,10 +162,20 @@
 
             <TextView
                 style="@style/DarkBold20"
-                android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Añade una foto - Opcional"/>
+                android:layout_marginBottom="8dp"
+                android:text="Añade una foto - Opcional" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivClienteWriteReviewReview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/grey_light"
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView"
+                android:src="@drawable/ic_image_placeholder_48"
+                android:scaleType="centerInside"
+                android:layout_marginBottom="16dp"/>
 
             <ProgressBar
                 android:id="@+id/pbClienteWriteReviewPhoto"
@@ -198,7 +209,7 @@
             </LinearLayout>
 
             <Button
-                android:onClick="crearReviewFirebase"
+                android:onClick="enviarReview"
                 android:id="@+id/btnClienteWriteReviewEnviar"
                 style="@style/BtnPrimary"
                 android:layout_gravity="center"

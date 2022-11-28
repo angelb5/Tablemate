@@ -241,6 +241,7 @@
     </style>
 
     <style name="BtnText" parent="Widget.Material3.Button.TextButton">
+        <item name="background">?android:attr/selectableItemBackgroundBorderless</item>
         <item name="android:paddingVertical">14dp</item>
         <item name="android:textColor">@color/orange_main</item>
         <item name="android:fontFamily">@font/aeonik_medium</item>

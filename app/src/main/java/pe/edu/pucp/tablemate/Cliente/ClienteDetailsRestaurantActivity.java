@@ -286,6 +286,12 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
         writeReviewIntent.putExtra("restaurant", restaurant);
         writeReviewActivityResultLauncher.launch(writeReviewIntent);
     }
+    public void goToEditReview(View view){
+        Intent writeReviewIntent = new Intent(ClienteDetailsRestaurantActivity.this, ClienteWriteReviewActivity.class);
+        writeReviewIntent.putExtra("restaurant", restaurant);
+        writeReviewIntent.putExtra("userReview", userReview);
+        writeReviewActivityResultLauncher.launch(writeReviewIntent);
+    }
     ActivityResultLauncher<Intent> writeReviewActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override

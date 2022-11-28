@@ -351,6 +351,7 @@
                     <Button
                         android:layout_marginEnd="8dp"
                         style="@style/BtnText"
+                        android:onClick="goToEditReview"
                         android:drawableLeft="@drawable/ic_menu_edit_checked"
                         android:text="Editar"
                         android:layout_width="wrap_content"

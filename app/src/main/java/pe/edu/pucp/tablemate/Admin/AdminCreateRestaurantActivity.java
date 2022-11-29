@@ -405,7 +405,7 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
         });
     }
 
-    public void goBackToPreviousActivity(View view){
+    public void backButton(View view){
         onBackPressed();
     }
 

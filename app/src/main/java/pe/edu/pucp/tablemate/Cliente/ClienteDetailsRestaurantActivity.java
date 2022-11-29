@@ -13,14 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,8 +27,6 @@ import com.bumptech.glide.Glide;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.tabs.TabLayout;
@@ -41,8 +37,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -54,12 +48,9 @@ import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import javax.microedition.khronos.opengles.GL;
 
 import pe.edu.pucp.tablemate.Entity.Restaurant;
 import pe.edu.pucp.tablemate.Entity.Review;
@@ -249,7 +240,11 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
     }
 
     public void mostrarUserReview(){
-        if (userReview == null) return;
+        if (userReview == null) {
+            llUserReview.setVisibility(View.GONE);
+            llEscribir.setVisibility(View.VISIBLE);
+            return;
+        }
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
         llEscribir.setVisibility(View.GONE);
@@ -260,6 +255,7 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
         tvUserReviewContent.setText(userReview.getContent());
         tvUserReviewContent.setText(userReview.getContent());
         if (!userReview.getFotoUrl().isEmpty()) {
+            ivUserReview.setVisibility(View.VISIBLE);
             Glide.with(ClienteDetailsRestaurantActivity.this).load(userReview.getFotoUrl()).into(ivUserReview);
         } else {
             ivUserReview.setVisibility(View.GONE);
@@ -273,8 +269,8 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
         DownloadManager downloadManager = (DownloadManager) ClienteDetailsRestaurantActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(cartaUrl));
-        request.setTitle("Descarga iniciada"); //cambiar esto
-        request.setDescription("your description");
+        request.setTitle("Carta "+restaurant.getNombre()); //cambiar esto
+        request.setDescription("Espera a que termine la descarga");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         downloadManager.enqueue(request);
     }
@@ -312,6 +308,39 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
             }
     );
 
+
+    public void eliminarReviewAlert(View view){
+       if (userReview == null) return;
+
+        MaterialAlertDialogBuilder alertEliminar = new MaterialAlertDialogBuilder(this,R.style.AlertDialogTheme_Center);
+        alertEliminar.setIcon(R.drawable.ic_trash);
+        alertEliminar.setTitle("Eliminar reseña");
+        alertEliminar.setMessage("¿Estás seguro que deseas borrar tu reseña? Esta acción es irreversible");
+        alertEliminar.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int newNumReviews = restaurant.getNumReviews() - 1;
+                double newRating = 0;
+                if (newNumReviews>0) {
+                    newRating = (restaurant.getRating() * restaurant.getNumReviews() - userReview.getRating()) / newNumReviews;
+                }
+
+                FirebaseFirestore.getInstance().collection("restaurants").document(restaurant.getKey()).collection("reviews").document(userReview.getKey()).delete();
+
+                mostrarRating(newNumReviews, newRating);
+                userReview = null;
+                mostrarUserReview();
+            }
+
+        });
+        alertEliminar.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("msgAlert","CANCELAR");
+            }
+        });
+        alertEliminar.show();
+    }
 
     @Override
     public void onResume() {

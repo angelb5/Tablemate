@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -15,15 +17,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tablemate"
-        tools:targetApi="31">
+        tools:targetApi="33">
+        <activity
+            android:name=".Cliente.ClienteCameraReviewActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".Cliente.ClienteWriteReviewActivity"
-            android:screenOrientation="userPortrait"
-            android:exported="false"/>
+            android:exported="false"
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".Admin.AdminDetailsRestaurantActivity"
-            android:screenOrientation="userPortrait"
-            android:exported="false"/>
+            android:exported="false"
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".Admin.AdminListRestaurantActivity"
             android:exported="false"

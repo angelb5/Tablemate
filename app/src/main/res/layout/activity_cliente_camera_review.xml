@@ -57,15 +57,13 @@
     </LinearLayout>
     <ImageButton
         android:onClick="tomarFoto"
-        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:background="?actionBarItemBackground"
         android:id="@+id/btnClienteCameraReview"
         android:padding="24dp"
-        android:background="@android:color/transparent"
-        android:layout_width="80dp"
-        android:scaleType="centerCrop"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_camera_24"/>
+        android:src="@drawable/ic_camera_32"/>
 </RelativeLayout>

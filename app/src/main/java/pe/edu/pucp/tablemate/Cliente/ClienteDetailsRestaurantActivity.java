@@ -19,14 +19,21 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.paging.CombinedLoadStates;
+import androidx.paging.PagingConfig;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.firebase.ui.firestore.SnapshotParser;
+import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.tabs.TabLayout;
@@ -37,6 +44,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.Query;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -52,12 +60,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import pe.edu.pucp.tablemate.Adapters.ReviewAdapter;
 import pe.edu.pucp.tablemate.Entity.Restaurant;
 import pe.edu.pucp.tablemate.Entity.Review;
 import pe.edu.pucp.tablemate.R;
 
 public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
     DateFormat df = new SimpleDateFormat("EEE dd MMM yyy", Locale.getDefault());
+    FirebaseUser user;
     //Mapa
     private static final String ICON_ID = "restaurantMarker";
     private MapView mapView;
@@ -66,7 +78,9 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
 
     Restaurant restaurant;
     Review userReview;
-    List<Review> otherReviews = new ArrayList<>();
+    PagingConfig config = new PagingConfig(2,2,true);
+    FirestorePagingOptions<Review> options;
+    ReviewAdapter reviewAdapter;
 
     ImageSlider imgSlider;
     TabLayout tabLayout;
@@ -106,7 +120,8 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        if(intent == null){
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if(intent == null || user == null){
             finish();
             return;
         }
@@ -145,7 +160,6 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
 
         ArrayList<SlideModel> slideModels = new ArrayList<>();
         for (String url : restaurant.getFotosUrl()){
-            Log.d("msg", url);
             slideModels.add(new SlideModel(url, ScaleTypes.CENTER_CROP));
         }
         imgSlider.setImageList(slideModels);
@@ -204,7 +218,7 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
 
         //Setea pagina de reviews
         CollectionReference reviewsRef = FirebaseFirestore.getInstance().collection("restaurants").document(restaurant.getKey()).collection("reviews");
-        reviewsRef.whereEqualTo("user.uid", FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnSuccessListener(queryDocumentSnapshots -> {
+        reviewsRef.whereEqualTo("user.uid", user.getUid()).get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()){
                 userReview = queryDocumentSnapshots.iterator().next().toObject(Review.class);
                 userReview.setKey(queryDocumentSnapshots.iterator().next().getId());
@@ -214,20 +228,29 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
             llEscribir.setVisibility(View.GONE);
             llReserva.setVisibility(View.VISIBLE);
         });
-        reviewsRef.whereNotEqualTo("user.uid", FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnSuccessListener(queryDocumentSnapshots -> {
-            if (queryDocumentSnapshots.isEmpty()){
-                llEmptyReviews.setVisibility(View.VISIBLE);
-                return;
-            }
-            for (DocumentSnapshot snap : queryDocumentSnapshots){
-                otherReviews.add(snap.toObject(Review.class));
-                //TODO: llamar notifydatasetchanged
-            }
-        }).addOnFailureListener(e -> {
-            llEmptyReviews.setVisibility(View.VISIBLE);
-            Log.d("msg", "error", e);
-        });
 
+        Query query = reviewsRef.whereNotEqualTo("user.uid", user.getUid());
+        options = new FirestorePagingOptions.Builder<Review>()
+                .setLifecycleOwner(this)
+                .setQuery(query, config, Review.class)
+                .build();
+        reviewAdapter = new ReviewAdapter(options, this);
+        reviewAdapter.addLoadStateListener(new Function1<CombinedLoadStates, Unit>() {
+            @Override
+            public Unit invoke(CombinedLoadStates combinedLoadStates) {
+                if(reviewAdapter.getItemCount()>0){
+                    llEmptyReviews.setVisibility(View.GONE);
+                }else{
+                    llEmptyReviews.setVisibility(View.VISIBLE);
+                }
+                return null;
+            }
+        });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
+        rvReviews.setAdapter(reviewAdapter);
+        rvReviews.setLayoutManager(layoutManager);
+        rvReviews.addItemDecoration(dividerItemDecoration);
     }
 
     public void mostrarRating(int numReviews, double rating) {
@@ -245,14 +268,11 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
             llEscribir.setVisibility(View.VISIBLE);
             return;
         }
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) return;
         llEscribir.setVisibility(View.GONE);
         llUserReview.setVisibility(View.VISIBLE);
         Glide.with(ClienteDetailsRestaurantActivity.this).load(user.getPhotoUrl().toString()).into(ivUserPfp);
-        tvUserNombre.setText(user.getDisplayName());
+        tvUserNombre.setText(userReview.getUser().getNombre());
         tvUserRating.setText(String.valueOf(userReview.getRating()));
-        tvUserReviewContent.setText(userReview.getContent());
         tvUserReviewContent.setText(userReview.getContent());
         if (!userReview.getFotoUrl().isEmpty()) {
             ivUserReview.setVisibility(View.VISIBLE);

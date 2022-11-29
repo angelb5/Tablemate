@@ -156,10 +156,10 @@
                 android:layout_marginBottom="16dp">
 
                 <com.mapbox.mapboxsdk.maps.MapView
+
                     android:id="@+id/mvClienteDetailsRestaurant"
                     android:layout_width="match_parent"
-                    android:layout_height="251dp"
-                    mapbox:mapbox_cameraTargetLat="-12.04318"
+                    android:layout_height="match_parent"
                     mapbox:mapbox_cameraTargetLng="-77.02824"
                     mapbox:mapbox_cameraZoom="11" />
             </androidx.cardview.widget.CardView>
@@ -339,7 +339,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_marginBottom="8dp"
                     android:id="@+id/ivClienteDetailsRestaurantReview"
-                    mapbox:shapeAppearanceOverlay="@style/roundedCornersImageView"
+                    app:shapeAppearanceOverlay="@style/roundedCornersImageView"
                     android:background="@color/grey_light"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_image_placeholder_48"

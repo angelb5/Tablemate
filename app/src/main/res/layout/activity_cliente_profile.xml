@@ -5,6 +5,116 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Cliente.ClienteProfileActivity">
+    <TextView
+        android:id="@+id/tvClienteProfileMiperfil"
+        style="@style/ValueSerifTitle34"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="24dp"
+        android:text="Mi perfil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvClienteProfileActualiza"
+        style="@style/LightRegular16"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Actualiza la información de tu perfil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvClienteProfileMiperfil" />
+
+    <ImageView
+        android:id="@+id/ivClienteProfilePfp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/pfp01"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvClienteProfileActualiza" />
+
+    <Button
+        android:id="@+id/btnClienteProfileChangePfp"
+        style="@style/BtnText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cambiar foto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivClienteProfilePfp" />
+
+    <TextView
+        android:id="@+id/tvClienteProfileCorreo"
+        style="@style/DarkMedium16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="correo@correo.com"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnClienteProfileChangePfp" />
+
+    <TextView
+        android:id="@+id/tvClienteProfileDni"
+        style="@style/LightRegular16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="DNI 88884444"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvClienteProfileCorreo"/>
+
+    <EditText
+        android:hint="Nombre"
+        android:layout_marginTop="32dp"
+        android:id="@+id/etClienteProfileNombre"
+        style="@style/InputWhite"
+        android:layout_marginHorizontal="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvClienteProfileDni"/>
+
+    <EditText
+        android:hint="Apellidos"
+        android:layout_marginTop="24dp"
+        android:id="@+id/etClienteProfileApellidos"
+        style="@style/InputWhite"
+        android:layout_marginHorizontal="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etClienteProfileNombre"/>
+
+    <Button
+        style="@style/BtnPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Actualizar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etClienteProfileApellidos" />
+
+    <Button
+        android:layout_marginBottom="40dp"
+        style="@style/BtnSecondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cerrar Sesión"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavMenuClienteProfileAct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         style="@style/BottomNav"
         android:id="@+id/bottomNavMenuClienteProfileAct"

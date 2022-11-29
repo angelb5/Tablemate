@@ -3,8 +3,11 @@ package pe.edu.pucp.tablemate;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -16,16 +19,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.util.Objects;
 
 import pe.edu.pucp.tablemate.Admin.AdminHomeActivity;
 import pe.edu.pucp.tablemate.Anonymus.OnboardingActivity;
 import pe.edu.pucp.tablemate.Cliente.ClienteHomeActivity;
+import pe.edu.pucp.tablemate.Entity.User;
 import pe.edu.pucp.tablemate.Restaurant.RestaurantReservasActivity;
 
 public class MainActivity extends AppCompatActivity {
-
+    SharedPreferences sharedPreferences;
     CollectionReference usersRef;
 
     @Override
@@ -52,19 +57,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void accesoEnBaseARol(FirebaseUser firebaseUser){
+        sharedPreferences = getSharedPreferences(getString(R.string.preferences_key),Context.MODE_PRIVATE);
         usersRef.document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (!documentSnapshot.exists()){
+            public void onSuccess(DocumentSnapshot snap) {
+                if (!snap.exists()){
                     FirebaseAuth.getInstance().signOut();
                     Intent intentAnonymus = new Intent(MainActivity.this, OnboardingActivity.class);
                     startActivity(intentAnonymus);
                     finish();
                 }
+                Gson gson = new Gson();
                 Intent intentPermisos;
-                switch (Objects.requireNonNull(documentSnapshot.getString("permisos"))){
+                switch (Objects.requireNonNull(snap.getString("permisos"))){
                     case "Cliente":
                         Toast.makeText(MainActivity.this, "Hola Cliente", Toast.LENGTH_SHORT).show();
+                        User user = snap.toObject(User.class);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("user", gson.toJson(user));
+                        editor.apply();
                         intentPermisos  = new Intent(MainActivity.this, ClienteHomeActivity.class);
                         startActivity(intentPermisos);
                         finish();

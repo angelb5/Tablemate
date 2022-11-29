@@ -8,7 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,15 +36,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 
 import pe.edu.pucp.tablemate.Admin.AdminCreateRestaurantActivity;
 import pe.edu.pucp.tablemate.Entity.Restaurant;
 import pe.edu.pucp.tablemate.Entity.Review;
+import pe.edu.pucp.tablemate.Entity.User;
 import pe.edu.pucp.tablemate.R;
 
 public class ClienteWriteReviewActivity extends AppCompatActivity {
+    SharedPreferences sharedPreferences;
     Restaurant restaurant;
     CollectionReference reviewsRef;
     LinearLayout llRating;
@@ -54,6 +59,7 @@ public class ClienteWriteReviewActivity extends AppCompatActivity {
     ProgressBar pbPhoto;
 
     FirebaseUser user;
+    User userG;
 
     String fotoUrl = "";
     int rating = 5;
@@ -64,11 +70,16 @@ public class ClienteWriteReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cliente_write_review);
 
+        sharedPreferences = getSharedPreferences(getString(R.string.preferences_key),Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        userG = gson.fromJson(sharedPreferences.getString("user",""), User.class);
+
         Intent intent = getIntent();
         if (intent==null || !intent.hasExtra("restaurant")){
             finish();
             return;
         }
+
 
         restaurant = (Restaurant) intent.getSerializableExtra("restaurant");
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -114,7 +125,7 @@ public class ClienteWriteReviewActivity extends AppCompatActivity {
     }
 
     public void crearNuevaReviewFirestore(String content) {
-        review = new Review(new Review.RevUser(user.getDisplayName(), user.getUid(), user.getPhotoUrl().toString()), rating, content, fotoUrl, Timestamp.now());
+        review = new Review(new Review.RevUser(userG.getNombre()+" "+userG.getApellidos(), user.getUid(), user.getPhotoUrl().toString()), rating, content, fotoUrl, Timestamp.now());
         reviewsRef.add(review).addOnSuccessListener(documentReference -> {
             int newNumReviews = restaurant.getNumReviews() + 1;
             double newRating = (restaurant.getRating() * restaurant.getNumReviews() + rating) / newNumReviews;

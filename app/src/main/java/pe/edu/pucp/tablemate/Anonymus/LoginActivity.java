@@ -1,6 +1,8 @@
 package pe.edu.pucp.tablemate.Anonymus;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -22,15 +24,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.util.Objects;
 
 import pe.edu.pucp.tablemate.Admin.AdminHomeActivity;
 import pe.edu.pucp.tablemate.Cliente.ClienteHomeActivity;
+import pe.edu.pucp.tablemate.Entity.User;
 import pe.edu.pucp.tablemate.R;
 import pe.edu.pucp.tablemate.Restaurant.RestaurantReservasActivity;
 
 public class LoginActivity extends AppCompatActivity {
+    SharedPreferences sharedPreferences;
     FirebaseAuth firebaseAuth;
     CollectionReference usersRef;
     EditText etCorreo;
@@ -99,16 +104,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void accesoEnBaseARol(FirebaseUser firebaseUser){
+        sharedPreferences = getSharedPreferences(getString(R.string.preferences_key),Context.MODE_PRIVATE);
         usersRef.document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+            public void onSuccess(DocumentSnapshot snap) {
                 ocultarCargando();
-                if (!documentSnapshot.exists()) return;
+                if (!snap.exists()) return;
+                Gson gson = new Gson();
                 Intent intentPermisos;
-                switch (Objects.requireNonNull(documentSnapshot.getString("permisos"))){
+                switch (Objects.requireNonNull(snap.getString("permisos"))){
                     case "Cliente":
                         if(firebaseUser.isEmailVerified()){
                             Toast.makeText(LoginActivity.this, "Hola Cliente", Toast.LENGTH_SHORT).show();
+                            User user = snap.toObject(User.class);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("user", gson.toJson(user));
+                            editor.apply();
                             intentPermisos  = new Intent(LoginActivity.this, ClienteHomeActivity.class);
                             startActivity(intentPermisos);
                             finish();

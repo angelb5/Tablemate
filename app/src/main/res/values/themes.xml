@@ -262,7 +262,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:ems">16</item>
         <item name="android:background">@drawable/input_grey</item>
-        <item name="android:paddingVertical">8dp</item>
+        <item name="android:paddingVertical">12dp</item>
         <item name="android:paddingHorizontal">16dp</item>
         <item name="android:textColor">@color/font_light</item>
     </style>
@@ -274,7 +274,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:ems">16</item>
         <item name="android:background">@drawable/input_white</item>
-        <item name="android:paddingVertical">8dp</item>
+        <item name="android:paddingVertical">12dp</item>
         <item name="android:paddingHorizontal">16dp</item>
         <item name="android:textColor">@color/font_light</item>
     </style>
@@ -284,7 +284,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:ems">16</item>
         <item name="android:background">@drawable/selector_grey</item>
-        <item name="android:paddingVertical">8dp</item>
+        <item name="android:paddingVertical">12dp</item>
         <item name="android:paddingHorizontal">16dp</item>
         <item name="android:textColor">@color/font_light</item>
     </style>

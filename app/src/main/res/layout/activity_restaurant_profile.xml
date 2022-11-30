@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Restaurant.RestaurantProfileActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavMenuTiProfileAct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp">
+
+            <TextView
+                style="@style/ValueSerifTitle34"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="Info" />
+
+            <TextView
+                style="@style/LightRegular16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Actualiza la información de tu local" />
+
+            <TextView
+                android:id="@+id/tvRestaurantProfileNombre"
+                style="@style/DarkBold20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre de restaurante" />
+
+            <TextView
+                android:id="@+id/tvRestaurantProfileCategoria"
+                style="@style/LightRegular16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Categoria" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <Button
+                    style="@style/BtnText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="restaurantLogout"
+                    android:text="Cerrar Sesión" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/DarkBold20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Resumen" />
+
+            <TextView
+                android:id="@+id/tvRestaurantProfileDescripcion"
+                style="@style/LightRegular14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Descripción" />
+
+            <TextView
+                style="@style/DarkBold20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Ubicación" />
+
+            <TextView
+                android:id="@+id/tvRestaurantProfileDireccion"
+                style="@style/LightRegular14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Av. Dirección 2000" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvRestaurantProfileMap"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp">
+
+                <com.mapbox.mapboxsdk.maps.MapView
+                    android:id="@+id/mvRestaurantProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    mapbox:mapbox_cameraTargetLat="-12.04318"
+                    mapbox:mapbox_cameraTargetLng="-77.02824"
+                    mapbox:mapbox_cameraZoom="11" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                style="@style/DarkBold20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Fotos" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRestaurantProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:nestedScrollingEnabled="false"
+                android:layout_weight="0.9"
+                tools:listitem="@layout/item_image_restaurant" />
+
+            <Button
+                android:onClick="descargarCarta"
+                android:id="@+id/btnRestaurantProfileCarta"
+                android:layout_gravity="center"
+                android:layout_marginBottom="32dp"
+                android:text="Descargar carta"
+                style="@style/BtnPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:clickable="true"
+        style="@style/FabPrimaryEdit"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavMenuTiProfileAct"
+        app:layout_constraintEnd_toEndOf="parent" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        style="@style/BottomNav"
+        android:id="@+id/bottomNavMenuTiProfileAct"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu_restaurant" />
+</androidx.constraintlayout.widget.ConstraintLayout>

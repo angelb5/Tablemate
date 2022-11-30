@@ -223,8 +223,8 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
         DownloadManager downloadManager = (DownloadManager) AdminDetailsRestaurantActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(cartaUrl));
-        request.setTitle("Descarga iniciada"); //cambiar esto
-        request.setDescription("your description");
+        request.setTitle("Carta "+restaurant.getNombre()); //cambiar esto
+        request.setDescription("Se está descargando la carta");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         downloadManager.enqueue(request);
     }

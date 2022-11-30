@@ -30,7 +30,9 @@ import java.util.Objects;
 
 import pe.edu.pucp.tablemate.Admin.AdminHomeActivity;
 import pe.edu.pucp.tablemate.Cliente.ClienteHomeActivity;
+import pe.edu.pucp.tablemate.Entity.Restaurant;
 import pe.edu.pucp.tablemate.Entity.User;
+import pe.edu.pucp.tablemate.MainActivity;
 import pe.edu.pucp.tablemate.R;
 import pe.edu.pucp.tablemate.Restaurant.RestaurantReservasActivity;
 
@@ -38,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     FirebaseAuth firebaseAuth;
     CollectionReference usersRef;
+    CollectionReference restaurantsRef;
     EditText etCorreo;
     EditText etContrasena;
     ProgressBar progressBar;
@@ -59,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         //Setea Firestore
         firebaseAuth = FirebaseAuth.getInstance();
         usersRef = FirebaseFirestore.getInstance().collection("users");
+        restaurantsRef = FirebaseFirestore.getInstance().collection("restaurants");
     }
 
     public void ingresar(View view){
@@ -135,10 +139,26 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                         break;
                     case "Restaurant":
-                        Toast.makeText(LoginActivity.this, "Hola Restaurante", Toast.LENGTH_SHORT).show();
-                        intentPermisos  = new Intent(LoginActivity.this, RestaurantReservasActivity.class);
-                        startActivity(intentPermisos);
-                        finish();
+                        restaurantsRef.document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("restaurant", gson.toJson(restaurant));
+                                editor.apply();
+                                Toast.makeText(LoginActivity.this, "Hola Restaurante", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(LoginActivity.this, RestaurantReservasActivity.class));
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                FirebaseAuth.getInstance().signOut();
+                                Intent intentAnonymus = new Intent(LoginActivity.this, OnboardingActivity.class);
+                                startActivity(intentAnonymus);
+                                finish();
+                            }
+                        });
                         break;
                 }
             }

@@ -322,13 +322,15 @@
     </style>
 
     <!-- FAB -->
-<!--    <style name="FabPrimary" parent="Widget.Design.FloatingActionButton">-->
-<!--        <item name="android:foreground">@drawable/fab_primary_add</item>-->
-<!--        <item name="fabSize">normal</item>-->
-<!--        <item name="borderWidth">0dp</item>-->
-<!--        <item name="fabCustomSize">56dp</item>-->
-<!--        <item name="maxImageSize">56dp</item>-->
-<!--        <item name="shapeAppearanceOverlay">@style/fabRounded</item>-->
+    <style name="FabPrimaryEdit" parent="Widget.Design.FloatingActionButton">
+        <item name="android:foreground">@drawable/fab_primary_edit</item>
+        <item name="android:background">?actionBarItemBackground</item>
+        <item name="fabSize">normal</item>
+        <item name="borderWidth">0dp</item>
+        <item name="fabCustomSize">56dp</item>
+        <item name="maxImageSize">56dp</item>
+        <item name="shapeAppearanceOverlay">@style/fabRounded</item>
+    </style>
 <!--    </style>-->
     <style name="fabRounded">
         <item name="cornerFamily">rounded</item>

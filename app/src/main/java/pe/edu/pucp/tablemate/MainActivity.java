@@ -26,12 +26,14 @@ import java.util.Objects;
 import pe.edu.pucp.tablemate.Admin.AdminHomeActivity;
 import pe.edu.pucp.tablemate.Anonymus.OnboardingActivity;
 import pe.edu.pucp.tablemate.Cliente.ClienteHomeActivity;
+import pe.edu.pucp.tablemate.Entity.Restaurant;
 import pe.edu.pucp.tablemate.Entity.User;
 import pe.edu.pucp.tablemate.Restaurant.RestaurantReservasActivity;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     CollectionReference usersRef;
+    CollectionReference restaurantsRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_main);
         usersRef = FirebaseFirestore.getInstance().collection("users");
+        restaurantsRef = FirebaseFirestore.getInstance().collection("restaurants");
     }
 
     @Override
@@ -87,10 +90,27 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         break;
                     case "Restaurant":
-                        Toast.makeText(MainActivity.this, "Hola Restaurante", Toast.LENGTH_SHORT).show();
-                        intentPermisos  = new Intent(MainActivity.this, RestaurantReservasActivity.class);
-                        startActivity(intentPermisos);
-                        finish();
+                        restaurantsRef.document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("restaurant", gson.toJson(restaurant));
+                                editor.putString("geopoint", gson.toJson(restaurant.getGeoPoint()));
+                                editor.apply();
+                                Toast.makeText(MainActivity.this, "Hola Restaurante", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(MainActivity.this, RestaurantReservasActivity.class));
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                FirebaseAuth.getInstance().signOut();
+                                Intent intentAnonymus = new Intent(MainActivity.this, OnboardingActivity.class);
+                                startActivity(intentAnonymus);
+                                finish();
+                            }
+                        });
                         break;
                 }
             }

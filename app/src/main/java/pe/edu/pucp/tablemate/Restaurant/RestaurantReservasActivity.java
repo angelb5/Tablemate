@@ -17,7 +17,7 @@ public class RestaurantReservasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurantreservas);
+        setContentView(R.layout.activity_restaurant_reservas);
 
         setBottomNavigationView();
     }

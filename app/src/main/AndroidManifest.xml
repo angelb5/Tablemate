@@ -5,8 +5,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tablemate"
         tools:targetApi="33">
+
         <activity
             android:name=".Cliente.ClienteCameraReviewActivity"
             android:exported="false">
@@ -29,6 +33,11 @@
             android:name=".Cliente.ClienteWriteReviewActivity"
             android:exported="false"
             android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".Admin.AdminBestRestaurantsActivity"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/Theme.Tablemate.Grey" />
         <activity
             android:name=".Admin.AdminDetailsRestaurantActivity"
             android:exported="false"

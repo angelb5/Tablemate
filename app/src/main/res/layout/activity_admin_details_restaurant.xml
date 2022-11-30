@@ -184,7 +184,17 @@
             android:paddingHorizontal="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <TextView
+                style="@style/DarkBold20"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reseñas de los usuarios"/>
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAdminDetailsRestaurant"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_review"
                 tools:itemCount="3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

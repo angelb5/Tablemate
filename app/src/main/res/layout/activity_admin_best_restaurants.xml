@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Admin.AdminBestRestaurantsActivity">
+    <LinearLayout
+        android:id="@+id/llAdminBestRestaurantsTitle"
+        android:elevation="4dp"
+        style="@style/LinearLayoutTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:id="@+id/ibAdminBestRestaurantsBack"
+            android:background="?actionBarItemBackground"
+            android:paddingStart="16dp"
+            android:paddingEnd="12dp"
+            android:onClick="backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/button_back"
+            android:clickable="true"/>
+
+        <TextView
+            android:layout_marginVertical="16dp"
+            style="@style/DarkBold20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mejor calificados" />
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llAdminBestRestaurantsTitle">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                style="@style/LightRegular16"
+                android:layout_marginHorizontal="16dp"
+                android:text="Estos son los mejores restaurantes de acuerdo a los usuarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerAdminBestRestaurants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:duration="800">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <include layout="@layout/card_restaurant_placeholder" />
+                    <include layout="@layout/card_restaurant_placeholder" />
+                    <include layout="@layout/card_restaurant_placeholder" />
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:nestedScrollingEnabled="false"
+                android:id="@+id/rvAdminBestRestaurants"
+                tools:listitem="@layout/card_restaurant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="0"/>
+            <LinearLayout
+                android:id="@+id/llAdminBestRestaurantsEmptyView"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:src="@drawable/empty_search"/>
+                <TextView
+                    style="@style/DarkMediumSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="No encontramos resultados para tu búsqueda"
+                    android:layout_marginBottom="8dp"/>
+                <TextView
+                    style="@style/LightRegular14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prueba con otros términos de búsqueda"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

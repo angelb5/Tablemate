@@ -1,7 +1,13 @@
 package pe.edu.pucp.tablemate.Admin;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.paging.CombinedLoadStates;
+import androidx.paging.PagingConfig;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DownloadManager;
 import android.content.Context;
@@ -18,13 +24,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.Query;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -40,7 +53,11 @@ import com.mapbox.search.SearchEngineSettings;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import pe.edu.pucp.tablemate.Adapters.ReviewAdapter;
 import pe.edu.pucp.tablemate.Entity.Restaurant;
+import pe.edu.pucp.tablemate.Entity.Review;
 import pe.edu.pucp.tablemate.R;
 
 public class AdminDetailsRestaurantActivity extends AppCompatActivity {
@@ -49,6 +66,10 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
     private MapView mapView;
     private MapboxMap mapboxMap;
     private SymbolManager symbolManager;
+    Restaurant restaurant;
+    PagingConfig config = new PagingConfig(2,2,true);
+    FirestorePagingOptions<Review> options;
+    ReviewAdapter reviewAdapter;
 
     TextView tvNombre;
     TextView tvCategoria;
@@ -62,6 +83,9 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ScrollView sv;
     Button btnDescargarCarta;
+
+    LinearLayout llEmptyReviews;
+    RecyclerView rvReviews;
 
     LinearLayout llInfo;
     LinearLayout llReviews;
@@ -80,7 +104,7 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
             finish();
             return;
         }
-        Restaurant restaurant = (Restaurant) intent.getSerializableExtra("restaurant");
+        restaurant = (Restaurant) intent.getSerializableExtra("restaurant");
         double lat = intent.getDoubleExtra("lat",-12.04318);
         double lng = intent.getDoubleExtra("lng", -77.02824);
         restaurant.setGeoPoint(new GeoPoint(lat,lng));
@@ -98,6 +122,9 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
         imgSlider = findViewById(R.id.isAdminDetailsRestaurant);
         btnDescargarCarta = findViewById(R.id.btnAdminDetailsRestaurantCarta);
         sv = findViewById(R.id.svAdminDetailsRestaurant);
+
+        llEmptyReviews = findViewById(R.id.llAdminDetailsRestaurantEmptyView);
+        rvReviews = findViewById(R.id.rvAdminDetailsRestaurant);
 
         llInfo = findViewById(R.id.llAdminDetailsRestaurantInfo);
         llReviews = findViewById(R.id.llAdminDetailsRestaurantReviews);
@@ -164,7 +191,33 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
             }
         });
 
+
+        //Setea la pagina reviews
+        CollectionReference reviewsRef = FirebaseFirestore.getInstance().collection("restaurants").document(restaurant.getKey()).collection("reviews");
+        Query query = reviewsRef.orderBy("rating", Query.Direction.DESCENDING);
+        options = new FirestorePagingOptions.Builder<Review>()
+                .setLifecycleOwner(this)
+                .setQuery(query, config, Review.class)
+                .build();
+        reviewAdapter = new ReviewAdapter(options, this);
+        reviewAdapter.addLoadStateListener(new Function1<CombinedLoadStates, Unit>() {
+            @Override
+            public Unit invoke(CombinedLoadStates combinedLoadStates) {
+                if(reviewAdapter.getItemCount()>0){
+                    llEmptyReviews.setVisibility(View.GONE);
+                }else{
+                    llEmptyReviews.setVisibility(View.VISIBLE);
+                }
+                return null;
+            }
+        });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
+        rvReviews.setAdapter(reviewAdapter);
+        rvReviews.setLayoutManager(layoutManager);
+        rvReviews.addItemDecoration(dividerItemDecoration);
     }
+
     public void descargarCarta(View view){
         if (cartaUrl.isEmpty()) return;
         DownloadManager downloadManager = (DownloadManager) AdminDetailsRestaurantActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
@@ -187,6 +240,18 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
         alertEliminar.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                FirebaseFirestore.getInstance().collection("restaurants").document(restaurant.getKey()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(AdminDetailsRestaurantActivity.this, "Se ha eliminado el restaurante", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AdminDetailsRestaurantActivity.this, "No se ha podido eliminar el restaurante", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 Log.d("msgAlert","ELIMINAR");
             }
 

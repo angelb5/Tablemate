@@ -9,12 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -33,11 +28,6 @@ import com.mapbox.android.core.location.LocationEngineProvider;
 import com.mapbox.android.core.location.LocationEngineResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
-import com.mapbox.search.ResponseInfo;
-import com.mapbox.search.SearchSelectionCallback;
-import com.mapbox.search.result.SearchResult;
-import com.mapbox.search.result.SearchSuggestion;
-
 
 import java.util.List;
 
@@ -45,68 +35,34 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import pe.edu.pucp.tablemate.Adapters.RestaurantCardAdapter;
 import pe.edu.pucp.tablemate.Entity.Restaurant;
-import pe.edu.pucp.tablemate.Modals.ModalBottomSheetFilter;
 import pe.edu.pucp.tablemate.R;
 
-public class AdminListRestaurantActivity extends AppCompatActivity implements PermissionsListener {
+public class AdminBestRestaurantsActivity extends AppCompatActivity implements PermissionsListener {
+
     final int RADIUS = 6371;
     private PermissionsManager permissionsManager;
     PagingConfig config = new PagingConfig(8,4,true);
     RestaurantCardAdapter restaurantCardAdapter;
     FirestorePagingOptions<Restaurant> options;
-    Query restaurantQuery = FirebaseFirestore.getInstance().collection("restaurants");
+    Query restaurantQuery = FirebaseFirestore.getInstance().collection("restaurants")
+            .whereGreaterThan("rating",0)
+            .orderBy("rating", Query.Direction.DESCENDING)
+            .limit(5);
 
     RecyclerView recyclerView;
     ShimmerFrameLayout shimmerFrameLayout;
     LinearLayout emptyView;
-    EditText etSearch;
 
     private LatLng userLatLng = null;
-    private String categoryFilter = "";
-    private String searchText = "";
-
-    private ModalBottomSheetFilter modalBottomSheet = new ModalBottomSheetFilter();
-    //Text Typing
-    private Handler handler = new Handler(Looper.getMainLooper());
-    private final long DELAY = 900;
-
-    private Runnable searchRestaurant = new Runnable() {
-        @Override
-        public void run() {
-            String searchTextFromEt = etSearch.getText().toString().trim();
-            if(!searchTextFromEt.isEmpty()){
-                searchText = searchTextFromEt;
-                ejecutarQuery();
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_list_restaurant);
+        setContentView(R.layout.activity_admin_best_restaurants);
 
-        recyclerView = findViewById(R.id.rvAdminListRestaurant);
-        shimmerFrameLayout = findViewById(R.id.shimmerAdminListRestaurant);
-        emptyView = findViewById(R.id.llAdminListRestaurantEmptyView);
-        etSearch = findViewById(R.id.etAdminListRestaurantSearch);
-
-        etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                handler.removeCallbacks(searchRestaurant);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                handler = new Handler(Looper.getMainLooper());
-                handler.postDelayed(searchRestaurant, DELAY);
-            }
-        });
+        recyclerView = findViewById(R.id.rvAdminBestRestaurants);
+        shimmerFrameLayout = findViewById(R.id.shimmerAdminBestRestaurants);
+        emptyView = findViewById(R.id.llAdminBestRestaurantsEmptyView);
 
         enableLocationDistances();
     }
@@ -121,6 +77,7 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(restaurantCardAdapter);
+        restaurantCardAdapter.startListening();
 
         restaurantCardAdapter.addLoadStateListener(new Function1<CombinedLoadStates, Unit>() {
             @Override
@@ -188,43 +145,6 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        restaurantCardAdapter.refresh();
-    }
-
-    public void goBackToPreviousActivity(View view){
-        onBackPressed();
-    }
-
-    public void showFilters(View view){
-        modalBottomSheet.show(getSupportFragmentManager(), modalBottomSheet.getTag());
-    }
-
-    public void setCategoryFilter(String categoryFilter) {
-        if(!this.categoryFilter.equals(categoryFilter)){
-            this.categoryFilter = categoryFilter;
-            ejecutarQuery();
-        }
-    }
-
-
-    public void ejecutarQuery(){
-        restaurantQuery = FirebaseFirestore.getInstance().collection("restaurants");
-        if(!categoryFilter.isEmpty()){
-            restaurantQuery = restaurantQuery.whereEqualTo("categoria",categoryFilter);
-        }
-        if(!searchText.isEmpty()){
-            restaurantQuery = restaurantQuery.whereArrayContains("searchKeywords", searchText);
-        }
-
-        options = new FirestorePagingOptions.Builder<Restaurant>()
-                .setLifecycleOwner(this)
-                .setQuery(restaurantQuery, config, restaurantSnapshotParser)
-                .build();
-        restaurantCardAdapter.updateOptions(options);
-    }
 
     public double calculateDistance(double lat1, double lat2, double lon1, double lon2){
         double latDistance = Math.toRadians(lat2 - lat1);
@@ -255,4 +175,13 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
         }
     };
 
+    public void backButton(View view){
+        onBackPressed();
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        restaurantCardAdapter.refresh();
+    }
 }

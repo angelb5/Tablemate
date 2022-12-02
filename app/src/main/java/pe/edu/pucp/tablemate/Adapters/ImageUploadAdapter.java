@@ -20,6 +20,7 @@ import java.util.List;
 
 import pe.edu.pucp.tablemate.Admin.AdminCreateRestaurantActivity;
 import pe.edu.pucp.tablemate.R;
+import pe.edu.pucp.tablemate.Restaurant.RestaurantEditActivity;
 
 
 public class ImageUploadAdapter extends RecyclerView.Adapter<ImageUploadAdapter.ViewHolder>{
@@ -59,7 +60,11 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageUploadAdapter.
             super(itemView);
             ivImage = itemView.findViewById(R.id.ivItemImageUpload);
             itemView.findViewById(R.id.btnRemovemImageUpload).setOnClickListener(v ->{
-                ((AdminCreateRestaurantActivity)  activity).removerFoto(position);
+                if (activity instanceof AdminCreateRestaurantActivity) {
+                    ((AdminCreateRestaurantActivity)  activity).removerFoto(position);
+                } else if (activity instanceof RestaurantEditActivity) {
+                    ((RestaurantEditActivity) activity).removerFoto(position);
+                }
             });
         }
     }

@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -31,6 +35,7 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
 
@@ -46,6 +51,7 @@ public class RestaurantProfileActivity extends AppCompatActivity {
     private MapView mapView;
     private MapboxMap mapboxMap;
     private SymbolManager symbolManager;
+    private Symbol symbol;
 
     SharedPreferences sharedPreferences;
     BottomNavigationView bottomNavigationView;
@@ -78,12 +84,7 @@ public class RestaurantProfileActivity extends AppCompatActivity {
         btnDescargarCarta = findViewById(R.id.btnRestaurantProfileCarta);
         rvFotos = findViewById(R.id.rvRestaurantProfile);
 
-        tvNombre.setText(restaurant.getNombre());
-        tvCategoria.setText(restaurant.getCategoria());
-        tvDescripcion.setText(restaurant.getDescripcion());
-        tvDireccion.setText(restaurant.getDireccion());
-
-        if(restaurant.getCartaUrl().isEmpty()) btnDescargarCarta.setVisibility(View.GONE);
+        llenarTvs();
 
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(mapboxMap -> mapboxMap.setStyle(Style.OUTDOORS, style -> {
@@ -102,10 +103,45 @@ public class RestaurantProfileActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvFotos.setLayoutManager(layoutManager);
         rvFotos.setAdapter(imageAdapter);
-
     }
 
-    public void descargarCarta(View view){
+    private ActivityResultLauncher<Intent> launcherEdit = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), (ActivityResultCallback<ActivityResult>) result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Intent data = result.getData();
+                    if (data == null || !data.hasExtra("restaurant")) return;
+                    Restaurant restaurantFromIntent = (Restaurant) data.getSerializableExtra("restaurant");
+
+                    restaurant.setDescripcion(restaurantFromIntent.getDescripcion());
+                    restaurant.setDireccion(restaurantFromIntent.getDireccion());
+                    restaurant.setCartaUrl(restaurantFromIntent.getCartaUrl());
+                    restaurant.setFotosUrl(restaurantFromIntent.getFotosUrl());
+                    llenarTvs();
+                    if (data.hasExtra("lat") && data.hasExtra("lng")) {
+                        double latDireccion = data.getDoubleExtra("lat", restaurant.getGeoPoint().getLatitude());
+                        double lngDireccion = data.getDoubleExtra("lng", restaurant.getGeoPoint().getLongitude());
+                        restaurant.setGeoPoint(new GeoPoint(latDireccion, lngDireccion));
+                        SymbolOptions symbolOptions = new SymbolOptions()
+                                .withLatLng(new LatLng(latDireccion, lngDireccion))
+                                .withIconImage(ICON_ID)
+                                .withIconSize(0.5f);
+                        symbol = symbolManager.create(symbolOptions);
+                        mapboxMap.setCameraPosition(new CameraPosition.Builder().target(new LatLng(latDireccion, lngDireccion)).zoom(14).build());
+                    }
+                }
+            }
+    );
+
+    private void llenarTvs() {
+        tvNombre.setText(restaurant.getNombre());
+        tvCategoria.setText(restaurant.getCategoria());
+        tvDescripcion.setText(restaurant.getDescripcion());
+        tvDireccion.setText(restaurant.getDireccion());
+
+        if(restaurant.getCartaUrl().isEmpty()) btnDescargarCarta.setVisibility(View.GONE);
+    }
+
+    public void descargarCarta(View view) {
         if (restaurant.getCartaUrl().isEmpty()) return;
         DownloadManager downloadManager = (DownloadManager) RestaurantProfileActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
 
@@ -116,13 +152,18 @@ public class RestaurantProfileActivity extends AppCompatActivity {
         downloadManager.enqueue(request);
     }
 
-    public void restaurantLogout(View view){
+    public void restaurantLogout(View view) {
         FirebaseAuth.getInstance().signOut();
         Intent logoutIntent = new Intent(RestaurantProfileActivity.this, LoginActivity.class);
         sharedPreferences.edit().clear().apply();
         startActivity(logoutIntent);
         ActivityCompat.finishAffinity(RestaurantProfileActivity.this);
         finish();
+    }
+
+    public void goToEditRestaurant(View view) {
+        Intent editIntent = new Intent(RestaurantProfileActivity.this, RestaurantEditActivity.class);
+        launcherEdit.launch(editIntent);
     }
 
     public void setBottomNavigationView(){

@@ -145,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("restaurant", gson.toJson(restaurant));
+                                editor.putString("geopoint", gson.toJson(restaurant.getGeoPoint()));
                                 editor.apply();
                                 Toast.makeText(LoginActivity.this, "Hola Restaurante", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this, RestaurantReservasActivity.class));

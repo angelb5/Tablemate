@@ -115,8 +115,24 @@ public class ClienteWriteReviewActivity extends AppCompatActivity {
             Toast.makeText(ClienteWriteReviewActivity.this, "Espera a que se termine de subir la foto", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (rating<1 || rating>5) {
+            return;
+        }
+
         String content = etContent.getText().toString().trim();
-        //TODO: validar data;
+        if (content.isEmpty()) {
+            etContent.setError("La reseña no puede estar vacía");
+            etContent.requestFocus();
+            return;
+        }
+
+        if (content.length()>8000) {
+            etContent.setError("La reseña no puede tener más de 8000 caracteres");
+            etContent.requestFocus();
+            return;
+        }
+
         if (review == null){
             crearNuevaReviewFirestore(content);
         } else {

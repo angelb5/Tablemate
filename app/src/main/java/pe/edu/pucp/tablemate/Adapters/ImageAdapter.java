@@ -55,4 +55,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
             ivImage = itemView.findViewById(R.id.ivItemImage);
         }
     }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
 }

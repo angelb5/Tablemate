@@ -16,6 +16,8 @@
         <item name="android:fontFamily">@font/aeonik_regular</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.App.DatePicker</item>
+        <item name="materialTimePickerTheme">@style/Widget.App.TimePicker.Clock</item>
     </style>
 
     <!-- Base application theme. -->
@@ -35,6 +37,8 @@
         <item name="android:fontFamily">@font/aeonik_regular</item>
         <item name="android:windowBackground">@color/grey_light</item>
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.App.DatePicker</item>
+        <item name="materialTimePickerTheme">@style/Widget.App.TimePicker.Clock</item>
     </style>
 
     <!-- Splash screen theme -->
@@ -457,5 +461,30 @@
     <style name="roundedCornersImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
+    </style>
+
+    <!-- Calendar -->
+    <style name="ThemeOverlay.App.DatePicker" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
+        <item name="colorPrimary">@color/orange_main</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="materialCalendarHeaderConfirmButton">@style/BtnText</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+    <!-- Reloj Clock Hora Time -->
+    <style name="Widget.App.TimePicker.Clock" parent="@style/ThemeOverlay.Material3.MaterialTimePicker">
+        <item name="colorPrimary">@color/orange_main</item>
+        <item name="colorPrimaryDark">@color/orange_dark</item>
+        <item name="colorSecondary">@color/grey_light</item>
+        <item name="colorOnSecondary">@color/font_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/orange_dark</item>
+        <item name="clockFaceBackgroundColor">@color/white</item>
+        <item name="clockHandColor">@color/font_dark</item>
+        <item name="clockNumberTextColor">@color/font_dark</item>
+        <item name="android:amPmTextColor">@color/font_dark</item>
+    </style>
+    <style name="Widget.App.Chip" parent="Widget.Material3.MaterialTimePicker.Display">
+        <item name="android:textColor">@color/diplay_text_color</item>
     </style>
 </resources>

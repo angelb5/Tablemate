@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,7 +20,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.paging.CombinedLoadStates;
@@ -32,16 +32,19 @@ import com.bumptech.glide.Glide;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
@@ -56,9 +59,16 @@ import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -69,6 +79,9 @@ import pe.edu.pucp.tablemate.R;
 
 public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
     DateFormat df = new SimpleDateFormat("EEE dd MMM yyy", Locale.getDefault());
+    DateFormat dfecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
     FirebaseUser user;
     //Mapa
     private static final String ICON_ID = "restaurantMarker";
@@ -97,6 +110,12 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
     CardView cvDistance;
     TextView tvDistance;
     Button btnDescargarCarta;
+    //Pagina Reservas
+    EditText etNumPersonas;
+    EditText etFecha;
+    EditText etHora;
+    LocalDate localDate;
+    LocalTime localTime;
     //Pagina Reviews
     LinearLayout llEscribir;
     LinearLayout llUserReview;
@@ -146,6 +165,10 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
         cvDistance = findViewById(R.id.cvClienteDetailsRestaurantDistancia);
         tvDistance = findViewById(R.id.tvClienteDetailsRestaurantDistancia);
         btnDescargarCarta = findViewById(R.id.btnClienteDetailsRestaurantCarta);
+
+        etNumPersonas = findViewById(R.id.etClienteDetailsRestaurantCantidad);
+        etFecha = findViewById(R.id.etClienteDetailsRestaurantFecha);
+        etHora = findViewById(R.id.etClienteDetailsRestaurantHora);
 
         llEscribir = findViewById(R.id.llClienteDetailsRestaurantEscribir);
         llUserReview = findViewById(R.id.llClienteDetailsRestaurantUserReview);
@@ -251,6 +274,43 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
         rvReviews.setAdapter(reviewAdapter);
         rvReviews.setLayoutManager(layoutManager);
         rvReviews.addItemDecoration(dividerItemDecoration);
+
+        //Setea la pagina de reservas
+        long today = MaterialDatePicker.todayInUtcMilliseconds();
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.add(Calendar.MONTH, 2);
+        CalendarConstraints constraintsBuilder = new CalendarConstraints.Builder()
+                .setStart(today)
+                .setEnd(calendar.getTimeInMillis()).build();
+        MaterialDatePicker<Long> datepicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Selecciona una fecha")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .setCalendarConstraints(constraintsBuilder)
+                .build();
+
+        etFecha.setOnClickListener(v -> {
+            if (!datepicker.isAdded()) datepicker.show(getSupportFragmentManager(), "Datepicker");
+        });
+
+        datepicker.addOnPositiveButtonClickListener(selection -> {
+            localDate = Instant.ofEpochMilli(selection).atZone(ZoneId.of("GMT")).toLocalDate();
+            etFecha.setText(dateFormatter.format(localDate));
+        });
+
+        MaterialTimePicker timepicker = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_12H)
+                .setHour(12)
+                .setMinute(10)
+                .setInputMode(MaterialTimePicker.INPUT_MODE_KEYBOARD)
+                .setTitleText("Selecciona una hora")
+                .build();
+        etHora.setOnClickListener(v -> {
+            if (!timepicker.isAdded()) timepicker.show(getSupportFragmentManager(), "timepicker");
+        });
+        timepicker.addOnPositiveButtonClickListener(v -> {
+            localTime = LocalTime.of(timepicker.getHour(), timepicker.getMinute());
+            etHora.setText(timeFormatter.format(localTime));
+        });
     }
 
     public void mostrarRating(int numReviews, double rating) {

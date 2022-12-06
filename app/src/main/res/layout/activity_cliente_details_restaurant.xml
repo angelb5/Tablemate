@@ -190,8 +190,8 @@
             <EditText
                 style="@style/InputGrey"
                 android:id="@+id/etClienteDetailsRestaurantCantidad"
-                android:hint="1"
-                android:inputType="textPersonName"
+                android:hint="--"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"/>
@@ -201,14 +201,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Selecciona una fecha"/>
+
             <EditText
-                style="@style/InputGrey"
+                android:focusable="false"
                 android:id="@+id/etClienteDetailsRestaurantFecha"
-                android:hint="-- / -- / ----"
-                android:inputType="textPersonName"
+                style="@style/InputGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:hint="-- / -- / ----"
+                android:inputType="date" />
+
             <TextView
                 style="@style/DarkBold20"
                 android:layout_marginBottom="8dp"
@@ -216,10 +219,11 @@
                 android:layout_height="wrap_content"
                 android:text="Selecciona una hora"/>
             <EditText
+                android:focusable="false"
                 style="@style/InputGrey"
                 android:id="@+id/etClienteDetailsRestaurantHora"
                 android:hint="--:--"
-                android:inputType="textPersonName"
+                android:inputType="time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="48dp"/>

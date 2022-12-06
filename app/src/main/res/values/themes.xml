@@ -293,7 +293,7 @@
         <item name="android:textColor">@color/font_light</item>
     </style>
     <!-- Card -->
-    <style name="WhiteCard">
+    <style name="WhiteCard" parent="Widget.Material3.CardView.Elevated">
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="cardCornerRadius">16dp</item>
@@ -472,17 +472,23 @@
     </style>
     <!-- Reloj Clock Hora Time -->
     <style name="Widget.App.TimePicker.Clock" parent="@style/ThemeOverlay.Material3.MaterialTimePicker">
+        <item name="android:colorBackground">@color/grey_light</item>
+        <item name="colorSurfaceVariant">@color/white</item>
+        <item name="colorOnSurface">@color/font_dark</item>
+        <item name="colorBackgroundFloating">@color/white</item>
+        <item name="colorOnBackground">@color/font_light</item>
         <item name="colorPrimary">@color/orange_main</item>
-        <item name="colorPrimaryDark">@color/orange_dark</item>
-        <item name="colorSecondary">@color/grey_light</item>
+        <item name="colorPrimaryContainer">@color/orange_main</item>
+        <item name="colorTertiaryContainer">@color/orange_main</item>
+        <item name="colorOnTertiaryContainer">@color/white</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        <item name="colorPrimaryDark">@color/orange_main</item>
+        <item name="colorSecondary">@color/white</item>
         <item name="colorOnSecondary">@color/font_dark</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSurface">@color/white</item>
-        <item name="colorOnSurface">@color/orange_dark</item>
+        <item name="clockNumberTextColor">@color/font_light</item>
         <item name="clockFaceBackgroundColor">@color/white</item>
-        <item name="clockHandColor">@color/font_dark</item>
-        <item name="clockNumberTextColor">@color/font_dark</item>
-        <item name="android:amPmTextColor">@color/font_dark</item>
+        <item name="clockHandColor">@color/orange_main</item>
     </style>
     <style name="Widget.App.Chip" parent="Widget.Material3.MaterialTimePicker.Display">
         <item name="android:textColor">@color/diplay_text_color</item>

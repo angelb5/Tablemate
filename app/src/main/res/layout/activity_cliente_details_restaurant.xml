@@ -209,7 +209,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="-- / -- / ----"
+                android:hint="-- -- ----"
                 android:inputType="date" />
 
             <TextView
@@ -376,11 +376,12 @@
                 android:layout_height="wrap_content"
                 android:text="Reseñas de los usuarios"/>
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_weight="0.9"
                 android:id="@+id/rvClienteDetailsRestaurantReviews"
                 android:nestedScrollingEnabled="false"
                 tools:itemCount="3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="0dp"/>
             <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/llClienteDetailsRestaurantEmptyView"

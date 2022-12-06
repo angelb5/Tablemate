@@ -192,12 +192,13 @@
                 android:layout_height="wrap_content"
                 android:text="Reseñas de los usuarios"/>
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_weight="0.9"
                 android:id="@+id/rvAdminDetailsRestaurant"
                 android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/item_review"
                 tools:itemCount="3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="0dp"/>
             <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/llAdminDetailsRestaurantEmptyView"

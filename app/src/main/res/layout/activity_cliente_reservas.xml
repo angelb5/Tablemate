@@ -5,6 +5,78 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Cliente.ClienteReservasActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavMenuClienteReservasAct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="48dp"
+                style="@style/ValueSerifTitle34"
+                android:text="Mis Reservas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                style="@style/LightRegular16"
+                android:text="Revisa tus reservas vigentes y pasadas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"/>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerClienteReservas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:duration="800">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <include layout="@layout/card_reserva_cliente_placeholder" />
+                    <include layout="@layout/card_reserva_cliente_placeholder" />
+                    <include layout="@layout/card_reserva_cliente_placeholder" />
+                    <include layout="@layout/card_reserva_cliente_placeholder" />
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvClienteReservas"
+                android:layout_weight="0.9"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/card_reserva_cliente"
+                tools:itemCount="3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/llClienteReservasEmptyView"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <ImageView
+                    android:layout_marginTop="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:src="@drawable/screenmessage_successful"/>
+                <TextView
+                    style="@style/DarkMediumSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Aun no has realizado reservas"
+                    android:layout_marginBottom="8dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         style="@style/BottomNav"
         android:id="@+id/bottomNavMenuClienteReservasAct"

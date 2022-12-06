@@ -9,6 +9,8 @@
     <color name="orange_main">#F26333</color>
     <color name="orange_dark">#912400</color>
     <color name="yellow">#EA9927</color>
+    <color name="green">#00B167</color>
+    <color name="red">#F55053</color>
     <!--  Podría cambiarse el unfocused -->
     <color name="unfocused">#D2D4DA</color>
     <color name="grey_25">#40494949</color>

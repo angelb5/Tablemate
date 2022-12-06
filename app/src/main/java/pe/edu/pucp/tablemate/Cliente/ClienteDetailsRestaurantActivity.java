@@ -5,6 +5,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,7 +36,6 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.tabs.TabLayout;
@@ -48,6 +48,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
+import com.google.gson.Gson;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -66,23 +67,22 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import pe.edu.pucp.tablemate.Adapters.ReviewAdapter;
 import pe.edu.pucp.tablemate.Entity.Restaurant;
 import pe.edu.pucp.tablemate.Entity.Review;
+import pe.edu.pucp.tablemate.Entity.User;
 import pe.edu.pucp.tablemate.R;
 
 public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
     DateFormat df = new SimpleDateFormat("EEE dd MMM yyy", Locale.getDefault());
-    DateFormat dfecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
-    FirebaseUser user;
+    FirebaseUser firebaseUser;
+    User user;
     //Mapa
     private static final String ICON_ID = "restaurantMarker";
     private MapView mapView;
@@ -137,13 +137,13 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         setContentView(R.layout.activity_cliente_details_restaurant);
 
-
         Intent intent = getIntent();
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        if(intent == null || user == null){
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(intent == null || firebaseUser == null){
             finish();
             return;
         }
+
         restaurant = (Restaurant) intent.getSerializableExtra("restaurant");
         double lat = intent.getDoubleExtra("lat",-12.04318);
         double lng = intent.getDoubleExtra("lng", -77.02824);
@@ -241,7 +241,7 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
 
         //Setea pagina de reviews
         CollectionReference reviewsRef = FirebaseFirestore.getInstance().collection("restaurants").document(restaurant.getKey()).collection("reviews");
-        reviewsRef.whereEqualTo("user.uid", user.getUid()).get().addOnSuccessListener(queryDocumentSnapshots -> {
+        reviewsRef.whereEqualTo("user.uid", firebaseUser.getUid()).get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()){
                 userReview = queryDocumentSnapshots.iterator().next().toObject(Review.class);
                 userReview.setKey(queryDocumentSnapshots.iterator().next().getId());
@@ -252,7 +252,7 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
             llReserva.setVisibility(View.VISIBLE);
         });
 
-        Query query = reviewsRef.whereNotEqualTo("user.uid", user.getUid());
+        Query query = reviewsRef.whereNotEqualTo("user.uid", firebaseUser.getUid());
         options = new FirestorePagingOptions.Builder<Review>()
                 .setLifecycleOwner(this)
                 .setQuery(query, config, Review.class)
@@ -301,7 +301,6 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
                 .setTimeFormat(TimeFormat.CLOCK_12H)
                 .setHour(12)
                 .setMinute(10)
-                .setInputMode(MaterialTimePicker.INPUT_MODE_KEYBOARD)
                 .setTitleText("Selecciona una hora")
                 .build();
         etHora.setOnClickListener(v -> {
@@ -311,6 +310,10 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
             localTime = LocalTime.of(timepicker.getHour(), timepicker.getMinute());
             etHora.setText(timeFormatter.format(localTime));
         });
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preferences_key), Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        user = gson.fromJson(sharedPreferences.getString("user",""), User.class);
     }
 
     public void mostrarRating(int numReviews, double rating) {
@@ -330,7 +333,7 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
         }
         llEscribir.setVisibility(View.GONE);
         llUserReview.setVisibility(View.VISIBLE);
-        Glide.with(ClienteDetailsRestaurantActivity.this).load(user.getPhotoUrl().toString()).into(ivUserPfp);
+        Glide.with(ClienteDetailsRestaurantActivity.this).load(firebaseUser.getPhotoUrl().toString()).into(ivUserPfp);
         tvUserNombre.setText(userReview.getUser().getNombre());
         tvUserRating.setText(String.valueOf(userReview.getRating()));
         tvUserReviewContent.setText(userReview.getContent());

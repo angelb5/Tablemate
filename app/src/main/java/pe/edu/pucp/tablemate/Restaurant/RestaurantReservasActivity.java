@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.Timestamp;
@@ -70,14 +71,30 @@ public class RestaurantReservasActivity extends AppCompatActivity {
                 .build();
         reservaRestaurantAdapter = new ReservaRestaurantAdapter(options, this);
 
+        Log.d("msg", Timestamp.now().toDate().toString());
+
         FirebaseFirestore.getInstance().collection("reservas")
                 .whereEqualTo("restaurant.id", firebaseUser.getUid())
                 .whereGreaterThanOrEqualTo("sendTime", Timestamp.now())
                 .orderBy("sendTime", Query.Direction.DESCENDING)
                 .addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (reservaRestaurantAdapter!=null) reservaRestaurantAdapter.refresh();
+            public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException error) {
+                if(error != null) {
+                    Log.d("msg", "error", error);
+                    return;
+                }
+
+                if (snapshots.getDocuments().size()>0 && reservaRestaurantAdapter!=null){
+                    Log.d("msg", "refershing");
+                    try {
+                        reservaRestaurantAdapter.refresh();
+                    } catch (Exception e){
+                        Log.d("msg", "error", e);
+                    }
+                } else {
+                    Log.d("msg", "not refershing");
+                }
             }
         });
 
@@ -144,4 +161,10 @@ public class RestaurantReservasActivity extends AppCompatActivity {
         }
         return new Reserva();
     };
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (reservaRestaurantAdapter != null) reservaRestaurantAdapter.refresh();
+    }
 }

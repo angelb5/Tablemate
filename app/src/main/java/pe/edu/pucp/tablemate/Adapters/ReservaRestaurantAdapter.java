@@ -1,6 +1,7 @@
 package pe.edu.pucp.tablemate.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import pe.edu.pucp.tablemate.Cliente.ClienteChatActivity;
 import pe.edu.pucp.tablemate.Entity.Reserva;
 import pe.edu.pucp.tablemate.R;
+import pe.edu.pucp.tablemate.Restaurant.RestaurantChatActivity;
 
 
 public class ReservaRestaurantAdapter extends FirestorePagingAdapter<Reserva, ReservaRestaurantAdapter.ViewHolder> {
@@ -42,9 +45,10 @@ public class ReservaRestaurantAdapter extends FirestorePagingAdapter<Reserva, Re
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Reserva reserva) {
         Glide.with(context).load(reserva.getCliente().getAvatarUrl()).into(holder.ivFoto);
+        holder.reserva = reserva;
         holder.tvNombre.setText(reserva.getCliente().getNombre());
         holder.tvNumPersonas.setText(String.valueOf(reserva.getNumPersonas()));
-        holder.tvFechaReserva.setText(reserva.getFecha()+" "+reserva.getHora().toUpperCase(Locale.ROOT).replace(" ",""));
+        holder.tvFechaReserva.setText(reserva.getFecha()+" "+reserva.getHora().toUpperCase(Locale.ROOT));
         holder.tvEstado.setText(reserva.getEstado());
         switch (reserva.getEstado()) {
             case "Pendiente":
@@ -69,6 +73,7 @@ public class ReservaRestaurantAdapter extends FirestorePagingAdapter<Reserva, Re
         TextView tvFechaEnvio;
         TextView tvEstado;
         ShapeableImageView ivFoto;
+        Reserva reserva;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,6 +83,18 @@ public class ReservaRestaurantAdapter extends FirestorePagingAdapter<Reserva, Re
             tvFechaEnvio = itemView.findViewById(R.id.tvFechaEnvio);
             tvEstado = itemView.findViewById(R.id.tvEstado);
             ivFoto = itemView.findViewById(R.id.ivFoto);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(itemView.getContext(), RestaurantChatActivity.class);
+                    intent.putExtra("reserva", reserva);
+                    intent.putExtra("tNano", reserva.getSendTime().getNanoseconds());
+                    intent.putExtra("rNano", reserva.getReservaTime().getNanoseconds());
+                    intent.putExtra("tSec", reserva.getSendTime().getSeconds());
+                    intent.putExtra("rSec", reserva.getReservaTime().getSeconds());
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }

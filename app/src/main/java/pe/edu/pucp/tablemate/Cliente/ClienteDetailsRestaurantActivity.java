@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -90,8 +91,8 @@ import pe.edu.pucp.tablemate.R;
 
 public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
     DateFormat df = new SimpleDateFormat("EEE dd MMM yyy", Locale.getDefault());
-    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy", new Locale("es"));
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH);
     FirebaseUser firebaseUser;
     User user;
     //Mapa
@@ -438,12 +439,19 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
             }
         }
 
+        //TODO: validar fecha
         if (isInvalid) return;
+
         LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
+        if (localDateTime.isBefore(LocalDateTime.now().plusHours(2))) {
+            Toast.makeText(ClienteDetailsRestaurantActivity.this, "La reservas se deben realizar con 2 horas de anticipación", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Date date = Date.from(localDateTime.toInstant(ZonedDateTime.now().getOffset()));
         Reserva reserva = new Reserva(localDate.format(dateFormatter), localTime.format(timeFormatter), Timestamp.now(), new Timestamp(date),
                 "Pendiente", numPersonas,
-                new Reserva.RUser(user.getNombre(), user.getAvatarUrl(), user.getDni(), FirebaseAuth.getInstance().getUid()),
+                new Reserva.RUser(user.getNombre()+" "+user.getApellidos(), user.getAvatarUrl(), user.getDni(), FirebaseAuth.getInstance().getUid()),
                 new Reserva.RRestaurant(restaurant.getNombre(), restaurant.getFotosUrl().get(0), restaurant.getKey()));
         FirebaseFirestore.getInstance().collection("reservas").add(reserva).addOnSuccessListener(documentReference -> {
             startActivity(new Intent(ClienteDetailsRestaurantActivity.this, ClienteReservasActivity.class));

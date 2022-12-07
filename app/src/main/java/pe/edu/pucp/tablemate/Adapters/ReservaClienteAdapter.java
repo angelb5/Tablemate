@@ -49,7 +49,7 @@ public class ReservaClienteAdapter extends FirestorePagingAdapter<Reserva, Reser
         holder.reserva = reserva;
         holder.tvNombre.setText(reserva.getRestaurant().getNombre());
         holder.tvNumPersonas.setText(String.valueOf(reserva.getNumPersonas()));
-        holder.tvFechaReserva.setText(reserva.getFecha()+" "+reserva.getHora().toUpperCase(Locale.ROOT).replace(" ",""));
+        holder.tvFechaReserva.setText(reserva.getFecha()+" "+reserva.getHora().toUpperCase(Locale.ROOT));
         holder.tvEstado.setText(reserva.getEstado());
         switch (reserva.getEstado()) {
             case "Pendiente":
@@ -90,7 +90,9 @@ public class ReservaClienteAdapter extends FirestorePagingAdapter<Reserva, Reser
                     Intent intent = new Intent(itemView.getContext(), ClienteChatActivity.class);
                     intent.putExtra("reserva", reserva);
                     intent.putExtra("tNano", reserva.getSendTime().getNanoseconds());
+                    intent.putExtra("rNano", reserva.getReservaTime().getNanoseconds());
                     intent.putExtra("tSec", reserva.getSendTime().getSeconds());
+                    intent.putExtra("rSec", reserva.getReservaTime().getSeconds());
                     itemView.getContext().startActivity(intent);
                 }
             });

@@ -1,8 +1,6 @@
 package pe.edu.pucp.tablemate.Cliente;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,25 +21,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.gson.Gson;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import pe.edu.pucp.tablemate.Adapters.ReservaClienteAdapter;
-import pe.edu.pucp.tablemate.Adapters.ReviewAdapter;
 import pe.edu.pucp.tablemate.Entity.Reserva;
-import pe.edu.pucp.tablemate.Entity.Restaurant;
-import pe.edu.pucp.tablemate.Entity.Review;
 import pe.edu.pucp.tablemate.R;
 
 public class ClienteReservasActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     PagingConfig config = new PagingConfig(5,3,true);
     FirestorePagingOptions<Reserva> options;
-    ReservaClienteAdapter reviewAdapter;
+    ReservaClienteAdapter reservaClienteAdapter;
     ShimmerFrameLayout shimmerFrameLayout;
     LinearLayout llEmptyView;
     RecyclerView rvReservas;
@@ -66,13 +59,13 @@ public class ClienteReservasActivity extends AppCompatActivity {
                 .setLifecycleOwner(this)
                 .setQuery(query, config, reservaSnapshotParser)
                 .build();
-        reviewAdapter = new ReservaClienteAdapter(options, this);
+        reservaClienteAdapter = new ReservaClienteAdapter(options, this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvReservas.setLayoutManager(layoutManager);
-        rvReservas.setAdapter(reviewAdapter);
+        rvReservas.setAdapter(reservaClienteAdapter);
 
-        reviewAdapter.addLoadStateListener(new Function1<CombinedLoadStates, Unit>() {
+        reservaClienteAdapter.addLoadStateListener(new Function1<CombinedLoadStates, Unit>() {
             @Override
             public Unit invoke(CombinedLoadStates combinedLoadStates) {
                 LoadState refresh = combinedLoadStates.getRefresh();
@@ -84,8 +77,8 @@ public class ClienteReservasActivity extends AppCompatActivity {
                 }else if(refresh instanceof LoadState.NotLoading){
                     shimmerFrameLayout.stopShimmerAnimation();
                     shimmerFrameLayout.removeAllViews();
-                    reviewAdapter.removeLoadStateListener(this);
-                    if (reviewAdapter.getItemCount()>0){
+                    reservaClienteAdapter.removeLoadStateListener(this);
+                    if (reservaClienteAdapter.getItemCount()>0){
                         rvReservas.setVisibility(View.VISIBLE);
                         llEmptyView.setVisibility(View.GONE);
                     }else{
@@ -141,4 +134,10 @@ public class ClienteReservasActivity extends AppCompatActivity {
         }
         return new Reserva();
     };
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (reservaClienteAdapter !=null) reservaClienteAdapter.refresh();
+    }
 }

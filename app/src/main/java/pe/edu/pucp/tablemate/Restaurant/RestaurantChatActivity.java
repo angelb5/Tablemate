@@ -1,9 +1,4 @@
-package pe.edu.pucp.tablemate.Cliente;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package pe.edu.pucp.tablemate.Restaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,11 +43,11 @@ import pe.edu.pucp.tablemate.Adapters.MensajesAdapter;
 import pe.edu.pucp.tablemate.Entity.Mensaje;
 import pe.edu.pucp.tablemate.Entity.Reserva;
 import pe.edu.pucp.tablemate.R;
-import pe.edu.pucp.tablemate.Restaurant.RestaurantChatActivity;
 
-public class ClienteChatActivity extends AppCompatActivity {
+public class RestaurantChatActivity extends AppCompatActivity {
     Reserva reserva;
     boolean finalizada = false;
+    String action = "Chat";
     Gson gson;
     ShapeableImageView ivFoto;
     TextView tvNombre;
@@ -56,8 +57,7 @@ public class ClienteChatActivity extends AppCompatActivity {
     RecyclerView rvChat;
     LinearLayout llInputs;
     LinearLayout llFinalizada;
-    ImageView ivFinalizada;
-    TextView tvFinalizada;
+    LinearLayout llOptions;
     EditText etMensaje;
     DocumentReference chatRef;
     MensajesAdapter mensajesAdapter;
@@ -70,7 +70,7 @@ public class ClienteChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cliente_chat);
+        setContentView(R.layout.activity_restaurant_chat);
 
         Intent intent = getIntent();
         if (intent == null || !intent.hasExtra("reserva")){
@@ -89,20 +89,19 @@ public class ClienteChatActivity extends AppCompatActivity {
 
         if (reserva.getEstado().equals("Cancelada") || Timestamp.now().compareTo(reserva.getReservaTime())>=0) finalizada = true;
 
-        ivFoto = findViewById(R.id.ivClienteChatFoto);
-        tvNombre = findViewById(R.id.tvClienteChatNombre);
-        tvEnviado = findViewById(R.id.tvClienteChatEnviado);
-        tvNumPersonas = findViewById(R.id.tvClienteChatNumPersonas);
-        tvFechaReserva = findViewById(R.id.tvClienteChatFechaReserva);
-        rvChat = findViewById(R.id.rvClienteChat);
-        llInputs = findViewById(R.id.llClienteChatInputs);
-        llFinalizada = findViewById(R.id.llClienteChatFinalizada);
-        ivFinalizada = findViewById(R.id.ivClienteChatFinalizada);
-        tvFinalizada = findViewById(R.id.tvClienteChatFinalizada);
-        etMensaje = findViewById(R.id.etClienteChat);
+        ivFoto = findViewById(R.id.ivRestaurantChatFoto);
+        tvNombre = findViewById(R.id.tvRestaurantChatNombre);
+        tvEnviado = findViewById(R.id.tvRestaurantChatEnviado);
+        tvNumPersonas = findViewById(R.id.tvRestaurantChatNumPersonas);
+        tvFechaReserva = findViewById(R.id.tvRestaurantChatFechaReserva);
+        rvChat = findViewById(R.id.rvRestaurantChat);
+        llInputs = findViewById(R.id.llRestaurantChatInputs);
+        llFinalizada = findViewById(R.id.llRestaurantChatFinalizada);
+        llOptions = findViewById(R.id.llRestaurantChatOptions);
+        etMensaje = findViewById(R.id.etRestaurantChat);
 
-        Glide.with(this).load(reserva.getRestaurant().getFotoUrl()).into(ivFoto);
-        tvNombre.setText(reserva.getRestaurant().getNombre());
+        Glide.with(this).load(reserva.getCliente().getAvatarUrl()).into(ivFoto);
+        tvNombre.setText(reserva.getCliente().getNombre());
         tvNumPersonas.setText(String.valueOf(reserva.getNumPersonas()));
         tvFechaReserva.setText(reserva.getFecha()+" "+reserva.getHora().toUpperCase(Locale.ROOT));
         String fecha = df.format(reserva.getSendTime().toDate());
@@ -110,16 +109,15 @@ public class ClienteChatActivity extends AppCompatActivity {
 
         if (finalizada) {
             llInputs.setVisibility(View.GONE);
-            if (reserva.getEstado().equals("Cancelada")) {
-                ivFinalizada.setImageResource(R.drawable.ic_chat_sad_48);
-                tvFinalizada.setText("Lo sentimos");
-            }
             llFinalizada.setVisibility(View.VISIBLE);
+        } else if (reserva.getEstado().equals("Pendiente")) {
+            llOptions.setVisibility(View.VISIBLE);
+            llInputs.setVisibility(View.GONE);
         }
 
         mensajesAdapter = new MensajesAdapter(FirebaseAuth.getInstance().getUid(), listaMensajes);
         rvChat.setAdapter(mensajesAdapter);
-        rvChat.setLayoutManager(new LinearLayoutManager(ClienteChatActivity.this));
+        rvChat.setLayoutManager(new LinearLayoutManager(RestaurantChatActivity.this));
         rvChat.setHasFixedSize(true);
 
         chatRef = FirebaseFirestore.getInstance().collection("reservas").document(reserva.getId());
@@ -145,6 +143,20 @@ public class ClienteChatActivity extends AppCompatActivity {
 
     public void backButton(View view) { onBackPressed(); }
 
+    public void aceptarReserva(View view) {
+        if (finalizada) return;
+        action = "Accept";
+        llInputs.setVisibility(View.VISIBLE);
+        etMensaje.setHint("Escribe un mensaje de confirmación");
+    }
+
+    public void cancelarReserva(View view) {
+        if (finalizada) return;
+        action = "Cancel";
+        llInputs.setVisibility(View.VISIBLE);
+        etMensaje.setHint("Especifica el motivo del rechazo");
+    }
+
     public void enviarMensaje(View view){
         if (finalizada) return;
 
@@ -152,9 +164,28 @@ public class ClienteChatActivity extends AppCompatActivity {
         if (mensajeStr.isEmpty()) return;
         Mensaje mensaje = new Mensaje(mensajeStr, FirebaseAuth.getInstance().getUid(), Timestamp.now());
 
-        chatRef.update("messages", FieldValue.arrayUnion(mensaje)).addOnFailureListener(e -> {
-            Toast.makeText(ClienteChatActivity.this, "No se pudo enviar el mensaje", Toast.LENGTH_SHORT).show();
-        });
+        if (action.equals("Accept")) {
+            chatRef.update("messages", FieldValue.arrayUnion(mensaje), "estado", "Aceptada").addOnSuccessListener(unused -> {
+                action = "Chat";
+                etMensaje.setHint("Mensaje...");
+                llOptions.setVisibility(View.GONE);
+            }).addOnFailureListener(e -> {
+                Toast.makeText(RestaurantChatActivity.this, "No se pudo enviar el mensaje", Toast.LENGTH_SHORT).show();
+            });
+        } else if (action.equals("Cancel")) {
+            chatRef.update("messages", FieldValue.arrayUnion(mensaje),"estado", "Cancelada").addOnSuccessListener(unused -> {
+                action = "Chat";
+                etMensaje.setHint("Mensaje...");
+                llOptions.setVisibility(View.GONE);
+            }).addOnFailureListener(e -> {
+                Toast.makeText(RestaurantChatActivity.this, "No se pudo enviar el mensaje", Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            chatRef.update("messages", FieldValue.arrayUnion(mensaje)).addOnFailureListener(e -> {
+                Toast.makeText(RestaurantChatActivity.this, "No se pudo enviar el mensaje", Toast.LENGTH_SHORT).show();
+            });
+        }
+
         etMensaje.setText("");
     }
 }

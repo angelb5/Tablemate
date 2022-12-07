@@ -180,6 +180,7 @@ public class AdminListRestaurantActivity extends AppCompatActivity implements Pe
 
                 @Override
                 public void onFailure(@NonNull Exception exception) {
+                    populateRv();
                 }
             });
         } else {

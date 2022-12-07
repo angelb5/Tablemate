@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -190,6 +191,7 @@ public class ClienteListRestaurantActivity extends AppCompatActivity implements 
 
                 @Override
                 public void onFailure(@NonNull Exception exception) {
+                    populateRv();
                 }
             });
         } else {

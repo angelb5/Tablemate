@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Cliente.ClienteChatActivity">
+    tools:context=".Restaurant.RestaurantChatActivity">
     <LinearLayout
         android:id="@+id/llClienteTitle"
         style="@style/LinearLayoutTitle"
@@ -23,7 +23,7 @@
             android:src="@drawable/button_back"
             android:clickable="true"/>
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivClienteChatFoto"
+            android:id="@+id/ivRestaurantChatFoto"
             android:layout_marginEnd="8dp"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -36,15 +36,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/tvClienteChatNombre"
+                android:id="@+id/tvRestaurantChatNombre"
                 android:fontFamily="@font/aeonik_bold"
                 android:textColor="@color/font_dark"
                 android:textSize="16sp"
-                android:text="Nombre del restaurante"
+                android:text="Nombre del cliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/tvClienteChatEnviado"
+                android:id="@+id/tvRestaurantChatEnviado"
                 android:textSize="12sp"
                 android:fontFamily="@font/aeonik_medium"
                 android:textColor="@color/font_light"
@@ -69,7 +69,7 @@
             android:layout_marginEnd="2dp"
             android:src="@drawable/ic_users_14" />
         <TextView
-            android:id="@+id/tvClienteChatNumPersonas"
+            android:id="@+id/tvRestaurantChatNumPersonas"
             style="@style/LightMedium14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
             android:layout_marginEnd="2dp"
             android:src="@drawable/ic_calendar_14" />
         <TextView
-            android:id="@+id/tvClienteChatFechaReserva"
+            android:id="@+id/tvRestaurantChatFechaReserva"
             style="@style/LightMedium14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
         app:cardCornerRadius="24dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/llClienteChat"
+        app:layout_constraintBottom_toTopOf="@+id/llRestaurantChat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llCLienteDetallesReserva">
@@ -107,15 +107,15 @@
             android:scaleType="centerCrop"
             android:src="@drawable/background_chat"/>
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvClienteChat"
-            tools:listitem="@layout/bubble_orange"
+            android:id="@+id/rvRestaurantChat"
+            tools:listitem="@layout/bubble_white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </RelativeLayout>
 
     <LinearLayout
         android:orientation="vertical"
-        android:id="@+id/llClienteChat"
+        android:id="@+id/llRestaurantChat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -125,37 +125,56 @@
         app:layout_constraintStart_toStartOf="parent">
         <LinearLayout
             android:visibility="gone"
-            android:id="@+id/llClienteChatFinalizada"
+            android:id="@+id/llRestaurantChatFinalizada"
             android:orientation="vertical"
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/ivClienteChatFinalizada"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_chat_smile_48"/>
             <TextView
-                android:id="@+id/tvClienteChatFinalizada"
                 style="@style/DarkBoldTitle"
                 android:layout_marginBottom="4dp"
-                android:text="Gracias por tu reserva"
+                android:text="Esta solicitud ha finalizado"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:textColor="@color/font_light"
-                android:text="Esta solicitud ha finalizado"
+                android:text="Gracias por ser parte de tablemate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/llRestaurantChatOptions"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:onClick="aceptarReserva"
+                android:text="Aceptar reserva"
+                style="@style/BtnText"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:onClick="cancelarReserva"
+                android:text="Rechazar reserva"
+                android:layout_weight="1"
+                style="@style/BtnText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
             android:visibility="visible"
-            android:id="@+id/llClienteChatInputs"
+            android:id="@+id/llRestaurantChatInputs"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
-                android:id="@+id/etClienteChat"
+                android:id="@+id/etRestaurantChat"
                 style="@style/InputGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

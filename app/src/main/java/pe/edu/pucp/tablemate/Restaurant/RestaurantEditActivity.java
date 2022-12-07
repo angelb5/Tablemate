@@ -4,13 +4,16 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -70,6 +73,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import pe.edu.pucp.tablemate.Adapters.ImageUploadAdapter;
+import pe.edu.pucp.tablemate.Admin.AdminCreateRestaurantActivity;
 import pe.edu.pucp.tablemate.Entity.Restaurant;
 import pe.edu.pucp.tablemate.R;
 
@@ -310,14 +314,31 @@ public class RestaurantEditActivity extends AppCompatActivity {
         if (pbPhoto.getVisibility()==View.VISIBLE){
             Toast.makeText(RestaurantEditActivity.this, "Espera a que se termine de subir la foto", Toast.LENGTH_SHORT).show();
         }else{
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.Images.Media.TITLE, "New Picture");
-            values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera");
-            cameraUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
-            launcherPhotoCamera.launch(cameraIntent);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                photoFromCamera();
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.CAMERA);
+            }
         }
+    }
+
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+        registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (isGranted) {
+                photoFromCamera();
+            } else {
+                Toast.makeText(RestaurantEditActivity.this, "No se garantizaron los permisos", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    public void photoFromCamera() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera");
+        cameraUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
+        launcherPhotoCamera.launch(cameraIntent);
     }
 
     public void updateMarker(){

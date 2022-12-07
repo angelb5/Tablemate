@@ -174,9 +174,11 @@ public class RestaurantChatActivity extends AppCompatActivity {
             });
         } else if (action.equals("Cancel")) {
             chatRef.update("messages", FieldValue.arrayUnion(mensaje),"estado", "Cancelada").addOnSuccessListener(unused -> {
-                action = "Chat";
+                finalizada = true;
                 etMensaje.setHint("Mensaje...");
                 llOptions.setVisibility(View.GONE);
+                llInputs.setVisibility(View.GONE);
+                llFinalizada.setVisibility(View.VISIBLE);
             }).addOnFailureListener(e -> {
                 Toast.makeText(RestaurantChatActivity.this, "No se pudo enviar el mensaje", Toast.LENGTH_SHORT).show();
             });

@@ -138,6 +138,7 @@
             <TextView
                 android:id="@+id/tvClienteChatFinalizada"
                 style="@style/DarkBoldTitle"
+                android:textAlignment="center"
                 android:layout_marginBottom="4dp"
                 android:text="Gracias por tu reserva"
                 android:layout_width="wrap_content"

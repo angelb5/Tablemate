@@ -128,7 +128,7 @@ public class ClienteChatActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                 assert snapshot !=null;
-                Log.d("msg", String.valueOf(snapshot.get("messages")));
+                String estado = snapshot.getString("estado");
                 List<HashMap<String,String>> mensajesMaps = (List<HashMap<String,String>>) snapshot.get("messages");
                 if(mensajesMaps != null  && !mensajesMaps.isEmpty() && mensajesMaps.size()>listaMensajes.size()){
                     for(int i=listaMensajes.size(); i<mensajesMaps.size();i++){
@@ -138,6 +138,13 @@ public class ClienteChatActivity extends AppCompatActivity {
                         mensajesAdapter.notifyItemInserted(listaMensajes.size()-1);
                         rvChat.smoothScrollToPosition(listaMensajes.size()-1);
                     }
+                }
+                if (estado.equals("Cancelada")) {
+                    finalizada = true;
+                    ivFinalizada.setImageResource(R.drawable.ic_chat_sad_48);
+                    tvFinalizada.setText("Lo sentimos");
+                    llInputs.setVisibility(View.GONE);
+                    llFinalizada.setVisibility(View.VISIBLE);
                 }
             }
         });

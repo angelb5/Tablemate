@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -18,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
+import pe.edu.pucp.tablemate.Admin.AdminHomeActivity;
+import pe.edu.pucp.tablemate.Anonymus.LoginActivity;
 import pe.edu.pucp.tablemate.Entity.User;
 import pe.edu.pucp.tablemate.R;
 
@@ -82,6 +86,14 @@ public class ClienteProfileActivity extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(), ClienteHomeActivity.class));
         overridePendingTransition(0,0);
+        finish();
+    }
+
+    public void logOut(View view) {
+        FirebaseAuth.getInstance().signOut();
+        sharedPreferences.edit().remove("user").apply();
+        startActivity(new Intent(ClienteProfileActivity.this, LoginActivity.class));
+        ActivityCompat.finishAffinity(ClienteProfileActivity.this);
         finish();
     }
 }

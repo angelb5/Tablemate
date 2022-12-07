@@ -128,4 +128,8 @@ public class ClienteHomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void goToBestRestaurantsActivity(View view) {
+        startActivity(new Intent(ClienteHomeActivity.this, ClienteBestRestaurantsActivity.class));
+    }
 }

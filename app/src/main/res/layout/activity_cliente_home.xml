@@ -92,6 +92,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu_cliente" />
     <androidx.cardview.widget.CardView
+        android:onClick="goToBestRestaurantsActivity"
         style="@style/WhiteCard"
         android:id="@+id/cvClienteHomeMejor"
         android:layout_width="match_parent"

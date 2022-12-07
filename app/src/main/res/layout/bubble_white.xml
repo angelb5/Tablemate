@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="start"
+    android:layout_height="wrap_content">
+    <com.google.android.material.card.MaterialCardView
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="16dp"
+        style="@style/WhiteBubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="start"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvMensaje"
+                android:paddingTop="12dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="48dp"
+                android:textSize="16sp"
+                android:fontFamily="@font/aeonik_medium"
+                android:textColor="@color/font_dark"
+                android:text="Hola"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_gravity="end"
+                android:id="@+id/tvTimestamp"
+                android:textAlignment="textEnd"
+                android:textSize="10sp"
+                android:textColor="@color/font_light"
+                android:paddingEnd="8dp"
+                android:paddingStart="12dp"
+                android:text="12 ago 12:32"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

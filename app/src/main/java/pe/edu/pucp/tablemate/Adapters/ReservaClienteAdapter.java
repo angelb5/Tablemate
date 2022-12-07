@@ -1,6 +1,7 @@
 package pe.edu.pucp.tablemate.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import pe.edu.pucp.tablemate.Cliente.ClienteChatActivity;
 import pe.edu.pucp.tablemate.Entity.Reserva;
 import pe.edu.pucp.tablemate.Entity.Review;
 import pe.edu.pucp.tablemate.R;
@@ -44,6 +46,7 @@ public class ReservaClienteAdapter extends FirestorePagingAdapter<Reserva, Reser
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Reserva reserva) {
         Glide.with(context).load(reserva.getRestaurant().getFotoUrl()).into(holder.ivFoto);
+        holder.reserva = reserva;
         holder.tvNombre.setText(reserva.getRestaurant().getNombre());
         holder.tvNumPersonas.setText(String.valueOf(reserva.getNumPersonas()));
         holder.tvFechaReserva.setText(reserva.getFecha()+" "+reserva.getHora().toUpperCase(Locale.ROOT).replace(" ",""));
@@ -71,6 +74,7 @@ public class ReservaClienteAdapter extends FirestorePagingAdapter<Reserva, Reser
         TextView tvFechaEnvio;
         TextView tvEstado;
         ShapeableImageView ivFoto;
+        Reserva reserva;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +84,16 @@ public class ReservaClienteAdapter extends FirestorePagingAdapter<Reserva, Reser
             tvFechaEnvio = itemView.findViewById(R.id.tvFechaEnvio);
             tvEstado = itemView.findViewById(R.id.tvEstado);
             ivFoto = itemView.findViewById(R.id.ivFoto);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(itemView.getContext(), ClienteChatActivity.class);
+                    intent.putExtra("reserva", reserva);
+                    intent.putExtra("tNano", reserva.getSendTime().getNanoseconds());
+                    intent.putExtra("tSec", reserva.getSendTime().getSeconds());
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }

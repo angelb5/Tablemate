@@ -3,11 +3,12 @@ package pe.edu.pucp.tablemate.Entity;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Reserva {
+public class Reserva implements Serializable {
 
     @Exclude
     private String id;
@@ -110,7 +111,7 @@ public class Reserva {
         this.reservaTime = reservaTime;
     }
 
-    public static class RUser {
+    public static class RUser implements Serializable {
         private String nombre;
         private String avatarUrl;
         private String dni;
@@ -159,7 +160,7 @@ public class Reserva {
         }
     }
 
-    public static class RRestaurant {
+    public static class RRestaurant implements Serializable {
         private String nombre;
         private String fotoUrl;
         private String id;

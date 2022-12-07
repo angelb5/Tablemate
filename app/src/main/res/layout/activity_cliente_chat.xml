@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Cliente.ClienteChatActivity">
+    <LinearLayout
+        android:id="@+id/llClienteTitle"
+        style="@style/LinearLayoutTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:background="?actionBarItemBackground"
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp"
+            android:onClick="backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/button_back"
+            android:clickable="true"/>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivClienteChatFoto"
+            android:layout_marginEnd="8dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@color/font_dark"
+            app:shapeAppearanceOverlay="@style/roundedCornersImageView"/>
+        <LinearLayout
+            android:paddingVertical="12dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvClienteChatNombre"
+                android:fontFamily="@font/aeonik_bold"
+                android:textColor="@color/font_dark"
+                android:textSize="16sp"
+                android:text="Nombre del restaurante"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tvClienteChatEnviado"
+                android:textSize="12sp"
+                android:fontFamily="@font/aeonik_medium"
+                android:textColor="@color/font_light"
+                android:text="Enviado "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llCLienteDetallesReserva"
+        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llClienteTitle">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:src="@drawable/ic_users_14" />
+        <TextView
+            android:id="@+id/tvClienteChatNumPersonas"
+            style="@style/LightMedium14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="--" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:src="@drawable/ic_calendar_14" />
+        <TextView
+            android:id="@+id/tvClienteChatFechaReserva"
+            style="@style/LightMedium14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-- --- ---- --:--" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="24dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/llClienteChat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llCLienteDetallesReserva">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            app:shapeAppearanceOverlay="@style/roundedChat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background_chat"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvClienteChat"
+            tools:listitem="@layout/bubble_orange"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/llClienteChat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/llClienteChatFinalizada"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/ivClienteChatFinalizada"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_chat_smile_48"/>
+            <TextView
+                android:id="@+id/tvClienteChatFinalizada"
+                style="@style/DarkBoldTitle"
+                android:layout_marginBottom="4dp"
+                android:text="Gracias por tu reserva"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textColor="@color/font_light"
+                android:text="Esta solicitud ha finalizado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/llClienteChatInputs"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/etClienteChat"
+                style="@style/InputGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:hint="Mensaje..."
+                android:inputType="textMultiLine" />
+
+            <ImageButton
+                android:onClick="enviarMensaje"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/circle_orange"
+                android:src="@drawable/ic_send_24" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

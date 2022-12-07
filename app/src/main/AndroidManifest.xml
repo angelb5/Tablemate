@@ -21,13 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tablemate"
         tools:targetApi="33">
+
         <activity
             android:name=".Restaurant.RestaurantEditActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="false"
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".Admin.AdminBestRestaurantsActivity"
             android:exported="false"
@@ -53,11 +51,11 @@
             android:theme="@style/Theme.Tablemate.Grey" />
         <activity
             android:name=".Cliente.ClienteCameraReviewActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="false"/>
+        <activity
+            android:name=".Cliente.ClienteChatActivity"
+            android:exported="false"
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".Cliente.ClienteWriteReviewActivity"
             android:exported="false"

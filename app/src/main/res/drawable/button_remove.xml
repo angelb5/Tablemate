@@ -10,6 +10,7 @@
     <shape android:shape="oval">
       <gradient android:startColor="#1A000000"
           android:type="radial"
+          android:gradientRadius="10dp"
           android:centerColor="#1A000000"
           android:endColor="#0D000000"
           android:angle="90"/>

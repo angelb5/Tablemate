@@ -61,7 +61,7 @@ public class ClienteReservasActivity extends AppCompatActivity {
         rvReservas = findViewById(R.id.rvClienteReservas);
 
         shimmerFrameLayout.startShimmerAnimation();
-        Query query = FirebaseFirestore.getInstance().collection("reservas").whereEqualTo("cliente.uid", firebaseUser.getUid());
+        Query query = FirebaseFirestore.getInstance().collection("reservas").whereEqualTo("cliente.uid", firebaseUser.getUid()).orderBy("sendTime", Query.Direction.DESCENDING);
         options = new FirestorePagingOptions.Builder<Reserva>()
                 .setLifecycleOwner(this)
                 .setQuery(query, config, reservaSnapshotParser)

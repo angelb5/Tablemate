@@ -14,16 +14,18 @@
         app:layout_constraintTop_toTopOf="parent">
         <LinearLayout
             android:orientation="vertical"
-            android:paddingHorizontal="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:paddingHorizontal="24dp"
                 android:layout_marginTop="48dp"
                 style="@style/ValueSerifTitle34"
                 android:text="Mis Reservas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <TextView
+
+                android:paddingHorizontal="24dp"
                 style="@style/LightRegular16"
                 android:text="Revisa tus reservas vigentes y pasadas"
                 android:layout_width="match_parent"
@@ -31,6 +33,7 @@
                 android:layout_marginBottom="16dp"/>
 
             <com.facebook.shimmer.ShimmerFrameLayout
+                android:paddingHorizontal="24dp"
                 android:id="@+id/shimmerClienteReservas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,6 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"/>
             <LinearLayout
+                android:paddingHorizontal="24dp"
                 android:visibility="gone"
                 android:id="@+id/llClienteReservasEmptyView"
                 android:orientation="vertical"

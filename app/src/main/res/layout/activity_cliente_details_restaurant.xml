@@ -228,7 +228,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="48dp"/>
             <Button
-                android:onClick="descargarCarta"
+                android:onClick="reservar"
                 android:layout_gravity="center"
                 style="@style/BtnPrimary"
                 android:layout_marginBottom="32dp"

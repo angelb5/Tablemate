@@ -21,8 +21,10 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.paging.CombinedLoadStates;
 import androidx.paging.PagingConfig;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -34,6 +36,8 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -45,6 +49,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
@@ -62,16 +67,22 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import pe.edu.pucp.tablemate.Adapters.ReviewAdapter;
+import pe.edu.pucp.tablemate.Anonymus.LoginActivity;
+import pe.edu.pucp.tablemate.Entity.Reserva;
 import pe.edu.pucp.tablemate.Entity.Restaurant;
 import pe.edu.pucp.tablemate.Entity.Review;
 import pe.edu.pucp.tablemate.Entity.User;
@@ -295,6 +306,7 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
         datepicker.addOnPositiveButtonClickListener(selection -> {
             localDate = Instant.ofEpochMilli(selection).atZone(ZoneId.of("GMT")).toLocalDate();
             etFecha.setText(dateFormatter.format(localDate));
+            etFecha.setError(null);
         });
 
         MaterialTimePicker timepicker = new MaterialTimePicker.Builder()
@@ -309,6 +321,7 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
         timepicker.addOnPositiveButtonClickListener(v -> {
             localTime = LocalTime.of(timepicker.getHour(), timepicker.getMinute());
             etHora.setText(timeFormatter.format(localTime));
+            etHora.setError(null);
         });
 
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preferences_key), Context.MODE_PRIVATE);
@@ -391,6 +404,56 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
             }
     );
 
+    public void reservar(View view) {
+        String strNumPersonas = etNumPersonas.getText().toString().trim();
+        int numPersonas = 1;
+        boolean isInvalid = false;
+
+        if (localDate == null) {
+            etFecha.setError("Ingresa una fecha");
+            isInvalid = true;
+        }
+
+        if (localTime == null) {
+            etHora.setError("Ingresa una hora");
+            isInvalid = true;
+        }
+
+        if(!strNumPersonas.matches("[0-9]+")){
+            etNumPersonas.setError("Ingrese el número de personas");
+            etNumPersonas.requestFocus();
+            isInvalid = true;
+        } else {
+            numPersonas = Integer.parseInt(strNumPersonas);
+            if (numPersonas<=0) {
+                etNumPersonas.setError("Debe ser mayor a 0");
+                etNumPersonas.requestFocus();
+                isInvalid = true;
+            }
+
+            if (numPersonas>25) {
+                etNumPersonas.setError("Lo sentimos, el límite es de 25 personas");
+                etNumPersonas.requestFocus();
+                isInvalid = true;
+            }
+        }
+
+        if (isInvalid) return;
+        LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
+        Date date = Date.from(localDateTime.toInstant(ZonedDateTime.now().getOffset()));
+        Reserva reserva = new Reserva(localDate.format(dateFormatter), localTime.format(timeFormatter), Timestamp.now(), new Timestamp(date),
+                "Pendiente", numPersonas,
+                new Reserva.RUser(user.getNombre(), user.getAvatarUrl(), user.getDni(), FirebaseAuth.getInstance().getUid()),
+                new Reserva.RRestaurant(restaurant.getNombre(), restaurant.getFotosUrl().get(0), restaurant.getKey()));
+        FirebaseFirestore.getInstance().collection("reservas").add(reserva).addOnSuccessListener(documentReference -> {
+            startActivity(new Intent(ClienteDetailsRestaurantActivity.this, ClienteReservasActivity.class));
+            ActivityCompat.finishAffinity(ClienteDetailsRestaurantActivity.this);
+            finish();
+        }).addOnFailureListener(e -> {
+            Log.d("msg", reserva.getCliente().getUid());
+            Log.d("msg", "error", e);
+        });
+    }
 
     public void eliminarReviewAlert(View view){
        if (userReview == null) return;

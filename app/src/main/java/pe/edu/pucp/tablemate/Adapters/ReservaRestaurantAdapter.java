@@ -35,7 +35,7 @@ public class ReservaRestaurantAdapter extends FirestorePagingAdapter<Reserva, Re
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_reserva_cliente, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_reserva_restaurant, parent, false);
         return new ViewHolder(view);
     }
 
@@ -77,7 +77,7 @@ public class ReservaRestaurantAdapter extends FirestorePagingAdapter<Reserva, Re
             tvFechaReserva = itemView.findViewById(R.id.tvFechaReserva);
             tvFechaEnvio = itemView.findViewById(R.id.tvFechaEnvio);
             tvEstado = itemView.findViewById(R.id.tvEstado);
-            ivFoto = itemView.findViewById(R.id.ivReviewFoto);
+            ivFoto = itemView.findViewById(R.id.ivFoto);
         }
     }
 }

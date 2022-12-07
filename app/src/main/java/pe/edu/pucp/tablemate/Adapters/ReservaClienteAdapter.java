@@ -79,7 +79,7 @@ public class ReservaClienteAdapter extends FirestorePagingAdapter<Reserva, Reser
             tvFechaReserva = itemView.findViewById(R.id.tvFechaReserva);
             tvFechaEnvio = itemView.findViewById(R.id.tvFechaEnvio);
             tvEstado = itemView.findViewById(R.id.tvEstado);
-            ivFoto = itemView.findViewById(R.id.ivReviewFoto);
+            ivFoto = itemView.findViewById(R.id.ivFoto);
         }
     }
 }

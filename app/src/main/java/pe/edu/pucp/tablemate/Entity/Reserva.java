@@ -14,6 +14,7 @@ public class Reserva {
     private String fecha;
     private String hora;
     private transient Timestamp sendTime;
+    private transient Timestamp reservaTime;
     private String estado;
     private int numPersonas;
     private RUser cliente;
@@ -23,10 +24,11 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(String fecha, String hora, Timestamp sendTime, String estado, int numPersonas, RUser cliente, RRestaurant restaurant) {
+    public Reserva(String fecha, String hora, Timestamp sendTime, Timestamp reservaTime, String estado, int numPersonas, RUser cliente, RRestaurant restaurant) {
         this.fecha = fecha;
         this.hora = hora;
         this.sendTime = sendTime;
+        this.reservaTime = reservaTime;
         this.estado = estado;
         this.numPersonas = numPersonas;
         this.cliente = cliente;
@@ -100,7 +102,15 @@ public class Reserva {
         this.restaurant = restaurant;
     }
 
-    public class RUser {
+    public Timestamp getReservaTime() {
+        return reservaTime;
+    }
+
+    public void setReservaTime(Timestamp reservaTime) {
+        this.reservaTime = reservaTime;
+    }
+
+    public static class RUser {
         private String nombre;
         private String avatarUrl;
         private String dni;
@@ -149,7 +159,7 @@ public class Reserva {
         }
     }
 
-    public class RRestaurant {
+    public static class RRestaurant {
         private String nombre;
         private String fotoUrl;
         private String id;

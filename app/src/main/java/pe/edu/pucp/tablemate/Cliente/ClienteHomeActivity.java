@@ -132,4 +132,7 @@ public class ClienteHomeActivity extends AppCompatActivity {
     public void goToBestRestaurantsActivity(View view) {
         startActivity(new Intent(ClienteHomeActivity.this, ClienteBestRestaurantsActivity.class));
     }
+    public void goToNearbyRestaurantsActivity(View view) {
+        startActivity(new Intent(ClienteHomeActivity.this, ClienteNearbyRestaurantsActivity.class));
+    }
 }

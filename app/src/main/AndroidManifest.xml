@@ -21,7 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tablemate"
         tools:targetApi="33">
-
+        <activity
+            android:name=".Cliente.ClienteNearbyRestaurantsActivity"
+            android:exported="false"
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".Restaurant.RestaurantEditActivity"
             android:exported="false"
@@ -51,7 +54,7 @@
             android:theme="@style/Theme.Tablemate.Grey" />
         <activity
             android:name=".Cliente.ClienteCameraReviewActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Cliente.ClienteChatActivity"
             android:exported="false"

@@ -101,7 +101,7 @@ public class RestaurantChatActivity extends AppCompatActivity {
         etMensaje = findViewById(R.id.etRestaurantChat);
 
         Glide.with(this).load(reserva.getCliente().getAvatarUrl()).into(ivFoto);
-        tvNombre.setText(reserva.getCliente().getNombre());
+        tvNombre.setText(reserva.getCliente().getNombre()+" - DNI: "+reserva.getCliente().getDni());
         tvNumPersonas.setText(String.valueOf(reserva.getNumPersonas()));
         tvFechaReserva.setText(reserva.getFecha()+" "+reserva.getHora().toUpperCase(Locale.ROOT));
         String fecha = df.format(reserva.getSendTime().toDate());

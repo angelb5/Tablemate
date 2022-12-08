@@ -16,17 +16,17 @@
         <!-- Media -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="112dp">
+            android:layout_height="144dp">
 
             <ImageView
                 android:id="@+id/ivRestaurantCardFoto"
                 android:layout_width="match_parent"
-                android:layout_height="112dp"
+                android:layout_height="144dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="0dp"
                 android:layout_marginBottom="0dp"
-                android:scaleType="center"
+                android:scaleType="centerCrop"
                 android:src="@drawable/nonverified_draw" />
 
             <androidx.cardview.widget.CardView

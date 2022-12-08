@@ -279,7 +279,7 @@
             </LinearLayout>
 
             <Button
-                android:onClick="actualizarRestaurante"
+                android:onClick="anadirRestaurante"
                 android:id="@+id/btnAdminCreateRestaurantAnadir"
                 style="@style/BtnPrimary"
                 android:layout_gravity="center"

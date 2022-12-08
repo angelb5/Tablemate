@@ -356,7 +356,8 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
     }
 
     public void updateMarker(){
-        if(latDireccion != 0 && lngDireccion !=0){
+        if(latDireccion != 0 && lngDireccion !=0 && symbolManager != null){
+            symbolManager.deleteAll();
             SymbolOptions symbolOptions = new SymbolOptions()
                     .withLatLng(new LatLng(latDireccion,lngDireccion))
                     .withIconImage(ICON_ID)
@@ -365,6 +366,7 @@ public class AdminCreateRestaurantActivity extends AppCompatActivity {
             mapboxMap.setCameraPosition(new CameraPosition.Builder().target(new LatLng(latDireccion,lngDireccion)).zoom(14).build());
         }else if(symbolManager!=null){
             symbolManager.deleteAll();
+            symbol = null;
         }
     }
 

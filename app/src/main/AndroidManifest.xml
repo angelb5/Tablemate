@@ -22,6 +22,11 @@
         android:theme="@style/Theme.Tablemate"
         tools:targetApi="33">
         <activity
+            android:name=".Cliente.ChooseAvatarActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Tablemate.Grey"
+            android:screenOrientation="userPortrait" />
+        <activity
             android:name=".Cliente.ClienteNearbyRestaurantsActivity"
             android:exported="false"
             android:screenOrientation="userPortrait" />

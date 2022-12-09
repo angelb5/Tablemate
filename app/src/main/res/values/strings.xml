@@ -29,4 +29,27 @@
         <item>Bar</item>
         <item>Carnes y parrillas</item>
     </string-array>
+    <string-array name="avatar_urls">
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_01.png?alt=media&amp;token=33f838bc-d0b8-4509-ba16-5df32a6bdd07</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_02.png?alt=media&amp;token=4c27c9a7-28ea-47de-b957-608b45db4e0e</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_03.png?alt=media&amp;token=0f731ea3-a349-455b-89dd-30284e7b208d</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_04.png?alt=media&amp;token=0ffd535d-cd30-4ad0-945e-4542736a123d</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_05.png?alt=media&amp;token=f94a9f3e-ada6-4872-b51f-4d3e0986edce</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_06.png?alt=media&amp;token=5c3d8d5e-7608-414f-890a-be6d5ff0b29e</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_07.png?alt=media&amp;token=48a25416-ac41-40d3-9792-67affbf0cddc</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_08.png?alt=media&amp;token=14c4b7c8-44f9-418b-8a84-0fa57d25d7b6</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_09.png?alt=media&amp;token=87799d82-00ae-47fe-bacf-0ffc4cc36d3a</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_10.png?alt=media&amp;token=8ff01133-641a-4009-86dd-efb59d4c313e</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_11.png?alt=media&amp;token=ba7975c9-5e2d-42bf-84dd-9cd83bfee2ca</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_12.png?alt=media&amp;token=8cca9cfb-fa14-410f-8df2-4a050fb16c27</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_13.png?alt=media&amp;token=c582a31c-8e82-41ce-b116-4dff11d4af20</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_14.png?alt=media&amp;token=56e29070-c3c4-4526-97c7-3c98a91ffce2</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_15.png?alt=media&amp;token=6c4aa315-14b8-4c8d-8f60-0fe561f4d2b0</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_16.png?alt=media&amp;token=27b8bfc7-34af-4e8f-b52d-c0b97fab35a7</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_17.png?alt=media&amp;token=b4307a35-469a-430c-9e2c-22c12f460097</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_18.png?alt=media&amp;token=27ba7758-001c-45e2-badd-f16014e8a892</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_19.png?alt=media&amp;token=dccdd675-2dfd-4ab9-a7d1-759d00b5fee3</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_20.png?alt=media&amp;token=354be722-1697-4edd-b401-657af9b69ed9</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/tablemate-cf5ab.appspot.com/o/profilepics%2Fprofilepic_21.png?alt=media&amp;token=5b4a7ae8-a4d5-4c6e-b393-04fc7b822d0c</item>
+    </string-array>
 </resources>

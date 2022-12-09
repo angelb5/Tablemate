@@ -27,12 +27,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +69,7 @@ import com.mapbox.search.result.SearchSuggestion;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -91,11 +94,13 @@ public class RestaurantEditActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     Restaurant restaurant;
 
+    private EditText etNombre;
     private EditText etDescripcion;
     private EditText etDireccion;
     private TextView tvCarta;
     private RecyclerView rvFotos;
     private GridLayout glFotos;
+    private Spinner spCategorias;
 
     private ImageUploadAdapter fotosAdapter;
     private ProgressBar pbPDF;
@@ -217,6 +222,7 @@ public class RestaurantEditActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         //Setea elementos
         mapView = findViewById(R.id.mvRestaurantEdit);
+        etNombre = findViewById(R.id.etRestaurantEditNombre);
         etDireccion = findViewById(R.id.etRestaurantEditDireccion);
         etDescripcion = findViewById(R.id.etRestaurantEditDescripcion);
         tvCarta = findViewById(R.id.tvRestaurantEditCarta);
@@ -225,6 +231,7 @@ public class RestaurantEditActivity extends AppCompatActivity {
         pbLoading = findViewById(R.id.pbRestaurantEditLoading);
         rvFotos = findViewById(R.id.rvRestaurantEditFotos);
         glFotos = findViewById(R.id.glRestaurantEdit);
+        spCategorias = findViewById(R.id.spRestauntEditCategorias);
         btnBack = findViewById(R.id.ibRestaurantEditBack);
         btnPDFAttach = findViewById(R.id.ibRestaurantEditPDFAttach);
         btnPhotoAttach = findViewById(R.id.ibRestaurantEditPhotoAttach);
@@ -237,6 +244,7 @@ public class RestaurantEditActivity extends AppCompatActivity {
         restaurant = gson.fromJson(sharedPreferences.getString("restaurant",""), Restaurant.class);
         restaurant.setGeoPoint(gson.fromJson(sharedPreferences.getString("geopoint",""), GeoPoint.class));
         listFotos = restaurant.getFotosUrl();
+        etNombre.setText(restaurant.getNombre());
         etDireccion.setText(restaurant.getDireccion());
         etDescripcion.setText(restaurant.getDescripcion());
         latDireccion = restaurant.getGeoPoint().getLatitude();
@@ -250,6 +258,16 @@ public class RestaurantEditActivity extends AppCompatActivity {
         fotosAdapter = new ImageUploadAdapter(this, listFotos);
         rvFotos.setAdapter(fotosAdapter);
         rvFotos.setLayoutManager(gridLayoutManager);
+        spCategorias.setAdapter(categoriasAdapter);
+        spCategorias.setSelection(0, true);
+        String[] categoryArray = getResources().getStringArray(R.array.categories);
+        for (int i = 0; i<categoryArray.length; i++) {
+            if (categoryArray[i].equals(restaurant.getCategoria())) {
+                spCategorias.setSelection(i, true);
+                break;
+            }
+        }
+        ((TextView) spCategorias.getSelectedView()).setTextColor(getColor(R.color.font_hint));
         evaluarEmpty();
 
         //Sobrescribe metodos
@@ -286,6 +304,21 @@ public class RestaurantEditActivity extends AppCompatActivity {
                     lngDireccion = 0;
                     updateMarker();
                 }
+            }
+        });
+
+        spCategorias.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i==0){
+                    ((TextView) view).setTextColor(getColor(R.color.font_hint));
+                }else{
+                    ((TextView) view).setTextColor(getColor(R.color.font_light));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
     }
@@ -441,8 +474,21 @@ public class RestaurantEditActivity extends AppCompatActivity {
 
         boolean isInvalid = false;
 
+        String nombre = etNombre.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
         String direccion = etDireccion.getText().toString().trim();
+
+        if(nombre.isEmpty()){
+            etNombre.setError("El nombre no puede estar vacío");
+            etNombre.requestFocus();
+            isInvalid = true;
+        }
+
+        if(nombre.length()>50){
+            etNombre.setError("El nombre puede contener hasta 50 caracteres");
+            etNombre.requestFocus();
+            isInvalid = true;
+        }
 
         if(descripcion.isEmpty()){
             etDescripcion.setError("La descripción no puede estar vacía");
@@ -474,25 +520,43 @@ public class RestaurantEditActivity extends AppCompatActivity {
             isInvalid = true;
         }
 
+        if(spCategorias.getSelectedItemPosition()==0){
+            spCategorias.requestFocus();
+            Toast.makeText(RestaurantEditActivity.this, "Selecciona una categoría", Toast.LENGTH_SHORT).show();
+            isInvalid = true;
+        }
+
         if(isInvalid) return;
 
+        String categoria = spCategorias.getSelectedItem().toString();
         mostrarCargando();
         Restaurant newRestaurant = restaurant;
         Gson gson = new Gson();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Map<String, Object> updates = new HashMap<>();
+        if (!nombre.equals(restaurant.getNombre())) {
+            updates.put("nombre", nombre);
+            newRestaurant.setNombre(nombre);
+            List<String> keywords = generateKeywords(nombre);
+            updates.put("searchKeywords", keywords);
+            newRestaurant.setSearchKeywords(keywords);
+        }
         if (!descripcion.equals(restaurant.getDescripcion())) {
             updates.put("descripcion", descripcion);
             newRestaurant.setDescripcion(descripcion);
+        }
+        if (!categoria.equals(restaurant.getCategoria())) {
+            updates.put("categoria", categoria);
+            newRestaurant.setCategoria(categoria);
         }
         if (!cartaUrl.equals(restaurant.getCartaUrl())) {
             updates.put("cartaUrl", cartaUrl);
             newRestaurant.setCartaUrl(cartaUrl);
         }
-        if (!listFotos.equals(restaurant.getFotosUrl())) {
-            updates.put("fotosUrl", listFotos);
-            newRestaurant.setFotosUrl(listFotos);
-        }
+
+        updates.put("fotosUrl", listFotos);
+        newRestaurant.setFotosUrl(listFotos);
+
         if (!direccion.equals(restaurant.getDireccion())) {
             updates.put("direccion", direccion);
             newRestaurant.setDireccion(direccion);
@@ -502,7 +566,8 @@ public class RestaurantEditActivity extends AppCompatActivity {
             updates.put("geoPoint", newGeopoint);
             editor.putString("geopoint", gson.toJson(newGeopoint));
         }
-        editor.putString("restaurant", gson.toJson(restaurant));
+        editor.putString("restaurant", gson.toJson(newRestaurant));
+        Log.d("msg", updates.toString());
         DocumentReference restaurantRef = FirebaseFirestore.getInstance().collection("restaurants").document(FirebaseAuth.getInstance().getUid());
         restaurantRef.update(updates).addOnSuccessListener(unused -> {
             ocultarCargando();
@@ -605,5 +670,24 @@ public class RestaurantEditActivity extends AppCompatActivity {
         if (!isBusy){
             super.onBackPressed();
         }
+    }
+
+    private List<String> generateKeywords(String inputString){
+        inputString = inputString.toLowerCase();
+        List<String> keywords = new ArrayList<>();
+
+        List<String> words = Arrays.asList(inputString.split(" "));
+        for (String word : words){
+            String appendString = "";
+
+            for (char c : inputString.toCharArray()){
+                appendString+=c;
+                keywords.add(appendString);
+            }
+
+            inputString = inputString.replace(word+" ","");
+        }
+
+        return keywords;
     }
 }

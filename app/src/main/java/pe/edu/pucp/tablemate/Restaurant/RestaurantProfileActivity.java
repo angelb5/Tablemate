@@ -63,6 +63,7 @@ public class RestaurantProfileActivity extends AppCompatActivity {
     TextView tvDireccion;
     Button btnDescargarCarta;
     RecyclerView rvFotos;
+    ImageAdapter imageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class RestaurantProfileActivity extends AppCompatActivity {
             mapboxMap.setCameraPosition(new CameraPosition.Builder().target(new LatLng(restaurant.getGeoPoint().getLatitude(),restaurant.getGeoPoint().getLongitude())).zoom(14).build());
         }));
 
-        ImageAdapter imageAdapter = new ImageAdapter(this, restaurant.getFotosUrl());
+        imageAdapter = new ImageAdapter(this, restaurant.getFotosUrl());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvFotos.setLayoutManager(layoutManager);
         rvFotos.setAdapter(imageAdapter);
@@ -111,11 +112,14 @@ public class RestaurantProfileActivity extends AppCompatActivity {
                     Intent data = result.getData();
                     if (data == null || !data.hasExtra("restaurant")) return;
                     Restaurant restaurantFromIntent = (Restaurant) data.getSerializableExtra("restaurant");
-
+                    restaurant.setNombre(restaurantFromIntent.getNombre());
+                    restaurant.setCategoria(restaurantFromIntent.getCategoria());
                     restaurant.setDescripcion(restaurantFromIntent.getDescripcion());
                     restaurant.setDireccion(restaurantFromIntent.getDireccion());
                     restaurant.setCartaUrl(restaurantFromIntent.getCartaUrl());
                     restaurant.setFotosUrl(restaurantFromIntent.getFotosUrl());
+                    imageAdapter.setImages(restaurant.getFotosUrl());
+                    imageAdapter.notifyDataSetChanged();
                     llenarTvs();
                     if (data.hasExtra("lat") && data.hasExtra("lng")) {
                         double latDireccion = data.getDoubleExtra("lat", restaurant.getGeoPoint().getLatitude());

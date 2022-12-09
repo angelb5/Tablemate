@@ -53,6 +53,36 @@
                 android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Nombre"/>
+
+            <EditText
+                style="@style/InputGrey"
+                android:id="@+id/etRestaurantEditNombre"
+                android:hint="Nombre del restaurante"
+                android:inputType="textPersonName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                style="@style/DarkBold20"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Categorías"/>
+            <Spinner
+                android:entries="@array/categories"
+                tools:listitem="@layout/item_spinner"
+                android:id="@+id/spRestauntEditCategorias"
+                style="@style/SpinnerGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"/>
+            <TextView
+                style="@style/DarkBold20"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Descripción"/>
             <EditText
                 android:id="@+id/etRestaurantEditDescripcion"

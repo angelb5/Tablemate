@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -366,7 +367,9 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
         DownloadManager downloadManager = (DownloadManager) ClienteDetailsRestaurantActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(cartaUrl));
-        request.setTitle("Carta "+restaurant.getNombre()); //cambiar esto
+        request.setTitle("Carta "+restaurant.getNombre());
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Carta_"+restaurant.getNombre().replace(" ","_")+".pdf");
+        request.allowScanningByMediaScanner();
         request.setDescription("Espera a que termine la descarga");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         downloadManager.enqueue(request);
@@ -439,7 +442,6 @@ public class ClienteDetailsRestaurantActivity extends AppCompatActivity {
             }
         }
 
-        //TODO: validar fecha
         if (isInvalid) return;
 
         LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);

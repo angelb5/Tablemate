@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -150,7 +151,9 @@ public class RestaurantProfileActivity extends AppCompatActivity {
         DownloadManager downloadManager = (DownloadManager) RestaurantProfileActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(restaurant.getCartaUrl()));
-        request.setTitle("Carta "+restaurant.getNombre()); //cambiar esto
+        request.setTitle("Carta "+restaurant.getNombre());
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Carta_"+restaurant.getNombre().replace(" ","_")+".pdf");
+        request.allowScanningByMediaScanner();
         request.setDescription("Se está descargando la carta");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         downloadManager.enqueue(request);

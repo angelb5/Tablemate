@@ -82,7 +82,6 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
     TextView tvDistance;
     ImageSlider imgSlider;
     TabLayout tabLayout;
-    ScrollView sv;
     Button btnDescargarCarta;
 
     LinearLayout llEmptyReviews;
@@ -122,7 +121,6 @@ public class AdminDetailsRestaurantActivity extends AppCompatActivity {
         tvDistance = findViewById(R.id.tvAdminDetailsRestaurantDistancia);
         imgSlider = findViewById(R.id.isAdminDetailsRestaurant);
         btnDescargarCarta = findViewById(R.id.btnAdminDetailsRestaurantCarta);
-        sv = findViewById(R.id.svAdminDetailsRestaurant);
 
         llEmptyReviews = findViewById(R.id.llAdminDetailsRestaurantEmptyView);
         rvReviews = findViewById(R.id.rvAdminDetailsRestaurant);

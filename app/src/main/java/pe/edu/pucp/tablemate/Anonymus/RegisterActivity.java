@@ -134,26 +134,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Verifica que el dni y correo sean únicos
         mostrarCargando();
-        usersRef.whereEqualTo("dni",dni).count().get(AggregateSource.SERVER).addOnSuccessListener(aggregateQuerySnapshot -> {
-            if (aggregateQuerySnapshot.getCount()>0){
-                ocultarCargando();
-                etDni.setError("Ya existe una cuenta con este código");
-                etDni.requestFocus();
-                return;
-            }
-            firebaseAuth.fetchSignInMethodsForEmail(correo).addOnCompleteListener(signInMethodQueryResult -> {
-                if(!Objects.requireNonNull(signInMethodQueryResult.getResult().getSignInMethods()).isEmpty()){
-                    ocultarCargando();
-                    etCorreo.setError("Ya existe una cuenta con este correo");
-                    etCorreo.requestFocus();
-                    return;
-                };
-                User user = new User(nombre,apellidos,correo,dni,"Cliente",avatarUrl);
-                crearUsuario(user, contrasena);
-            });
-        }).addOnFailureListener(e -> ocultarCargando());
-
-
+        User user = new User(nombre,apellidos,correo,dni,"Cliente",avatarUrl);
+        crearUsuario(user, contrasena);
     }
 
     public void crearUsuario(User user, String contrasena){
@@ -161,7 +143,8 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnSuccessListener(authResult -> actualizarPerfilFireauth(authResult, user))
                 .addOnFailureListener(e -> {
                     ocultarCargando();
-                    Log.d("msg",e.getMessage());
+                    etCorreo.setError("Verifica que el correo no este en uso");
+                    etCorreo.requestFocus();
                     Toast.makeText(RegisterActivity.this, "Ocurrió un error en el servidor", Toast.LENGTH_LONG).show();
         });
     };

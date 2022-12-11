@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Restaurant.RestaurantReservasActivity">
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavMenuTiHomeAct"
@@ -79,7 +79,7 @@
                     android:layout_marginBottom="8dp"/>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         style="@style/BottomNav"
         android:id="@+id/bottomNavMenuTiHomeAct"

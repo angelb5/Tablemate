@@ -46,7 +46,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             return;
         }
 
-        if(Patterns.EMAIL_ADDRESS.matcher(correo).matches() && (correo.endsWith("pucp.edu.pe") || correo.endsWith("pucp.pe"))){
+        if(Patterns.EMAIL_ADDRESS.matcher(correo).matches()){
             mostrarCargando();
             firebaseSendMail(correo);
         }else{

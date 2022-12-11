@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:text="Mejor calificados" />
     </LinearLayout>
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,8 +70,9 @@
                 android:id="@+id/rvClienteBestRestaurants"
                 tools:listitem="@layout/card_restaurant"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:itemCount="0"/>
+                android:layout_height="0dp"
+                android:layout_weight="0.9"
+                tools:itemCount="4"/>
             <LinearLayout
                 android:id="@+id/llClienteBestRestaurantsEmptyView"
                 android:visibility="gone"
@@ -89,15 +90,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="No encontramos resultados para tu búsqueda"
+                    android:text="No encontramos resultados"
                     android:layout_marginBottom="8dp"/>
-                <TextView
-                    style="@style/LightRegular14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Prueba con otros términos de búsqueda"/>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intentPermisos;
                 switch (Objects.requireNonNull(snap.getString("permisos"))){
                     case "Cliente":
-                        Toast.makeText(MainActivity.this, "Hola Cliente", Toast.LENGTH_SHORT).show();
                         User user = snap.toObject(User.class);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("user", gson.toJson(user));
@@ -84,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         break;
                     case "Admin":
-                        Toast.makeText(MainActivity.this, "Hola Admin", Toast.LENGTH_SHORT).show();
                         intentPermisos  = new Intent(MainActivity.this, AdminHomeActivity.class);
                         startActivity(intentPermisos);
                         finish();
@@ -98,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                                 editor.putString("restaurant", gson.toJson(restaurant));
                                 editor.putString("geopoint", gson.toJson(restaurant.getGeoPoint()));
                                 editor.apply();
-                                Toast.makeText(MainActivity.this, "Hola Restaurante", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(MainActivity.this, RestaurantReservasActivity.class));
                                 finish();
                             }

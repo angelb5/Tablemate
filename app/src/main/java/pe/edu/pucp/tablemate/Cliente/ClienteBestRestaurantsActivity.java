@@ -2,6 +2,7 @@ package pe.edu.pucp.tablemate.Cliente;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ public class ClienteBestRestaurantsActivity extends AppCompatActivity implements
 
     final int RADIUS = 6371;
     private PermissionsManager permissionsManager;
-    PagingConfig config = new PagingConfig(8,4,true);
+    PagingConfig config = new PagingConfig(5,4,true);
     RestaurantCardAdapter restaurantCardAdapter;
     FirestorePagingOptions<Restaurant> options;
     Query restaurantQuery = FirebaseFirestore.getInstance().collection("restaurants")
@@ -91,6 +92,7 @@ public class ClienteBestRestaurantsActivity extends AppCompatActivity implements
                 }else if(refresh instanceof LoadState.NotLoading){
                     shimmerFrameLayout.stopShimmerAnimation();
                     shimmerFrameLayout.setVisibility(View.GONE);
+                    Log.d("msg", restaurantCardAdapter.getItemCount()+"");
                     if (restaurantCardAdapter.getItemCount()>0){
                         recyclerView.setVisibility(View.VISIBLE);
                         emptyView.setVisibility(View.GONE);

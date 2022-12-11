@@ -119,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
                 switch (Objects.requireNonNull(snap.getString("permisos"))){
                     case "Cliente":
                         if(firebaseUser.isEmailVerified()){
-                            Toast.makeText(LoginActivity.this, "Hola Cliente", Toast.LENGTH_SHORT).show();
                             User user = snap.toObject(User.class);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("user", gson.toJson(user));
@@ -133,7 +132,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         break;
                     case "Admin":
-                        Toast.makeText(LoginActivity.this, "Hola Admin", Toast.LENGTH_SHORT).show();
                         intentPermisos  = new Intent(LoginActivity.this, AdminHomeActivity.class);
                         startActivity(intentPermisos);
                         finish();
@@ -147,7 +145,6 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.putString("restaurant", gson.toJson(restaurant));
                                 editor.putString("geopoint", gson.toJson(restaurant.getGeoPoint()));
                                 editor.apply();
-                                Toast.makeText(LoginActivity.this, "Hola Restaurante", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this, RestaurantReservasActivity.class));
                                 finish();
                             }

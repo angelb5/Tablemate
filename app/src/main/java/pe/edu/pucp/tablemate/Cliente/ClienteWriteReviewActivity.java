@@ -143,6 +143,7 @@ public class ClienteWriteReviewActivity extends AppCompatActivity {
     public void crearNuevaReviewFirestore(String content) {
         review = new Review(new Review.RevUser(userG.getNombre()+" "+userG.getApellidos(), user.getUid(), user.getPhotoUrl().toString()), rating, content, fotoUrl, Timestamp.now());
         reviewsRef.add(review).addOnSuccessListener(documentReference -> {
+            review.setKey(documentReference.getId());
             int newNumReviews = restaurant.getNumReviews() + 1;
             double newRating = (restaurant.getRating() * restaurant.getNumReviews() + rating) / newNumReviews;
             returnToDetails(newNumReviews, newRating);
